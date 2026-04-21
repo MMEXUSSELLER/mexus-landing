@@ -89,6 +89,11 @@
       'process.s4.title': 'Escala y optimización',
       'process.s4.time': 'Continuo',
       'process.s4.desc': 'PPC, inventario, pricing semanal.',
+      'process.s1.full': 'Identificamos gaps y oportunidades. Sin compromiso ni costo.',
+      'process.s2.full': 'Diseñamos el plan completo: estudio de mercado, pricing competitivo, empaque FBA, keywords y estructura publicitaria.',
+      'process.s3.full': 'Listings SEO, campañas, logística FBA, primera venta monitoreada en tiempo real.',
+      'process.s4.full': 'Optimizamos semana a semana: PPC, inventario, pricing, reportes detallados. Tu marca crece mientras tú te enfocas en tu negocio.',
+      'process.more': 'Ver más',
 
       'brands.title': 'Marcas que confían en MEXUS.',
       'brands.subtitle': 'Más de 20 marcas activas en Amazon US y México.',
@@ -214,6 +219,11 @@
       'process.s4.title': 'Scale and optimize',
       'process.s4.time': 'Ongoing',
       'process.s4.desc': 'PPC, inventory, weekly pricing.',
+      'process.s1.full': 'We spot gaps and opportunities. No commitment, no cost.',
+      'process.s2.full': 'We design the full plan: market research, competitive pricing, FBA packaging, keywords and ad structure.',
+      'process.s3.full': 'SEO listings, campaigns, FBA logistics, first sale monitored in real time.',
+      'process.s4.full': 'We optimize week by week: PPC, inventory, pricing, detailed reports. Your brand grows while you focus on your business.',
+      'process.more': 'See more',
 
       'brands.title': 'Brands that trust MEXUS.',
       'brands.subtitle': 'More than 20 active brands on Amazon US and Mexico.',
@@ -369,6 +379,65 @@
     btn.addEventListener('click', () => setLang(getLang() === 'es' ? 'en' : 'es'));
   }
 
+  /* ─── Pipeline (Proceso section) ─── */
+  function initPipeline() {
+    // Click / keyboard to toggle expanded state
+    document.querySelectorAll('.stage-card').forEach((card) => {
+      const toggle = () => {
+        const stage = card.closest('.pipeline-stage');
+        if (!stage) return;
+        const next = !stage.classList.contains('expanded');
+        stage.classList.toggle('expanded', next);
+        card.setAttribute('aria-expanded', String(next));
+      };
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+
+    // Scroll-based line fill + number pulse (IntersectionObserver)
+    if ('IntersectionObserver' in window) {
+      const ioLine = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('filled'); ioLine.unobserve(e.target); }
+        });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('.pipeline-connector').forEach((c) => ioLine.observe(c));
+
+      const ioNum = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const n = e.target.querySelector('.stage-number');
+            if (n) n.classList.add('active');
+            ioNum.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.pipeline-stage').forEach((s) => ioNum.observe(s));
+    } else {
+      document.querySelectorAll('.pipeline-connector').forEach((c) => c.classList.add('filled'));
+      document.querySelectorAll('.stage-number').forEach((n) => n.classList.add('active'));
+    }
+
+    // Progress bar tied to section visibility
+    const section = document.getElementById('proceso');
+    const bar = document.querySelector('.pipeline-progress-bar');
+    if (!section || !bar) return;
+    const onScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progress = how much of the section has passed above the viewport bottom
+      const total = rect.height + vh;
+      const passed = vh - rect.top;
+      const pct = Math.max(0, Math.min(1, passed / total));
+      bar.style.width = (pct * 100).toFixed(1) + '%';
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+
   /* ─── Init ─── */
   document.addEventListener('DOMContentLoaded', () => {
     applyLang(getLang());
@@ -377,5 +446,6 @@
     initReveal();
     initCounters();
     initLangToggle();
+    initPipeline();
   });
 })();
