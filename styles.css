@@ -328,12 +328,11 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
   .nav-links-desktop { display: none !important; }
   .wrap { padding: 0 20px; }
 
-  /* Navbar — smaller logo, hide desktop CTAs, show hamburger */
-  .mx-nav-logo { height: 36px !important; }
-  .mx-nav-right { gap: 8px !important; }
-  .mx-nav-cta { display: none !important; }
-  .mx-nav-signin { display: none !important; }
-  .mx-nav-lang { padding: 5px 8px !important; font-size: 11px !important; }
+  /* Navbar — only logo + hamburger on mobile; everything else lives in the drawer */
+  nav > div { padding: 10px 16px !important; gap: 12px !important; }
+  .mx-nav-logo { height: 32px !important; width: auto !important; }
+  .mx-desktop-only { display: none !important; }
+  .mx-nav-right { gap: 0 !important; }
   .mx-nav-burger { display: inline-flex !important; }
 
   /* Mobile drawer — full-screen below the nav, slides in when open */
@@ -380,6 +379,48 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
     transition: color .2s;
   }
   .mx-nav-drawer-link:active { color: #F47920; }
+
+  /* Drawer lang toggle */
+  .mx-nav-drawer-lang {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+  }
+  .mx-nav-drawer-lang-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, .55);
+    text-transform: uppercase;
+  }
+  .mx-nav-drawer-lang-toggle {
+    display: inline-flex;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .mx-nav-drawer-lang-toggle button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, .6);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .mx-nav-drawer-lang-toggle button.is-active {
+    background: rgba(244, 121, 32, .15);
+    color: #F47920;
+  }
+
   .mx-nav-drawer-ctas {
     margin-top: 24px;
     display: flex;

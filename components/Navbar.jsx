@@ -48,13 +48,14 @@ function Navbar({ lang, onLang, theme }) {
         </div>
 
         <div className="mx-nav-right" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <button className="mx-nav-lang" onClick={() => onLang(lang === "es" ? "en" : "es")} style={nbS.langTog} title="Toggle language">
+          {/* Lang toggle — desktop only on mobile we expose it inside the drawer */}
+          <button className="mx-nav-lang mx-desktop-only" onClick={() => onLang(lang === "es" ? "en" : "es")} style={nbS.langTog} title="Toggle language">
             <span style={{ color: lang === "es" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>ES</span>
             <span style={{ color: "rgba(255,255,255,.3)" }}>|</span>
             <span style={{ color: lang === "en" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>EN</span>
           </button>
-          <a className="mx-nav-cta" href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
-          <a className="mx-nav-signin" href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
+          <a className="mx-nav-cta mx-desktop-only" href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
+          <a className="mx-nav-signin mx-desktop-only" href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
 
           {/* Hamburger — visible only on mobile via CSS */}
           <button
@@ -79,6 +80,21 @@ function Navbar({ lang, onLang, theme }) {
               {t(l.es, l.en)}
             </a>
           ))}
+          <div className="mx-nav-drawer-lang">
+            <span className="mx-nav-drawer-lang-label">{t("Idioma", "Language")}</span>
+            <div className="mx-nav-drawer-lang-toggle" role="group">
+              <button
+                onClick={() => onLang("es")}
+                className={lang === "es" ? "is-active" : ""}
+                aria-pressed={lang === "es"}
+              >ES</button>
+              <button
+                onClick={() => onLang("en")}
+                className={lang === "en" ? "is-active" : ""}
+                aria-pressed={lang === "en"}
+              >EN</button>
+            </div>
+          </div>
           <div className="mx-nav-drawer-ctas">
             <a
               href="https://calendar.app.google/H9ncvExjQw7nZu3o9"
