@@ -4,12 +4,19 @@ const { useState: useNavS, useEffect: useNavE } = React;
 function Navbar({ lang, onLang, theme }) {
   const [scrolled, setScrolled] = useNavS(false);
   const [open, setOpen] = useNavS(false);
+
   useNavE(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock body scroll when the mobile drawer is open
+  useNavE(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   const t = (es, en) => (lang === "en" ? en : es);
   const links = [
@@ -21,16 +28,15 @@ function Navbar({ lang, onLang, theme }) {
     { href: "#faq", es: "FAQ", en: "FAQ" },
   ];
 
-  const logoSrc = theme === "dark"
-    ? "assets/logo-mexus-white.png"
-    : (scrolled ? "assets/logo-mexus-white.png" : "assets/logo-mexus-white.png");
+  const logoSrc = "assets/logo-mexus-white.png";
 
   return (
     <nav style={{ ...nbS.bar, ...(scrolled ? nbS.scrolled : {}) }}>
       <div style={nbS.inner}>
         <a href="#top" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <img src={logoSrc} alt="MEXUS SELLER" style={{ height: 53 }} />
+          <img className="mx-nav-logo" src={logoSrc} alt="MEXUS SELLER" style={{ height: 53 }} />
         </a>
+
         <div style={nbS.links} className="nav-links-desktop">
           {links.map(l => (
             <a key={l.href} href={l.href} style={nbS.link}
@@ -40,6 +46,7 @@ function Navbar({ lang, onLang, theme }) {
             </a>
           ))}
         </div>
+
         <div className="mx-nav-right" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button className="mx-nav-lang" onClick={() => onLang(lang === "es" ? "en" : "es")} style={nbS.langTog} title="Toggle language">
             <span style={{ color: lang === "es" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>ES</span>
@@ -48,6 +55,44 @@ function Navbar({ lang, onLang, theme }) {
           </button>
           <a className="mx-nav-cta" href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
           <a className="mx-nav-signin" href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
+
+          {/* Hamburger — visible only on mobile via CSS */}
+          <button
+            className="mx-nav-burger"
+            aria-label="Menu"
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+            style={nbS.burger}
+          >
+            <span style={{...nbS.burgerLine, transform: open ? "translateY(6px) rotate(45deg)"  : "none"}} />
+            <span style={{...nbS.burgerLine, opacity: open ? 0 : 1}} />
+            <span style={{...nbS.burgerLine, transform: open ? "translateY(-6px) rotate(-45deg)" : "none"}} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer — only renders/visible on mobile via CSS */}
+      <div className={"mx-nav-drawer" + (open ? " is-open" : "")} aria-hidden={!open}>
+        <div className="mx-nav-drawer-inner">
+          {links.map(l => (
+            <a key={l.href} href={l.href} className="mx-nav-drawer-link" onClick={() => setOpen(false)}>
+              {t(l.es, l.en)}
+            </a>
+          ))}
+          <div className="mx-nav-drawer-ctas">
+            <a
+              href="https://calendar.app.google/H9ncvExjQw7nZu3o9"
+              target="_blank"
+              rel="noopener"
+              className="mx-nav-drawer-primary"
+              onClick={() => setOpen(false)}
+            >
+              {t("Agendar llamada", "Book a call")} →
+            </a>
+            <a href="#login" className="mx-nav-drawer-ghost" onClick={() => setOpen(false)}>
+              {t("Iniciar sesión", "Sign in")}
+            </a>
+          </div>
         </div>
       </div>
     </nav>
@@ -102,6 +147,20 @@ const nbS = {
     border: "1px solid rgba(255,255,255,.18)",
     whiteSpace: "nowrap",
     transition: "background .2s, border-color .2s",
+  },
+  burger: {
+    display: "none", // CSS shows it on mobile
+    width: 40, height: 40,
+    background: "rgba(255,255,255,.05)",
+    border: "1px solid rgba(255,255,255,.12)",
+    borderRadius: 8,
+    flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 4,
+    cursor: "pointer", padding: 0,
+  },
+  burgerLine: {
+    width: 18, height: 2, background: "#fff", borderRadius: 2,
+    transition: "transform .25s cubic-bezier(.4,0,.2,1), opacity .2s",
+    transformOrigin: "center",
   },
 };
 

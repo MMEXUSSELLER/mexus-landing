@@ -317,17 +317,97 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
 }
 
 /* ───── Responsive ───── */
+
+/* Hamburger + mobile drawer — desktop hides them outright */
+.mx-nav-burger { display: none !important; }
+.mx-nav-drawer { display: none; }
+
 @media (max-width: 880px) {
   .section { padding: 64px 0; }
   .section-head { margin-bottom: 36px; }
   .nav-links-desktop { display: none !important; }
   .wrap { padding: 0 20px; }
 
-  /* Navbar — drop the secondary "Iniciar sesión" link, tighten gaps */
+  /* Navbar — smaller logo, hide desktop CTAs, show hamburger */
+  .mx-nav-logo { height: 36px !important; }
   .mx-nav-right { gap: 8px !important; }
+  .mx-nav-cta { display: none !important; }
   .mx-nav-signin { display: none !important; }
-  .mx-nav-cta { padding: 8px 12px !important; font-size: 12px !important; }
   .mx-nav-lang { padding: 5px 8px !important; font-size: 11px !important; }
+  .mx-nav-burger { display: inline-flex !important; }
+
+  /* Mobile drawer — full-screen below the nav, slides in when open */
+  .mx-nav-drawer {
+    display: block;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13, 24, 38, .98);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    z-index: 49;
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity .25s cubic-bezier(.4,0,.2,1), transform .25s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+  }
+  .mx-nav-drawer.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .mx-nav-drawer-inner {
+    padding: 28px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mx-nav-drawer-link {
+    display: block;
+    padding: 16px 4px;
+    color: rgba(255, 255, 255, .9);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+    transition: color .2s;
+  }
+  .mx-nav-drawer-link:active { color: #F47920; }
+  .mx-nav-drawer-ctas {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .mx-nav-drawer-primary {
+    background: #F47920;
+    color: #fff;
+    padding: 16px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(244, 121, 32, .4);
+  }
+  .mx-nav-drawer-ghost {
+    background: transparent;
+    color: rgba(255, 255, 255, .85);
+    padding: 14px 22px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+    text-align: center;
+  }
 
   /* Hero stats — 4 cols → 2 cols, smaller numbers */
   .mx-hero-stats {
