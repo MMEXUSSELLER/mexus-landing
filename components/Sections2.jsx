@@ -142,7 +142,7 @@ function Platform({ lang }) {
       <div className="wrap">
         <div className="section-head reveal">
           <div className="overline" style={{ color: "#F47920", fontSize: "14px" }}>{t("Plataforma de desarrollo propio", "Proprietary platform")}</div>
-          <h2 className="section-title" style={{ color: "rgb(255, 255, 255)" }}>{t("Visibilidad real.", "Real visibility.")}<br />{t("24/7. EN VIVO.", "24/7. LIVE.")}</h2>
+          <h2 className="section-title" style={{ color: "rgb(255, 255, 255)" }}>{t("Data conectada con Amazon.", "Data connected to Amazon.")}<br />{t("Automatizada.", "Automated.")}</h2>
           <p className="section-sub">{t("Dashboard interno con todos los KPIs de tu marca. Brand Pulse, PPC, Stock, Reportes — todo lo que opera tu cuenta.", "Internal dashboard with all your brand's KPIs. Brand Pulse, PPC, Stock, Reports — everything your account runs on.")}</p>
         </div>
         <div style={pfS.frame} className="reveal mx-platform-frame">
