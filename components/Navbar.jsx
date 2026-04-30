@@ -55,7 +55,7 @@ function Navbar({ lang, onLang, theme }) {
             <span style={{ color: lang === "en" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>EN</span>
           </button>
           <a className="mx-nav-cta mx-desktop-only" href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
-          <a className="mx-nav-signin mx-desktop-only" href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
+          <a className="mx-nav-signin mx-desktop-only" href="https://app.mexusseller.com" target="_blank" rel="noopener" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
 
           {/* Hamburger — visible only on mobile via CSS */}
           <button
@@ -105,7 +105,7 @@ function Navbar({ lang, onLang, theme }) {
             >
               {t("Agendar llamada", "Book a call")} →
             </a>
-            <a href="#login" className="mx-nav-drawer-ghost" onClick={() => setOpen(false)}>
+            <a href="https://app.mexusseller.com" target="_blank" rel="noopener" className="mx-nav-drawer-ghost" onClick={() => setOpen(false)}>
               {t("Iniciar sesión", "Sign in")}
             </a>
           </div>
