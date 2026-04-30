@@ -10,8 +10,8 @@ function Team({ lang }) {
           <div className="reveal">
             <div className="overline">{t("Sobre nosotros", "About us")}</div>
             <h2 className="section-title" style={{ textAlign: "left", marginBottom: 24 }}>
-              {t("SOMOS SELLERS.", "WE ARE SELLERS.")}<br />
-              <span style={{ color: "#F47920" }}>{t("NO CONSULTORES.", "NOT CONSULTANTS.")}</span>
+              {t("Consultoría de sellers,", "Consulting by sellers,")}<br />
+              <span style={{ color: "#F47920" }}>{t("para sellers.", "for sellers.")}</span>
             </h2>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: "var(--mx-fg-2)", marginBottom: 20 }}>
               {t(
