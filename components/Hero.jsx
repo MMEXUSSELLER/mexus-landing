@@ -16,11 +16,6 @@ function HeroBold({ lang }) {
       <div style={hS.grid} />
       <div style={hS.glow} />
       <div style={hS.inner}>
-        <div style={hS.badges}>
-          <img src="assets/badge-amazon-spn.png" alt="Amazon SPN Verified Service Provider" style={hS.badgeImg} />
-          <img src="assets/badge-amazon-global-selling.png" alt="Amazon Global Selling Partner" style={hS.badgeImg} />
-          <img src="assets/badge-amazon-ads.png" alt="Amazon Ads Advanced Partner" style={hS.badgeImg} />
-        </div>
         <h1 style={hS.h1}>
           {t("LANZAMOS Y ESCALAMOS", "WE LAUNCH AND SCALE")}<br/>
           {t("MARCAS EN ", "BRANDS IN ")}<span style={{color:"#F47920"}}>{t("USA Y MÉXICO.", "USA & MEXICO.")}</span>
