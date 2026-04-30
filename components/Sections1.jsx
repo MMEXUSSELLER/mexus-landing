@@ -106,7 +106,7 @@ function Process({ lang }) {
           <h2 className="section-title">{t("Sin sorpresas. Sin rollos.", "No surprises. No fluff.")}<br/>{t("Con resultados.", "Just results.")}</h2>
           <p className="section-sub">{t("Cuatro etapas con tiempos reales. Empezamos con un diagnóstico gratuito.", "Four stages with real timeframes. We start with a free diagnosis.")}</p>
         </div>
-        <div style={pS.grid}>
+        <div className="mx-process-grid" style={pS.grid}>
           {steps.map((s, i) => (
             <React.Fragment key={i}>
               <div style={pS.stage} className="reveal">

@@ -6,7 +6,7 @@ function Team({ lang }) {
   return (
     <section className="section alt" id="equipo">
       <div className="wrap">
-        <div style={tmS.grid}>
+        <div className="mx-team-grid" style={tmS.grid}>
           <div className="reveal">
             <div className="overline">{t("Sobre nosotros", "About us")}</div>
             <h2 className="section-title" style={{ textAlign: "left", marginBottom: 24 }}>
@@ -25,14 +25,14 @@ function Team({ lang }) {
                 "When you hire MEXUS, you talk to us directly. No junior account managers. No copy-paste templates. Every strategy bears our signature."
               )}
             </p>
-            <div style={tmS.diffGrid}>
+            <div className="mx-team-diff" style={tmS.diffGrid}>
               <Diff num="01" t={t("Sellers activos", "Active sellers")} d={t("Operamos 4 marcas propias", "We run 4 of our own brands")} />
               <Diff num="02" t={t("Atención directa", "Direct access")} d={t("Slack/WhatsApp con fundadores", "Slack/WhatsApp with founders")} />
               <Diff num="03" t={t("Amazon SPN", "Amazon SPN")} d={t("Agencia certificada oficial", "Official certified agency")} />
               <Diff num="04" t={t("Cross-border MX→US", "Cross-border MX→US")} d={t("Único playbook validado", "Only validated playbook")} />
             </div>
           </div>
-          <div style={tmS.cards} className="reveal">
+          <div style={tmS.cards} className="reveal mx-team-cards">
             <FounderCard
               name="Rodrigo"
               role={t("Co-founder · Operaciones", "Co-founder · Operations")}
@@ -145,23 +145,23 @@ function Platform({ lang }) {
           <h2 className="section-title" style={{ color: "rgb(255, 255, 255)" }}>{t("Visibilidad real.", "Real visibility.")}<br />{t("24/7. EN VIVO.", "24/7. LIVE.")}</h2>
           <p className="section-sub">{t("Dashboard interno con todos los KPIs de tu marca. Brand Pulse, PPC, Stock, Reportes — todo lo que opera tu cuenta.", "Internal dashboard with all your brand's KPIs. Brand Pulse, PPC, Stock, Reports — everything your account runs on.")}</p>
         </div>
-        <div style={pfS.frame} className="reveal">
+        <div style={pfS.frame} className="reveal mx-platform-frame">
           <div style={pfS.frameHead}>
             <div style={{ display: "flex", gap: 6 }}>
               <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#FF5F57" }} />
               <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#FEBC2E" }} />
               <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#28C840" }} />
             </div>
-            <div style={pfS.urlBar}>app.mexusseller.com / brand-pulse / artisans-bazaar</div>
+            <div className="mx-platform-url" style={pfS.urlBar}>app.mexusseller.com / brand-pulse / artisans-bazaar</div>
             <div style={{ width: 60 }} />
           </div>
-          <div style={pfS.frameBody}>
-            <div style={pfS.tabs}>
+          <div className="mx-platform-body" style={pfS.frameBody}>
+            <div className="mx-platform-tabs" style={pfS.tabs}>
               {["Brand Pulse", "PPC", "Stock", "Reports", "Catalog"].map((tt, i) =>
               <span key={tt} style={{ ...pfS.tab, ...(i === 0 ? pfS.tabActive : {}) }}>{tt}</span>
               )}
             </div>
-            <div style={pfS.kpiGrid}>
+            <div className="mx-platform-kpis" style={pfS.kpiGrid}>
               {[
               { l: "GMV (30d)", v: "$184,320", d: "+24.3%" },
               { l: "Unidades", v: "2,847", d: "+18.1%" },

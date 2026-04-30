@@ -97,7 +97,7 @@ function Contact({ lang }) {
   return (
     <section className="section dark" id="contacto" style={{ padding: "120px 0" }}>
       <div className="wrap" style={{ maxWidth: 980 }}>
-        <div style={cS.card} className="reveal">
+        <div style={cS.card} className="reveal mx-contact-card">
           <div style={cS.bg} />
           <div style={cS.inner}>
             <div className="overline" style={{ color: "#F47920" }}>{t("Agendar diagnóstico", "Book diagnosis")}</div>
@@ -116,7 +116,7 @@ function Contact({ lang }) {
                 {t("Agendar diagnóstico gratis", "Book free diagnosis")} →
               </a>
             </div>
-            <div style={cS.row}>
+            <div className="mx-contact-row" style={cS.row}>
               <a href="mailto:hola@mexusseller.com" style={cS.linkItem}>
                 <span style={cS.contactIco}><Icon name="mail" size={18} /></span>
                 <div>

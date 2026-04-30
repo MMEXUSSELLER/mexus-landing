@@ -26,11 +26,11 @@ function HeroBold({ lang }) {
             "We're sellers. Direct strategy with Patricio and Rodrigo — so your brand doesn't pay the cost of learning."
           )}
         </p>
-        <div style={hS.ctas}>
+        <div className="mx-hero-ctas" style={hS.ctas}>
           <a href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={hS.ctaPrimary}>{t("Agendar diagnóstico", "Book diagnosis")} →</a>
           <a href="#servicios" style={hS.ctaGhost}>{t("Ver qué hacemos", "See what we do")} →</a>
         </div>
-        <div style={hS.stats}>
+        <div className="mx-hero-stats" style={hS.stats}>
           <Stat value="6+" label={t("AÑOS OPERANDO", "YEARS OPERATING")} />
           <Stat value="20+" label={t("MARCAS ESCALADAS", "BRANDS SCALED")} />
           <Stat value="3" label={t("MERCADOS", "MARKETS")} />
@@ -188,23 +188,23 @@ function MiniDashboard({ inline }) {
   };
 
   return (
-    <div ref={ref} style={{...hS.dash, ...(inline ? {marginTop: 0, transform: "rotate(-1deg)"} : {})}}>
-      <div style={hS.dashHead}>
+    <div ref={ref} className="mx-hero-dash" style={{...hS.dash, ...(inline ? {marginTop: 0, transform: "rotate(-1deg)"} : {})}}>
+      <div className="mx-hero-dash-head" style={hS.dashHead}>
         <div style={{display:"flex", gap: 6}}>
           <span style={{width: 10, height: 10, borderRadius: "50%", background: "#FF5F57"}} />
           <span style={{width: 10, height: 10, borderRadius: "50%", background: "#FEBC2E"}} />
           <span style={{width: 10, height: 10, borderRadius: "50%", background: "#28C840"}} />
         </div>
-        <div style={{fontSize: 11, fontWeight: 600, letterSpacing: 1, color: "rgba(255,255,255,.5)", textTransform: "uppercase"}}>MEXUS · Brand Pulse · ARTISANS BAZAAR</div>
+        <div className="mx-hero-dash-title" style={{fontSize: 11, fontWeight: 600, letterSpacing: 1, color: "rgba(255,255,255,.5)", textTransform: "uppercase"}}>MEXUS · Brand Pulse · ARTISANS BAZAAR</div>
         <div className="pulse-dot" />
       </div>
-      <div style={hS.dashBody}>
+      <div className="mx-hero-dash-kpis" style={hS.dashBody}>
         <DashKpi label="GMV (30d)"  value={fmt$(gmv)}    delta={deltaPct(24.3, gmv)}   up />
         <DashKpi label="UNIDADES"   value={fmtN(units)}  delta={deltaPct(18.1, units)} up />
         <DashKpi label="TACOS"      value={fmtP(tacos)}  delta={deltaPct(12.4, tacos, true)} />
         <DashKpi label="CONVERSION" value={fmtP(conv)}   delta={deltaPct(11.5, conv)}  up />
       </div>
-      <div style={hS.dashChart}>
+      <div className="mx-hero-dash-chart" style={hS.dashChart}>
         {bars.map((h, i) => {
           const p = barProgress(i);
           return (

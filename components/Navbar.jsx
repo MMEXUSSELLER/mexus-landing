@@ -40,14 +40,14 @@ function Navbar({ lang, onLang, theme }) {
             </a>
           ))}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <button onClick={() => onLang(lang === "es" ? "en" : "es")} style={nbS.langTog} title="Toggle language">
+        <div className="mx-nav-right" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button className="mx-nav-lang" onClick={() => onLang(lang === "es" ? "en" : "es")} style={nbS.langTog} title="Toggle language">
             <span style={{ color: lang === "es" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>ES</span>
             <span style={{ color: "rgba(255,255,255,.3)" }}>|</span>
             <span style={{ color: lang === "en" ? "#F47920" : "rgba(255,255,255,.5)", fontWeight: 700 }}>EN</span>
           </button>
-          <a href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
-          <a href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
+          <a className="mx-nav-cta" href="https://calendar.app.google/H9ncvExjQw7nZu3o9" target="_blank" rel="noopener" style={nbS.cta}>{t("Agendar llamada", "Book a call")} →</a>
+          <a className="mx-nav-signin" href="#login" style={nbS.ctaGhost}>{t("Iniciar sesión", "Sign in")}</a>
         </div>
       </div>
     </nav>

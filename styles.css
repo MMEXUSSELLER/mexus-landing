@@ -321,10 +321,83 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
   .section { padding: 64px 0; }
   .section-head { margin-bottom: 36px; }
   .nav-links-desktop { display: none !important; }
-  /* Hero stats: 2x2 instead of 4 */
   .wrap { padding: 0 20px; }
+
+  /* Navbar — drop the secondary "Iniciar sesión" link, tighten gaps */
+  .mx-nav-right { gap: 8px !important; }
+  .mx-nav-signin { display: none !important; }
+  .mx-nav-cta { padding: 8px 12px !important; font-size: 12px !important; }
+  .mx-nav-lang { padding: 5px 8px !important; font-size: 11px !important; }
+
+  /* Hero stats — 4 cols → 2 cols, smaller numbers */
+  .mx-hero-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    margin-top: 40px !important;
+    max-width: 480px !important;
+  }
+
+  /* Hero CTAs — stack full-width */
+  .mx-hero-ctas { flex-direction: column !important; align-items: stretch !important; width: 100%; max-width: 360px; margin: 0 auto; }
+  .mx-hero-ctas a { justify-content: center; padding: 14px 20px !important; font-size: 13px !important; }
+
+  /* Hero mini dashboard — 4 KPIs → 2×2, smaller chrome */
+  .mx-hero-dash { margin-top: 56px !important; transform: none !important; border-radius: 10px !important; }
+  .mx-hero-dash-kpis { grid-template-columns: repeat(2, 1fr) !important; }
+  .mx-hero-dash-head { padding: 10px 14px !important; gap: 8px !important; }
+  .mx-hero-dash-title { font-size: 9px !important; letter-spacing: .5px !important; }
+  .mx-hero-dash-chart { height: 56px !important; padding: 6px 12px !important; }
+
+  /* Process — stages stack, orange connector lines hidden */
+  .mx-process-grid .conn-line { display: none !important; }
+  .mx-process-grid > div { max-width: 100% !important; flex-basis: 100% !important; }
+
+  /* Team — text + cards stack vertically; founder cards stay 2-up but tighter */
+  .mx-team-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .mx-team-cards { gap: 10px !important; }
+
+  /* Platform preview — KPIs 4→2, tabs scroll horizontally, hide URL bar */
+  .mx-platform-frame { border-radius: 10px !important; }
+  .mx-platform-body { padding: 14px !important; }
+  .mx-platform-url { display: none !important; }
+  .mx-platform-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap !important;
+  }
+  .mx-platform-tabs::-webkit-scrollbar { display: none; }
+  .mx-platform-tabs > span { flex-shrink: 0; }
+  .mx-platform-kpis { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Contact card — less padding, info row stacks */
+  .mx-contact-card { padding: 48px 20px !important; border-radius: 14px !important; }
+  .mx-contact-row { grid-template-columns: 1fr !important; gap: 16px !important; padding-top: 24px !important; }
+
+  /* Brand carousel — smaller logo cards on phones */
+  .brand-logo-card { width: 150px !important; height: 90px !important; padding: 10px 14px !important; }
+  .brand-logo-img { height: 50px !important; max-width: 120px !important; }
 }
+
 @media (max-width: 720px) {
   .section-title { font-size: clamp(28px, 7vw, 38px) !important; }
   .section-sub { font-size: 15px; }
+
+  /* Diff cards (within Team) drop to single column when really narrow */
+  .mx-team-diff { grid-template-columns: 1fr !important; gap: 14px !important; }
+
+  /* Footer head: logo + tagline stack instead of side-by-side */
+  footer > div > div:first-child {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .section { padding: 56px 0; }
+  .mx-hero-stats { gap: 16px !important; }
+  .brand-logo-card { width: 130px !important; height: 80px !important; }
+  .brand-logo-img { height: 42px !important; max-width: 100px !important; }
 }
