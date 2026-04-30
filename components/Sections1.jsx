@@ -188,7 +188,7 @@ function Brands({ lang }) {
         <div className="section-head reveal" style={{marginBottom: 40}}>
           <div className="overline" style={{color:"#F47920"}}>{t("Marcas que confían", "Brands that trust us")}</div>
           <h2 className="section-title" style={{fontSize: "clamp(28px, 4vw, 44px)"}}>
-            {t("15 marcas. 3 mercados.", "15 brands. 3 markets.")}<br/>{t("Operación real.", "Real operation.")}
+            {t("15+ marcas. 3 mercados.", "15+ brands. 3 markets.")}<br/>{t("Operación real.", "Real operation.")}
           </h2>
         </div>
       </div>
