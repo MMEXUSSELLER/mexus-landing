@@ -7,13 +7,9 @@ const PORT = process.env.PORT || 3000;
 // Security: basic hardening
 app.disable('x-powered-by');
 
-// Redirect www → apex
-app.use((req, res, next) => {
-  if (req.hostname && req.hostname.startsWith('www.')) {
-    return res.redirect(301, 'https://' + req.hostname.slice(4) + req.originalUrl);
-  }
-  next();
-});
+// Note: apex → www redirect is handled by GoDaddy's domain forwarding feature,
+// so the Express app only ever sees www.mexusseller.com requests. No app-level
+// redirect needed.
 
 app.use(express.static(__dirname, {
   extensions: ['html'],
