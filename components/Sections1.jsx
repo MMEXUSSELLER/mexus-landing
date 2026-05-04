@@ -89,77 +89,7 @@ const svS = {
   },
 };
 
-/* ───────── Process ───────── */
-function Process({ lang }) {
-  const t = (es, en) => (lang === "en" ? en : es);
-  const steps = [
-    { n: "01", icon: "search", title: t("Diagnóstico", "Diagnosis"), dur: "48h", desc: t("Llamada de 30 min. Revisamos cuenta, ASINs, mercado y oportunidades.", "30-min call. Review account, ASINs, market and opportunities."), active: true },
-    { n: "02", icon: "list", title: t("Estrategia", "Strategy"), dur: "1 sem", desc: t("Plan personalizado. Objetivos a 30/60/90 días con KPIs claros.", "Custom plan. 30/60/90-day goals with clear KPIs.") },
-    { n: "03", icon: "rocket", title: t("Lanzamiento", "Launch"), dur: "4–8 sem", desc: t("Listings, A+, PPC inicial, inventario y primera ola de ventas.", "Listings, A+, initial PPC, inventory and first sales wave.") },
-    { n: "04", icon: "chart-up", title: t("Escala", "Scale"), dur: t("Continuo", "Ongoing"), desc: t("Optimización semanal, expansión de catálogo, nuevos mercados.", "Weekly optimization, catalog expansion, new markets.") },
-  ];
-  return (
-    <section className="section dark" id="proceso">
-      <div className="wrap">
-        <div className="section-head reveal">
-          <div className="overline" style={{color:"#F47920"}}>{t("Cómo trabajamos", "How we work")}</div>
-          <h2 className="section-title">{t("Sin sorpresas. Sin rollos.", "No surprises. No fluff.")}<br/>{t("Con resultados.", "Just results.")}</h2>
-          <p className="section-sub">{t("Cuatro etapas con tiempos reales. Empezamos con un diagnóstico gratuito.", "Four stages with real timeframes. We start with a free diagnosis.")}</p>
-        </div>
-        <div className="mx-process-grid" style={pS.grid}>
-          {steps.map((s, i) => (
-            <React.Fragment key={i}>
-              <div style={pS.stage} className="reveal">
-                <div style={{...pS.num, ...(s.active ? {animation: "mx-pulse 2.4s infinite"} : {})}}>{s.n}</div>
-                <div style={pS.icon}><Icon name={s.icon} size={33} color="#F47920" /></div>
-                <div style={pS.title}>{s.title}</div>
-                <span style={pS.dur}>{s.dur}</span>
-                <div style={pS.desc}>{s.desc}</div>
-              </div>
-              {i < steps.length - 1 && <div style={pS.connector} className="conn-line" />}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const pS = {
-  grid: { display: "flex", gap: 8, alignItems: "stretch", flexWrap: "wrap", justifyContent: "center" },
-  stage: {
-    flex: "1 1 200px", maxWidth: 240,
-    background: "rgba(255,255,255,.03)",
-    border: "1px solid rgba(255,255,255,.08)",
-    borderRadius: 12,
-    padding: "28px 18px 22px",
-    display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 10,
-    position: "relative",
-  },
-  num: {
-    width: 64, height: 64, borderRadius: "50%",
-    background: "#F47920", color: "#fff",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 800, fontSize: 24,
-    boxShadow: "0 0 0 4px rgba(244,121,32,.22)",
-    marginTop: -50, marginBottom: 4,
-  },
-  icon: { display: "inline-flex" },
-  title: {
-    color: "#fff", fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700,
-    fontSize: 18, textTransform: "uppercase", letterSpacing: 1,
-  },
-  dur: {
-    background: "#F47920", color: "#fff",
-    fontSize: 10, fontWeight: 700, letterSpacing: 1,
-    padding: "3px 10px", borderRadius: 999, textTransform: "uppercase",
-  },
-  desc: { color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: 1.5, marginTop: 4 },
-  connector: {
-    flex: "0 0 24px", height: 2, background: "rgba(244,121,32,.4)",
-    alignSelf: "center", borderRadius: 999, marginTop: 0,
-  },
-};
+/* ───────── Process moved to its own file: components/Process.jsx ───────── */
 
 /* ───────── Brands marquee ───────── */
 function Brands({ lang }) {
@@ -238,4 +168,4 @@ const brS = {
   },
 };
 
-Object.assign(window, { Services, Process, Brands });
+Object.assign(window, { Services, Brands });
