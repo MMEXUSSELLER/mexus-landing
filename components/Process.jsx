@@ -229,6 +229,8 @@ function ProcessDesktop({ stages, lang, reduceMotion }) {
   return (
     <div
       className="process-v2-desktop"
+      data-paused={paused ? "true" : "false"}
+      data-reduce-motion={reduceMotion ? "true" : "false"}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -264,6 +266,7 @@ function ProcessDesktop({ stages, lang, reduceMotion }) {
       <div role="tablist" className="process-v2-tabs">
         {stages.map((s, i) => {
           const isActive = i === activeIdx;
+          const showLiveSignals = isActive && !reduceMotion;
           return (
             <button
               key={s.id}
@@ -276,6 +279,23 @@ function ProcessDesktop({ stages, lang, reduceMotion }) {
               <span className="process-v2-tab-num">{String(i + 1).padStart(2, "0")}</span>
               <span className="process-v2-tab-name">{s.title}</span>
               <span className="process-v2-tab-pill">{s.tag}</span>
+
+              {/* LIVE pill — only while auto-play is actively counting down */}
+              {showLiveSignals && !paused && (
+                <span className="process-v2-tab-live" aria-hidden="true">
+                  <span className="process-v2-tab-live-dot" />
+                  AUTO
+                </span>
+              )}
+
+              {/* 5s progress bar — keyed on activeIdx so it restarts on stage change */}
+              {showLiveSignals && (
+                <span
+                  className="process-v2-tab-progress"
+                  key={`progress-${activeIdx}`}
+                  aria-hidden="true"
+                />
+              )}
             </button>
           );
         })}
@@ -319,12 +339,20 @@ function ProcessDesktop({ stages, lang, reduceMotion }) {
             {String(activeIdx + 1).padStart(2, "0")} / {String(stages.length).padStart(2, "0")}
           </div>
           <div className="process-v2-nav">
-            <button onClick={goPrev} aria-label={t("Anterior", "Previous")}>
-              ← {t("Anterior", "Previous")}
-            </button>
-            <button onClick={goNext} aria-label={t("Siguiente", "Next")}>
-              {t("Siguiente", "Next")} →
-            </button>
+            {activeIdx > 0 && (
+              <button onClick={goPrev} aria-label={t("Anterior", "Previous")}>
+                ← {t("Anterior", "Previous")}
+              </button>
+            )}
+            {activeIdx < stages.length - 1 && (
+              <button
+                className="process-v2-nav-next"
+                onClick={goNext}
+                aria-label={t("Siguiente", "Next")}
+              >
+                {t("Siguiente", "Next")} →
+              </button>
+            )}
           </div>
           <a
             href={PROCESS_BOOKING_URL}

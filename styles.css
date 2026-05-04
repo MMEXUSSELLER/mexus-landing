@@ -461,55 +461,120 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
   margin-bottom: 24px;
 }
 .process-v2-tab {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
-  padding: 14px 16px;
+  padding: 18px 16px;
+  min-height: 100px;
   background: transparent;
   border: 0.5px solid var(--mxs-border);
   border-radius: 10px;
   cursor: pointer;
   text-align: left;
-  font-family: inherit;
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
   color: var(--mxs-text-secondary);
-  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease;
+  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
 }
 .process-v2-tab:hover {
   transform: translateY(-1px);
   border-color: var(--mxs-border-strong);
 }
+.process-v2-tab:hover .process-v2-tab-num {
+  color: rgba(244, 121, 32, 0.6);
+}
+.process-v2-tab:hover .process-v2-tab-name {
+  transform: translateY(-1px);
+}
 .process-v2-tab.is-active {
   background: var(--mxs-navy);
   border-color: var(--mxs-navy);
+  box-shadow: inset 0 0 0 1px rgba(244, 121, 32, 0.4);
 }
 .process-v2-tab-num {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.05em;
+  font-size: 13px;
+  letter-spacing: 0.12em;
   color: var(--mxs-text-tertiary);
+  margin-bottom: 8px;
+  transition: color 200ms ease;
 }
 .process-v2-tab.is-active .process-v2-tab-num { color: var(--mxs-orange); }
 .process-v2-tab-name {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.2;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.04em;
   color: var(--mxs-text-secondary);
+  margin-bottom: 10px;
+  transition: transform 200ms ease, color 200ms ease, font-size 200ms ease;
 }
-.process-v2-tab.is-active .process-v2-tab-name { color: #fff; }
+.process-v2-tab.is-active .process-v2-tab-name {
+  color: #fff;
+  font-size: 18px;
+}
 .process-v2-tab-pill {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 3px 10px;
   border-radius: 999px;
   background: rgba(244, 121, 32, 0.12);
   color: var(--mxs-orange);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+/* LIVE pill — top-right of active tab, only when auto-play is counting down */
+.process-v2-tab-live {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(244, 121, 32, 0.15);
+  color: var(--mxs-orange);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+.process-v2-tab-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--mxs-orange);
+  animation: process-v2-live-dot 1.2s ease-in-out infinite;
+}
+@keyframes process-v2-live-dot {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+/* 5s countdown bar — fills bottom of active tab, paused while user is interacting */
+.process-v2-tab-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: var(--mxs-orange);
+  animation: process-v2-tab-fill 5s linear forwards;
+  pointer-events: none;
+}
+@keyframes process-v2-tab-fill {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+.process-v2-desktop[data-paused="true"] .process-v2-tab-progress {
+  animation-play-state: paused;
 }
 
 /* Stage card */
@@ -648,11 +713,35 @@ body[data-theme="dark"] .svc-card-desc { color: rgba(255,255,255,.72); }
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  transition: border-color 200ms, color 200ms;
+  transition: border-color 200ms, color 200ms, background 200ms, transform 200ms, box-shadow 200ms;
 }
 .process-v2-nav button:hover {
   border-color: var(--mxs-orange);
   color: var(--mxs-orange);
+}
+
+/* Siguiente — secondary CTA. Stronger than Anterior (ghost), weaker than the
+   primary booking CTA (solid orange). Subtle pulse hints at forward motion. */
+.process-v2-nav .process-v2-nav-next {
+  background: rgba(244, 121, 32, 0.12);
+  border-color: var(--mxs-orange);
+  color: var(--mxs-orange);
+  font-weight: 500;
+  animation: process-v2-next-pulse 3.5s ease-in-out infinite;
+}
+.process-v2-nav .process-v2-nav-next:hover {
+  background: rgba(244, 121, 32, 0.22);
+  border-color: var(--mxs-orange);
+  color: var(--mxs-orange);
+  transform: translateX(2px);
+}
+@keyframes process-v2-next-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
+  50%      { box-shadow: 0 0 0 6px rgba(244, 121, 32, 0.15); }
+}
+/* Pause the pulse while user is hovering the section — auto-play is also paused */
+.process-v2-desktop:hover .process-v2-nav-next {
+  animation-play-state: paused;
 }
 .process-v2-cta {
   margin-left: auto;
