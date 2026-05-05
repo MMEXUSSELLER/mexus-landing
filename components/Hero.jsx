@@ -260,11 +260,11 @@ const hS = {
   inner: { position: "relative", maxWidth: 1200, margin: "0 auto", padding: "0 24px", textAlign: "center", zIndex: 1 },
   eyebrow: {
     color: "#F47920",
-    fontSize: "clamp(11px, 1.05vw, 13px)",
-    fontWeight: 500,
+    fontSize: "clamp(14px, 1.45vw, 18px)",
+    fontWeight: 600,
     letterSpacing: "0.18em",
     textTransform: "uppercase",
-    marginBottom: 18,
+    marginBottom: 22,
   },
   badges: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 28, alignItems: "center" },
   badge: {
