@@ -16,14 +16,17 @@ function HeroBold({ lang }) {
       <div style={hS.grid} />
       <div style={hS.glow} />
       <div style={hS.inner}>
+        <div className="mx-hero-eyebrow" style={hS.eyebrow}>
+          {t("AGENCIA AMAZON · USA + MÉXICO · CERTIFICADA AGS", "AMAZON AGENCY · USA + MEXICO · AGS CERTIFIED")}
+        </div>
         <h1 style={hS.h1}>
           {t("LANZAMOS Y ESCALAMOS", "WE LAUNCH AND SCALE")}<br/>
-          {t("MARCAS EN ", "BRANDS IN ")}<span style={{color:"#F47920"}}>{t("USA Y MÉXICO.", "USA & MEXICO.")}</span>
+          {t("MARCAS EN ", "BRANDS ON ")}<span style={{color:"#F47920"}}>AMAZON.</span>
         </h1>
         <p style={hS.sub}>
           {t(
-            "Somos sellers. Atención y estrategia directa con Patricio y Rodrigo — para que tu marca no pague el precio de aprender.",
-            "We're sellers. Direct strategy with Patricio and Rodrigo — so your brand doesn't pay the cost of learning."
+            "Somos sellers en Amazon. Atención y estrategia directa con Patricio y Rodrigo — para que tu marca no pague el precio de aprender Amazon.",
+            "We're sellers on Amazon. Direct strategy with Patricio and Rodrigo — so your brand doesn't pay the cost of learning Amazon."
           )}
         </p>
         <div className="mx-hero-ctas" style={hS.ctas}>
@@ -31,10 +34,10 @@ function HeroBold({ lang }) {
           <a href="#servicios" style={hS.ctaGhost}>{t("Ver qué hacemos", "See what we do")} →</a>
         </div>
         <div className="mx-hero-stats" style={hS.stats}>
-          <Stat value="6+" label={t("AÑOS OPERANDO", "YEARS OPERATING")} />
+          <Stat value="6+" label={t("AÑOS EN AMAZON", "YEARS ON AMAZON")} />
           <Stat value="20+" label={t("MARCAS ESCALADAS", "BRANDS SCALED")} />
-          <Stat value="3" label={t("MERCADOS", "MARKETS")} />
-          <Stat value="60d" label={t("A 1ER VENTA USA", "TO 1ST USA SALE")} />
+          <Stat value="3" label={t("MERCADOS AMAZON", "AMAZON MARKETS")} />
+          <Stat value="60d" label={t("A 1ER VENTA AMAZON USA", "TO 1ST AMAZON USA SALE")} />
         </div>
         <MiniDashboard />
       </div>
@@ -255,6 +258,14 @@ const hS = {
     pointerEvents: "none", zIndex: 0,
   },
   inner: { position: "relative", maxWidth: 1200, margin: "0 auto", padding: "0 24px", textAlign: "center", zIndex: 1 },
+  eyebrow: {
+    color: "#F47920",
+    fontSize: "clamp(11px, 1.05vw, 13px)",
+    fontWeight: 500,
+    letterSpacing: "0.18em",
+    textTransform: "uppercase",
+    marginBottom: 18,
+  },
   badges: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 28, alignItems: "center" },
   badge: {
     display: "inline-flex", alignItems: "center", gap: 8,

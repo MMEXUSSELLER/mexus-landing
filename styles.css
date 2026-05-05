@@ -8,6 +8,17 @@ html {
   scroll-behavior: smooth;
   background: #152232;
 }
+
+@keyframes mx-eyebrow-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mx-hero-eyebrow {
+  animation: mx-eyebrow-in .55s ease-out .2s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mx-hero-eyebrow { animation: none; }
+}
 body {
   font-family: var(--mx-font-body);
   background: var(--mx-bg);
