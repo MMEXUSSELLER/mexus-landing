@@ -58,7 +58,8 @@ function Team({ lang }) {
               name="Yoshua"
               role={t("Catálogo & Analista", "Catalog & Analyst")}
               bio={t("Catálogo y reportes. ACOS bajo control, decisiones con datos.", "Catalog and reporting. ACOS under control, decisions made with data.")}
-              tags={["PPC", "Analytics", "Reporting"]} />
+              tags={["PPC", "Analytics", "Reporting"]}
+              photo="assets/team/yoshua.jpeg" />
             
           </div>
         </div>
