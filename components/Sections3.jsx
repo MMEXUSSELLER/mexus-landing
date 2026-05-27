@@ -223,7 +223,8 @@ function Footer({ lang }) {
           </div>
         </div>
         <div style={ftS.foot}>
-          © 2026 MEXUS SELLER · {t("Todos los derechos reservados", "All rights reserved")}
+          <div>© 2026 MEXUS Seller, {t("operado por", "operated by")} Roospa Products LLC · {t("Todos los derechos reservados", "All rights reserved")}</div>
+          <div style={{ marginTop: 6, opacity: 0.75 }}>Roospa Products LLC · 30 N Gould St STE 21317, Sheridan, WY 82801, USA</div>
         </div>
       </div>
     </footer>);
