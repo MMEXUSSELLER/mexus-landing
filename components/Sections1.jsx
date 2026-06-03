@@ -133,9 +133,8 @@ function Brands({ lang }) {
       </div>
       <div className="wrap" style={{marginTop: 56}}>
         <div className="reveal" style={{display: "flex", gap: 18, flexWrap: "wrap", justifyContent: "center", alignItems: "center"}}>
-          <img src="assets/badge-amazon-spn.png" alt="Amazon SPN Verified Service Provider" style={brS.partnerBadge} />
-          <img src="assets/badge-amazon-global-selling.png" alt="Amazon Global Selling Partner" style={brS.partnerBadge} />
-          <img src="assets/badge-amazon-ads.png" alt="Amazon Ads Advanced Partner" style={brS.partnerBadge} />
+          <img src="assets/badge-amazon-spn.png" alt="Amazon SPN" style={brS.partnerBadge} />
+          <img src="assets/badge-amazon-global-selling.png" alt="Amazon Global Selling" style={brS.partnerBadge} />
         </div>
       </div>
     </section>

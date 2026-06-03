@@ -28,7 +28,7 @@ function Team({ lang }) {
             <div className="mx-team-diff" style={tmS.diffGrid}>
               <Diff num="01" t={t("Sellers activos", "Active sellers")} d={t("Operamos 4 marcas propias", "We run 4 of our own brands")} />
               <Diff num="02" t={t("Atención directa", "Direct access")} d={t("Slack/WhatsApp con fundadores", "Slack/WhatsApp with founders")} />
-              <Diff num="03" t={t("Amazon SPN", "Amazon SPN")} d={t("Agencia certificada oficial", "Official certified agency")} />
+              <Diff num="03" t={t("Amazon SPN", "Amazon SPN")} d={t("Parte del Service Provider Network", "Part of the Service Provider Network")} />
               <Diff num="04" t={t("Cross-border MX→US", "Cross-border MX→US")} d={t("Único playbook validado", "Only validated playbook")} />
             </div>
           </div>

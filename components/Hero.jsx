@@ -17,7 +17,7 @@ function HeroBold({ lang }) {
       <div style={hS.glow} />
       <div style={hS.inner}>
         <div className="mx-hero-eyebrow" style={hS.eyebrow}>
-          {t("AGENCIA AMAZON · USA + MÉXICO · CERTIFICADA AGS", "AMAZON AGENCY · USA + MEXICO · AGS CERTIFIED")}
+          {t("AGENCIA PARA VENDEDORES EN AMAZON · USA + MÉXICO", "AGENCY FOR AMAZON SELLERS · USA + MEXICO")}
         </div>
         <h1 style={hS.h1}>
           {t("LANZAMOS Y ESCALAMOS", "WE LAUNCH AND SCALE")}<br/>
@@ -65,8 +65,8 @@ function HeroSplit({ lang }) {
             </h1>
             <p style={{...hS.sub, margin: "24px 0 32px", maxWidth: 520}}>
               {t(
-                "La única agencia mexicana certificada por Amazon SPN que opera tu marca como propia. Sin intermediarios. Estrategia directa con los fundadores.",
-                "The only Mexican agency Amazon SPN-certified that runs your brand like ours. No middlemen. Direct strategy with the founders."
+                "Agencia mexicana que opera tu marca en Amazon como propia. Sin intermediarios. Estrategia directa con los fundadores.",
+                "Mexican agency that runs your brand on Amazon like ours. No middlemen. Direct strategy with the founders."
               )}
             </p>
             <div style={{...hS.ctas, justifyContent: "flex-start"}}>

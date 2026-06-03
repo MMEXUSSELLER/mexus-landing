@@ -210,10 +210,9 @@ function Footer({ lang }) {
             <div style={ftS.line}>{t("Asesoría 1:1", "1:1 Consulting")}</div>
           </div>
           <div>
-            <div style={ftS.col}>{t("Certificaciones", "Certifications")}</div>
-            <div style={ftS.line}>Amazon SPN</div>
-            <div style={ftS.line}>Global Selling Partner</div>
-            <div style={ftS.line}>Amazon Ads Verified</div>
+            <div style={ftS.col}>{t("Programas Amazon", "Amazon programs")}</div>
+            <div style={ftS.line}>Service Provider Network (SPN)</div>
+            <div style={ftS.line}>Amazon Global Selling</div>
           </div>
           <div>
             <div style={ftS.col}>{t("Empresa", "Company")}</div>
