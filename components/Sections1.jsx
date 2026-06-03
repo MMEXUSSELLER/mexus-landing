@@ -111,7 +111,69 @@ function Brands({ lang }) {
     { name: "Tamboreta",       src: "assets/brands/tamboreta.png" },
     { name: "Tramborneas",     src: "assets/brands/tramborneas.png" },
   ];
-  const doubled = [...brands, ...brands];
+  const tripled = [...brands, ...brands, ...brands];
+
+  const scrollerRef = React.useRef(null);
+  const st = React.useRef({ hover: false, drag: false, paused: false, startX: 0, startScroll: 0 });
+
+  // Seamless infinite loop: keep scrollLeft within one "set" of the 3 copies.
+  const normalize = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const set = el.scrollWidth / 3;
+    if (set <= 0) return;
+    while (el.scrollLeft >= set * 2) el.scrollLeft -= set;
+    while (el.scrollLeft <= 0) el.scrollLeft += set;
+  };
+
+  React.useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const BASE = 1.0;   // px/frame ≈ slow drift
+    const FAST = 3.5;   // hover speed-up
+    let started = false, raf;
+    const step = () => {
+      const set = el.scrollWidth / 3;
+      if (set > 0 && !started) { el.scrollLeft = set; started = true; } // start centered → drag either way
+      const s = st.current;
+      if (!reduce && !s.drag && !s.paused && set > 0) {
+        el.scrollLeft += s.hover ? FAST : BASE;
+        if (el.scrollLeft >= set * 2) el.scrollLeft -= set;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const onMouseEnter = () => { st.current.hover = true; };
+  const onMouseLeave = () => { st.current.hover = false; };
+  const onPointerDown = (e) => {
+    if (e.pointerType !== "mouse") return;            // touch uses native momentum scroll
+    const el = scrollerRef.current, s = st.current;
+    s.drag = true; s.startX = e.clientX; s.startScroll = el.scrollLeft;
+    el.classList.add("is-dragging");
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  };
+  const onPointerMove = (e) => {
+    const s = st.current;
+    if (!s.drag) return;
+    scrollerRef.current.scrollLeft = s.startScroll - (e.clientX - s.startX);
+    normalize();
+  };
+  const endDrag = (e) => {
+    const s = st.current;
+    if (!s.drag) return;
+    s.drag = false;
+    const el = scrollerRef.current;
+    el.classList.remove("is-dragging");
+    try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+  };
+  const onTouchStart = () => { st.current.paused = true; };   // pause auto while finger is down
+  const onTouchEnd = () => { st.current.paused = false; };
+  const onScroll = () => { if (!st.current.drag) normalize(); };
+
   return (
     <section className="section dark" id="casos" style={{padding: "80px 0"}}>
       <div className="wrap">
@@ -122,14 +184,24 @@ function Brands({ lang }) {
           </h2>
         </div>
       </div>
-      <div className="marquee">
-        <div className="marquee-track">
-          {doubled.map((b, i) => (
-            <div key={i} className="brand-logo-card" title={b.name}>
-              <img src={b.src} alt={b.name} className="brand-logo-img" />
-            </div>
-          ))}
-        </div>
+      <div
+        className="brand-scroller"
+        ref={scrollerRef}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onScroll={onScroll}
+      >
+        {tripled.map((b, i) => (
+          <div key={i} className="brand-logo-card" title={b.name}>
+            <img src={b.src} alt={b.name} className="brand-logo-img" draggable={false} />
+          </div>
+        ))}
       </div>
       <div className="wrap" style={{marginTop: 56}}>
         <div className="reveal" style={{display: "flex", gap: 18, flexWrap: "wrap", justifyContent: "center", alignItems: "center"}}>

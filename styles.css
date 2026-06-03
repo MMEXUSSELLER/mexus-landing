@@ -128,22 +128,25 @@ body[data-theme="dark"] .section.alt { background: #152232; }
   0%,100% { box-shadow: 0 0 0 4px rgba(244,121,32,.22); }
   50%     { box-shadow: 0 0 0 12px rgba(244,121,32,.04); }
 }
-@keyframes mx-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee {
+.brand-scroller {
   display: flex;
-  overflow: hidden;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 20px 8px 0;
+  cursor: grab;
+  touch-action: pan-x;                 /* horizontal swipe pans, vertical scrolls page */
+  -webkit-overflow-scrolling: touch;   /* momentum on iOS */
+  scrollbar-width: none;               /* Firefox */
+  -ms-overflow-style: none;            /* old Edge/IE */
+  user-select: none;
+  -webkit-user-select: none;
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
-.marquee-track {
-  display: flex; gap: 20px;
-  animation: mx-marquee 38s linear infinite;
-  white-space: nowrap;
-  padding-right: 20px;
-}
+.brand-scroller::-webkit-scrollbar { display: none; }   /* Chrome/Safari */
+.brand-scroller.is-dragging { cursor: grabbing; }
+.brand-scroller img { -webkit-user-drag: none; user-select: none; }
 
 /* Card variants (driven by [data-card-style]) */
 .svc-card {
