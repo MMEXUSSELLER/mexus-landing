@@ -230,6 +230,17 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 .foot p{font-size:12px;color:var(--gray-2);max-width:520px}
 .foot a{color:var(--orange);text-decoration:none}
 .disclaimer{font-size:10.5px;color:var(--gray-2);margin-top:14px;line-height:1.5}
+/* persistent mini ad bar */
+.adbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:rgba(10,17,26,.93);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--orange-ring)}
+.adbar-info{background:none;border:none;color:var(--fg-2);font-family:var(--body);font-size:12px;cursor:pointer;text-align:left;padding:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.adbar-info b{color:#fff;font-weight:700}
+.adbar-sub{color:var(--gray-2)}
+.adbar-links{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.adbar-web{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.4px;font-size:11.5px;color:var(--navy);background:var(--orange);padding:6px 11px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.adbar-web:hover{background:var(--orange-hover)}
+.adbar-mail{font-family:var(--mono);font-size:11.5px;color:var(--orange);text-decoration:none;white-space:nowrap}
+body{padding-bottom:48px}
+@media(max-width:560px){.adbar-sub{display:none}.adbar{gap:8px;padding:7px 11px}.adbar-info{font-size:11px}.adbar-links{gap:7px}.adbar-web{font-size:10.5px;padding:5px 9px}.adbar-mail{font-size:10.5px}}
 /* promotional contact block */
 .promo{display:grid;grid-template-columns:1fr;gap:26px;align-items:start}
 .promo-id img{height:58px;width:auto;display:block;margin-bottom:16px}
@@ -249,7 +260,7 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 .form-btn{width:100%;font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.5px;font-size:14px;color:var(--navy);background:var(--orange);border:none;padding:13px;border-radius:9px;cursor:pointer;transition:.15s}
 .form-btn:hover{background:var(--orange-hover)}
 .form-note{display:block;font-size:10.5px;color:var(--gray-2);margin-top:9px;text-align:center}
-@media(min-width:768px){.promo{grid-template-columns:1.15fr .85fr;gap:44px}}
+.promo{max-width:640px}
 @media(min-width:1024px){.promo-id img{height:74px}.promo-h{font-size:27px}.promo-sub{font-size:16px}.form-h{font-size:21px}}
 
 .loading{text-align:center;padding:40px 0;color:var(--gray);font-family:var(--mono);font-size:13px}
@@ -312,6 +323,10 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
   .nm-team{font-size:23px}
   .nm-meta{font-size:14px}
   .nm-count{font-size:13px}
+  .adbar{padding:10px 28px}
+  .adbar-info{font-size:13.5px}
+  .adbar-web{font-size:12.5px;padding:7px 13px}
+  .adbar-mail{font-size:12.5px}
   .btn-cal{font-size:13px;padding:7px 14px}
 
   /* group cards + tables */
@@ -448,20 +463,19 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
         <a class="btn-mail" href="mailto:hola@mexusseller.com">hola@mexusseller.com</a>
       </div>
     </div>
-    <form class="promo-form" id="cform" onsubmit="return sendContact(event)">
-      <h4 class="form-h">¿Trabajamos juntos?</h4>
-      <div class="form-row">
-        <input id="cf-name" type="text" placeholder="Nombre" required>
-        <input id="cf-brand" type="text" placeholder="Marca / empresa">
-      </div>
-      <input id="cf-email" type="email" placeholder="Tu correo" required>
-      <textarea id="cf-msg" rows="3" placeholder="¿En qué te podemos ayudar?"></textarea>
-      <button type="submit" class="form-btn">Enviar a MEXUS</button>
-      <span class="form-note">Se abrirá tu correo para enviar a hola@mexusseller.com</span>
-    </form>
   </div>
   <p class="disclaimer">Sitio informativo y de fans. No afiliado a FIFA ni al FIFA World Cup 2026™. Marcas y nombres son propiedad de sus respectivos dueños. Probabilidades generadas por un modelo estadístico propio con fines de entretenimiento.</p>
 </div></footer>
+
+<div class="adbar">
+  <button class="adbar-info" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+    <b>Agencia de cuentas de Amazon</b><span class="adbar-sub"> · México &amp; EE.UU.</span>
+  </button>
+  <div class="adbar-links">
+    <a class="adbar-web" href="https://mexusseller.com" target="_blank" rel="noopener">mexusseller.com</a>
+    <a class="adbar-mail" href="mailto:hola@mexusseller.com">hola@mexusseller.com</a>
+  </div>
+</div>
 
 <script>
 /* ============================================================
