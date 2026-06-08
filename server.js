@@ -7,6 +7,41 @@ const PORT = process.env.PORT || 3000;
 // Security: basic hardening
 app.disable('x-powered-by');
 
+// --- World Cup 2026 results proxy (football-data.org) ---
+// Hides the API token and caches upstream for 30 min so the free tier is never
+// hit more than ~twice an hour regardless of how many visitors are on the page.
+const WC_CACHE = { at: 0, data: null };
+app.get('/mundial/api/results', async (_req, res) => {
+  const token = process.env.FOOTBALL_DATA_TOKEN;
+  if (!token) return res.json({ matches: [], note: 'no token configured' });
+  const now = Date.now();
+  if (WC_CACHE.data && now - WC_CACHE.at < 30 * 60 * 1000) return res.json(WC_CACHE.data);
+  try {
+    const r = await fetch('https://api.football-data.org/v4/competitions/WC/matches', {
+      headers: { 'X-Auth-Token': token },
+    });
+    if (!r.ok) throw new Error('upstream ' + r.status);
+    const j = await r.json();
+    const matches = (j.matches || []).map(m => ({
+      group: m.group,
+      stage: m.stage,
+      status: m.status,
+      utcDate: m.utcDate,
+      homeTeam: { name: m.homeTeam && m.homeTeam.name },
+      awayTeam: { name: m.awayTeam && m.awayTeam.name },
+      score: { fullTime: { home: m.score?.fullTime?.home ?? null, away: m.score?.fullTime?.away ?? null } },
+    }));
+    if (matches.length > 0) { // empty almost always means rate-limited — don't poison cache
+      WC_CACHE.data = { matches };
+      WC_CACHE.at = now;
+    }
+    res.json(WC_CACHE.data || { matches });
+  } catch (e) {
+    if (WC_CACHE.data) return res.json(WC_CACHE.data); // serve stale on upstream error
+    res.json({ matches: [], error: String(e) });
+  }
+});
+
 // Note: apex → www redirect is handled by GoDaddy's domain forwarding feature,
 // so the Express app only ever sees www.mexusseller.com requests. No app-level
 // redirect needed.

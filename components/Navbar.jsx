@@ -26,6 +26,7 @@ function Navbar({ lang, onLang, theme }) {
     { href: "#equipo", es: "Equipo", en: "Team" },
     { href: "#plataforma", es: "Plataforma", en: "Platform" },
     { href: "#faq", es: "FAQ", en: "FAQ" },
+    { href: "/mundial", es: "Mundial 2026", en: "World Cup 2026" },
   ];
 
   const logoSrc = "assets/logo-mexus-white.png";
