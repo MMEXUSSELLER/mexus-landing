@@ -208,15 +208,31 @@ table{width:100%;border-collapse:collapse}
 .ctable td.tl .flag{font-size:17px;width:auto;display:inline;margin-right:6px}
 .ctable td.hl{color:var(--orange);font-weight:700}
 
-/* bracket */
-.bracket-wrap{overflow-x:auto;padding-bottom:12px;scrollbar-width:thin}
-.bracket{display:flex;gap:14px;min-width:max-content;padding:4px}
-.round{display:flex;flex-direction:column;gap:10px;min-width:200px}
-.round h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:13px;color:var(--orange);text-align:center;margin-bottom:2px}
-.tie{background:var(--navy-2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;font-size:12px}
-.tie .tl{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-family:var(--disp);font-weight:600;font-size:14px;text-transform:uppercase;color:var(--fg-2)}
-.tie .tl .flag{font-size:15px;width:auto;display:inline;margin-right:5px}
-.tie .meta{font-family:var(--mono);font-size:9.5px;color:var(--gray-2);margin-top:5px;border-top:1px solid var(--border);padding-top:5px}
+/* bracket — knockout mobile-first */
+.bracket-wrap{padding-bottom:12px}
+.bracket{display:block}
+.ko-nav{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:sticky;top:0;background:var(--navy-1,#0a111a);z-index:4}
+.ko-nav::-webkit-scrollbar{display:none}
+.ko-pill{flex:0 0 auto;cursor:pointer;font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:12px;color:var(--fg-2);background:var(--navy-2);border:1px solid var(--border);border-radius:999px;padding:7px 14px;white-space:nowrap;transition:background .15s,color .15s}
+.ko-pill.active{background:var(--orange);border-color:var(--orange);color:#0a111a}
+.ko-round{margin-bottom:24px;scroll-margin-top:64px}
+.ko-round-head{display:flex;align-items:baseline;gap:9px;margin-bottom:11px}
+.ko-round-head h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:16px;color:var(--orange);margin:0}
+.ko-round-head span{font-family:var(--mono);font-size:10px;color:var(--gray-2)}
+.ko-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.ko-card{display:grid;grid-template-columns:auto 1fr;gap:13px;background:var(--navy-2);border:1px solid var(--border);border-radius:13px;padding:12px 14px;transition:border-color .15s}
+.ko-card:hover{border-color:var(--orange-ring)}
+.ko-date{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:48px;background:var(--orange-soft);border:1px solid var(--orange-ring);border-radius:10px;padding:7px 5px}
+.ko-date .d{font-family:var(--disp);font-weight:800;font-size:19px;line-height:1;color:var(--white)}
+.ko-date .m{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin-top:3px}
+.ko-date .t{font-family:var(--mono);font-size:9.5px;color:var(--gray-2);margin-top:4px}
+.ko-body{min-width:0}
+.ko-team{display:flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:700;font-size:15px;text-transform:uppercase;color:var(--fg-2);padding:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ko-team.tbd{color:var(--gray-2);font-weight:500;font-size:13px}
+.ko-team .flag{font-size:16px}
+.ko-vs{font-family:var(--mono);font-size:9px;color:var(--gray-2);margin:1px 0 1px 1px}
+.ko-venue{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--gray-2);margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+.ko-venue .pin{color:var(--orange);font-style:normal}
 
 /* info / footer */
 .prose{max-width:720px}
@@ -350,12 +366,12 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
   .ctable td,.ctable th{font-size:14px;padding:10px 6px}
   .ctable td.tl{font-size:16px}
 
-  /* bracket */
-  .round{min-width:240px}
-  .round h4{font-size:14px}
-  .tie{font-size:13px;padding:11px 14px}
-  .tie .tl{font-size:16px}
-  .tie .meta{font-size:11px}
+  /* bracket — desktop: cards flow into a grid, fills width */
+  .ko-grid{grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+  .ko-round-head h4{font-size:18px}
+  .ko-team{font-size:16px}
+  .ko-team.tbd{font-size:14px}
+  .ko-venue{font-size:11px}
 
   /* info + footer */
   .prose{max-width:840px}
@@ -623,11 +639,35 @@ const KO_R32 = [
  {id:"R15",a:{t:"1",g:"J"}, b:{t:"2",g:"H"}, et:"2026-07-03T18:00", v:"Hard Rock, Miami"},
  {id:"R16",a:{t:"1",g:"K"}, b:{t:"3",g:["D","E","I","J","L"]}, et:"2026-07-03T21:30", v:"Arrowhead, Kansas City"}
 ];
+// Sedes/fechas/horas oficiales FIFA WC2026 (hora local de cada sede). Los
+// equipos se llenan al cerrar la fase de grupos (por eso "Por definir").
 const KO_ROUNDS=[
- {name:"Octavos", n:8, dates:["4 jul","4 jul","5 jul","5 jul","6 jul","6 jul","7 jul","7 jul"]},
- {name:"Cuartos", n:4, dates:["9 jul","10 jul","11 jul","11 jul"]},
- {name:"Semifinal", n:2, dates:["14 jul · Dallas","15 jul · Atlanta"]},
- {name:"Final", n:1, dates:["19 jul · MetLife, NJ"]}
+ {key:"octavos", name:"Octavos", sub:"4 – 7 jul · 16 equipos", matches:[
+  {dnum:"04",mon:"JUL",time:"12:00",stadium:"NRG Stadium",city:"Houston"},
+  {dnum:"04",mon:"JUL",time:"17:00",stadium:"Lincoln Financial Field",city:"Filadelfia"},
+  {dnum:"05",mon:"JUL",time:"16:00",stadium:"MetLife Stadium",city:"Nueva Jersey"},
+  {dnum:"05",mon:"JUL",time:"18:00",stadium:"Estadio Azteca",city:"CDMX"},
+  {dnum:"06",mon:"JUL",time:"14:00",stadium:"AT&T Stadium",city:"Dallas"},
+  {dnum:"06",mon:"JUL",time:"17:00",stadium:"Lumen Field",city:"Seattle"},
+  {dnum:"07",mon:"JUL",time:"12:00",stadium:"Mercedes-Benz Stadium",city:"Atlanta"},
+  {dnum:"07",mon:"JUL",time:"13:00",stadium:"BC Place",city:"Vancouver"}
+ ]},
+ {key:"cuartos", name:"Cuartos", sub:"9 – 11 jul · 8 equipos", matches:[
+  {dnum:"09",mon:"JUL",time:"16:00",stadium:"Gillette Stadium",city:"Boston"},
+  {dnum:"10",mon:"JUL",time:"12:00",stadium:"SoFi Stadium",city:"Los Ángeles"},
+  {dnum:"11",mon:"JUL",time:"17:00",stadium:"Hard Rock Stadium",city:"Miami"},
+  {dnum:"11",mon:"JUL",time:"20:00",stadium:"Arrowhead Stadium",city:"Kansas City"}
+ ]},
+ {key:"semis", name:"Semifinal", sub:"14 – 15 jul · 4 equipos", matches:[
+  {dnum:"14",mon:"JUL",time:"14:00",stadium:"AT&T Stadium",city:"Dallas"},
+  {dnum:"15",mon:"JUL",time:"15:00",stadium:"Mercedes-Benz Stadium",city:"Atlanta"}
+ ]},
+ {key:"tercer", name:"Tercer lugar", sub:"18 jul", matches:[
+  {dnum:"18",mon:"JUL",time:"17:00",stadium:"Hard Rock Stadium",city:"Miami"}
+ ]},
+ {key:"final", name:"Final", sub:"19 jul", matches:[
+  {dnum:"19",mon:"JUL",time:"15:00",stadium:"MetLife Stadium",city:"Nueva Jersey"}
+ ]}
 ];
 
 /* ---- RESULTS: { matchId:[homeGoals, awayGoals] }  (edita aquí o vía results.json) ---- */
@@ -955,25 +995,29 @@ function pct(x){return (x*100).toFixed(x>=0.1?0:1)+"%";}
 /* bracket */
 function renderBracket(){
  const wrap=$("#bracketView");
- let html=`<div class="round"><h4>16avos</h4>`;
- KO_R32.forEach(mt=>{
-  const d=matchDate(mt.et);
-  html+=`<div class="tie">
-    <div class="tl">${slotLabel(mt.a)}</div>
-    <div class="tl">${slotLabel(mt.b)}</div>
-    <div class="meta">${fmtDayShort.format(d)} · ${mt.v}</div></div>`;
+ const MES={"06":"JUN","07":"JUL"};
+ const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
+ const card=m=>`<div class="ko-card">
+   <div class="ko-date"><span class="d">${m.dnum}</span><span class="m">${m.mon}</span><span class="t">${m.time}</span></div>
+   <div class="ko-body">
+     <div class="ko-team${m.tbd?' tbd':''}">${m.a}</div>
+     <div class="ko-vs">vs</div>
+     <div class="ko-team${m.tbd?' tbd':''}">${m.b}</div>
+     <div class="ko-venue"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}</div>
+   </div></div>`;
+ const r32=KO_R32.map(mt=>{const sc=split(mt.v);return {a:slotLabel(mt.a),b:slotLabel(mt.b),tbd:false,dnum:mt.et.slice(8,10),mon:MES[mt.et.slice(5,7)]||"",time:mt.et.slice(11,16),stadium:sc[0],city:sc[1]};});
+ const ROUNDS=[{key:"16avos",name:"16avos",sub:"28 jun – 3 jul · 32 equipos",matches:r32}].concat(
+   KO_ROUNDS.map(rd=>({key:rd.key,name:rd.name,sub:rd.sub,matches:rd.matches.map(m=>Object.assign({},m,{a:"Por definir",b:"Por definir",tbd:true}))})));
+ const nav=`<div class="ko-nav">`+ROUNDS.map((r,i)=>`<button class="ko-pill${i?'':' active'}" data-jump="ko-${r.key}">${r.name}</button>`).join("")+`</div>`;
+ let body="";
+ ROUNDS.forEach(r=>{
+  body+=`<div class="ko-round" id="ko-${r.key}"><div class="ko-round-head"><h4>${r.name}</h4><span>${r.sub}</span></div><div class="ko-grid">${r.matches.map(card).join("")}</div></div>`;
  });
- html+=`</div>`;
- KO_ROUNDS.forEach(rd=>{
-  html+=`<div class="round"><h4>${rd.name}</h4>`;
-  for(let i=0;i<rd.n;i++){
-   html+=`<div class="tie" style="margin:auto 0"><div class="tl" style="color:var(--gray-2)">Por definir</div>
-    <div class="tl" style="color:var(--gray-2)">Por definir</div>
-    <div class="meta">${rd.dates[i]||""}</div></div>`;
-  }
-  html+=`</div>`;
+ wrap.innerHTML=nav+body;
+ wrap.querySelectorAll(".ko-pill").forEach(p=>p.onclick=()=>{
+  wrap.querySelectorAll(".ko-pill").forEach(x=>x.classList.remove("active"));p.classList.add("active");
+  const el=document.getElementById(p.dataset.jump);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
  });
- wrap.innerHTML=html;
 }
 function slotLabel(s){
  if(s.t==="3")return `<span style="color:var(--gray-2)">3º (${s.g.join("/")})</span>`;
