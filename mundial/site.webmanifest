@@ -1,0 +1,13 @@
+{
+  "name": "MEXUS · Mundial 2026",
+  "short_name": "Mundial 26",
+  "description": "Calendario, resultados en vivo, tablas de grupos y probabilidades del Mundial 2026.",
+  "icons": [
+    { "src": "/mundial/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/mundial/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0A111A",
+  "background_color": "#0A111A",
+  "display": "standalone",
+  "start_url": "/mundial/"
+}
