@@ -122,6 +122,18 @@ section.active{display:block}
 .day-head{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:14px;color:var(--orange);
   margin:22px 0 10px;display:flex;align-items:center;gap:10px}
 .day-head::after{content:"";flex:1;height:1px;background:var(--border)}
+.list-section-head{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:15px;display:flex;align-items:center;gap:10px;margin:8px 0 4px}
+.list-section-head.up{color:var(--orange)}
+.list-section-head .cnt{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0;color:var(--fg-2);background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:20px;padding:1px 9px;text-transform:none}
+.list-section-head .live{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:nm-pulse 2s infinite}
+@keyframes nm-pulse{0%{box-shadow:0 0 0 0 rgba(244,121,32,.5)}70%{box-shadow:0 0 0 8px rgba(244,121,32,0)}100%{box-shadow:0 0 0 0 rgba(244,121,32,0)}}
+details.played-wrap{margin-top:30px;border-top:1px solid var(--border);padding-top:10px}
+details.played-wrap>summary{list-style:none;cursor:pointer;color:var(--gray);user-select:none}
+details.played-wrap>summary::-webkit-details-marker{display:none}
+details.played-wrap>summary:hover{color:var(--fg-1)}
+details.played-wrap .chev{margin-left:auto;transition:transform .2s;font-size:12px}
+details.played-wrap[open] .chev{transform:rotate(180deg)}
+.played-body{padding-top:6px}
 .match{background:var(--navy-2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;transition:.18s}
 .match:hover{border-color:var(--border-2);transform:translateY(-1px)}
 .m-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
@@ -923,16 +935,27 @@ function matchCard(m){
 
 function renderMatches(){
  const list=$("#matchList");
- const ms=M.filter(m=>curPhase==="all"||m.g===curPhase)
-   .slice().sort((a,b)=>matchDate(a.et)-matchDate(b.et));
+ const now=new Date();
+ const ms=M.filter(m=>curPhase==="all"||m.g===curPhase);
  if(!ms.length){list.innerHTML=`<div class="empty">Sin partidos.</div>`;return;}
- let html="",lastDay="";
- ms.forEach(m=>{
-  const d=matchDate(m.et); const dk=d.toDateString();
-  if(dk!==lastDay){lastDay=dk; let lbl=fmtDay.format(d); lbl=lbl.charAt(0).toUpperCase()+lbl.slice(1);
-   html+=`<div class="day-head">${lbl}</div>`;}
-  html+=matchCard(m);
- });
+ const isPast=m=>RESULTS[m.id]||now>new Date(matchDate(m.et).getTime()+2*3600*1000);
+ const upcoming=ms.filter(m=>!isPast(m)).sort((a,b)=>matchDate(a.et)-matchDate(b.et));
+ const played=ms.filter(isPast).sort((a,b)=>matchDate(b.et)-matchDate(a.et)); // más reciente primero
+ // agrupa por día con su encabezado
+ const byDay=arr=>{let h="",lastDay="";arr.forEach(m=>{
+   const d=matchDate(m.et),dk=d.toDateString();
+   if(dk!==lastDay){lastDay=dk;let lbl=fmtDay.format(d);lbl=lbl.charAt(0).toUpperCase()+lbl.slice(1);h+=`<div class="day-head">${lbl}</div>`;}
+   h+=matchCard(m);});return h;};
+ let html="";
+ if(upcoming.length){
+  html+=`<div class="list-section-head up"><span class="live"></span>Próximos partidos <span class="cnt">${upcoming.length}</span></div>`;
+  html+=byDay(upcoming);
+ }
+ if(played.length){
+  // si no hay próximos (grupo ya cerrado), abre los jugados por defecto
+  const open=upcoming.length?"":" open";
+  html+=`<details class="played-wrap"${open}><summary class="list-section-head">Partidos jugados <span class="cnt">${played.length}</span><span class="chev">▼</span></summary><div class="played-body">${byDay(played)}</div></details>`;
+ }
  list.innerHTML=html;
 }
 
