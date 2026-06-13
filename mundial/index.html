@@ -228,6 +228,22 @@ table{width:100%;border-collapse:collapse}
 .ctable td.tl .flag{font-size:17px;width:auto;display:inline;margin-right:6px}
 .ctable td.hl{color:var(--orange);font-weight:700}
 
+/* projection — "cómo quedarán" */
+.proj-final{background:var(--navy-2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px}
+.proj-champ{background:linear-gradient(180deg,rgba(244,121,32,.16),transparent);border-bottom:1px solid var(--border);padding:18px 16px;text-align:center}
+.proj-champ .pc-cap{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:12px;color:var(--orange);margin-bottom:8px}
+.proj-champ .pc-team{display:inline-flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:30px;letter-spacing:.5px;line-height:1}
+.proj-champ .pc-team .flagimg{height:1.05em}
+.pr-block{padding:11px 14px;border-top:1px solid var(--border);display:flex;gap:10px 14px;align-items:baseline;flex-wrap:wrap}
+.pr-cap{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-2);min-width:118px}
+.pr-teams{display:flex;gap:8px 16px;flex-wrap:wrap;flex:1;min-width:200px}
+.pr-team{display:inline-flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:15px}
+.pr-team .flagimg{height:.95em}
+.proj-h{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:18px;letter-spacing:.5px;color:var(--fg-1);margin:6px 0 12px}
+.proj-grid .gcard h3{justify-content:space-between}
+.proj-played{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--gray-2);letter-spacing:0;text-transform:none}
+.adv-tick{color:var(--green);font-weight:900;margin-left:5px;font-size:13px}
+
 /* bracket — knockout mobile-first */
 .bracket-wrap{padding-bottom:12px}
 .bracket{display:block}
@@ -986,15 +1002,73 @@ function renderGroups(){
 }
 
 /* predictions */
-let MC=null, predMode="adv";
-const PRED_MODES=[["adv","Avanzar a eliminatorias"],["win","Ganar su grupo"],["champ","Ser campeón"]];
+let MC=null, predMode="proj";
+const PRED_MODES=[["proj","Cómo quedarán"],["adv","Avanzar a eliminatorias"],["win","Ganar su grupo"],["champ","Ser campeón"]];
 function renderPredToggle(){
  $("#predToggle").innerHTML=PRED_MODES.map(([k,l])=>
   `<button class="pill ${k===predMode?'active':''}" data-pm="${k}">${l}</button>`).join("");
  $("#predToggle").querySelectorAll(".pill").forEach(b=>b.onclick=()=>{predMode=b.dataset.pm;renderPredToggle();renderPred();});
 }
+/* ---- proyección "cómo quedarán": resultados reales + favorito en lo pendiente ---- */
+function projMatchOutcome(m){
+ const r=RESULTS[m.id]; if(r)return {hg:r[0],ag:r[1]};
+ const p=matchProbs(m);
+ if(p.d>=p.h&&p.d>=p.a)return {hg:1,ag:1};       // empate = resultado más probable
+ return p.h>=p.a?{hg:2,ag:1}:{hg:1,ag:2};         // gana el favorito
+}
+function projStandings(g){
+ const st={};GROUPS[g].forEach(t=>st[t]={t,pts:0,gf:0,gc:0});
+ M.filter(m=>m.g===g).forEach(m=>{
+  const o=projMatchOutcome(m),H=st[m.h],A=st[m.a];
+  H.gf+=o.hg;H.gc+=o.ag;A.gf+=o.ag;A.gc+=o.hg;
+  if(o.hg>o.ag)H.pts+=3;else if(o.hg<o.ag)A.pts+=3;else{H.pts++;A.pts++;}
+ });
+ return Object.values(st).map(x=>({...x,dg:x.gf-x.gc}))
+   .sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||T[b.t].s-T[a.t].s);
+}
+function projKoWin(h,a){if(!h)return a;if(!a)return h;const p=matchProbs({h,a,cc:"NEU"});return p.h>=p.a?h:a;}
+function buildProjection(){
+ const gr={};for(const g in GROUPS)gr[g]=projStandings(g);
+ const thirds=[];for(const g in gr)thirds.push({t:gr[g][2].t,grp:g,pts:gr[g][2].pts,dg:gr[g][2].dg,gf:gr[g][2].gf});
+ const ranked=thirds.slice().sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||T[b.t].s-T[a.t].s).slice(0,8);
+ const qualThirds=new Set(ranked.map(x=>x.t));
+ const pool=ranked.map(x=>({t:x.t,grp:x.grp}));
+ const r32=KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
+ const pair=arr=>{const o=[];for(let k=0;k<arr.length;k+=2)o.push(projKoWin(arr[k],arr[k+1]));return o;};
+ const octavos=r32.map(([h,a])=>projKoWin(h,a));
+ const cuartos=pair(octavos),semis=pair(cuartos),finalistas=pair(semis);
+ const campeon=projKoWin(finalistas[0],finalistas[1]);
+ return {gr,qualThirds,cuartos,semis,finalistas,campeon};
+}
+function projRoundBlock(label,teams){
+ return `<div class="pr-block"><div class="pr-cap">${label}</div><div class="pr-teams">`+
+  teams.filter(Boolean).map(t=>`<span class="pr-team">${fl(t)}<b>${t}</b></span>`).join("")+`</div></div>`;
+}
 function renderPred(){
  const view=$("#predView");
+ if(predMode==="proj"){
+  const P=buildProjection();
+  let h=`<p class="sec-sub" style="margin-top:-8px">Escenario más probable: junta los resultados ya jugados con el <b style="color:var(--orange)">favorito de cada partido pendiente</b>. Se actualiza solo cuando entra un nuevo resultado.</p>`;
+  h+=`<div class="proj-final"><div class="proj-champ"><div class="pc-cap">🏆 Campeón proyectado</div><div class="pc-team">${fl(P.campeon)}<b>${P.campeon}</b></div></div>`;
+  h+=projRoundBlock("Finalistas",P.finalistas)+projRoundBlock("Semifinalistas",P.semis)+projRoundBlock("Cuartos de final",P.cuartos);
+  h+=`</div>`;
+  h+=`<h3 class="proj-h">Cómo quedarán los grupos</h3><div class="grid proj-grid">`;
+  for(const g in GROUPS){
+   const st=P.gr[g];
+   const played=M.filter(m=>m.g===g&&RESULTS[m.id]).length;
+   h+=`<div class="gcard"><h3><span><span class="gl">${g}</span> Grupo ${g}</span><span class="proj-played">${played}/6 jugados</span></h3>
+    <table class="gtable"><thead><tr><th class="tl">Equipo</th><th>DG</th><th>Pts</th></tr></thead><tbody>`;
+   st.forEach((r,i)=>{
+    const adv=i<2||(i===2&&P.qualThirds.has(r.t));
+    const cls=i<2?"q1":(i===2&&P.qualThirds.has(r.t))?"q3":"";
+    h+=`<tr class="${cls}"><td class="team"><span class="pos">${i+1}</span> <span class="flag">${fl(r.t)}</span>${r.t}${adv?' <span class="adv-tick">✓</span>':''}</td>
+      <td>${r.dg>0?'+':''}${r.dg}</td><td class="pts">${r.pts}</td></tr>`;
+   });
+   h+=`</tbody></table></div>`;
+  }
+  h+=`</div>`;
+  view.innerHTML=h; return;
+ }
  if(!MC){view.innerHTML=`<div class="loading"><span class="spin"></span>Simulando 6,000 torneos…</div>`;return;}
  if(predMode==="champ"){
   const rows=Object.keys(T).map(t=>({t,...MC[t]})).sort((a,b)=>b.champ-a.champ).slice(0,16);
