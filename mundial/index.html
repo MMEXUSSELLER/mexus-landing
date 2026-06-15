@@ -151,6 +151,11 @@ details.played-wrap[open] .chev{transform:rotate(180deg)}
 .st-up{color:var(--fg-2);background:rgba(255,255,255,.05)}
 .st-live{color:#0A111A;background:var(--green)}
 .st-ft{color:var(--gray);background:rgba(255,255,255,.05)}
+.m-status.st-live{display:inline-flex;align-items:center;gap:5px}
+.st-live .lpulse{width:7px;height:7px;border-radius:50%;background:#0A111A;animation:blink 1s steps(2,start) infinite}
+@keyframes blink{50%{opacity:.2}}
+.match.live{border-color:var(--green)}
+.livetxt{color:var(--green);font-family:var(--disp);font-weight:900;font-size:12px;letter-spacing:.5px;text-transform:uppercase;line-height:1.05}
 .m-body{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px}
 .side{display:flex;align-items:center;gap:10px;min-width:0}
 .side.away{flex-direction:row-reverse;text-align:right}
@@ -165,6 +170,8 @@ details.played-wrap[open] .chev{transform:rotate(180deg)}
 .venue{font-size:13.5px;color:var(--orange);font-weight:600;display:flex;align-items:center;gap:6px;min-width:0}
 .venue svg{flex-shrink:0;opacity:1}
 .venue span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.venue .vc{flex-shrink:0;overflow:visible;color:var(--gray-2);font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.venue .vc img{width:17px;height:auto;border-radius:2px;display:block;flex-shrink:0}
 .btn-cal{font-family:var(--disp);font-weight:800;font-size:12px;letter-spacing:.5px;text-transform:uppercase;
   color:var(--orange);background:var(--orange-soft);border:1px solid var(--orange-ring);padding:6px 11px;border-radius:8px;
   cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:.15s;text-decoration:none}
@@ -529,6 +536,8 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 </div>
 
 <script>
+/* Evita que el navegador restaure el scroll al recargar (se iba hasta abajo) */
+if('scrollRestoration' in history){history.scrollRestoration='manual';}
 /* ============================================================
    MEXUS · MUNDIAL 2026  —  data + engine
    ============================================================ */
@@ -574,7 +583,7 @@ const M = [
  {id:"A1",g:"A",h:"México",a:"Sudáfrica",et:"2026-06-11T15:00",v:"Estadio Azteca, CDMX",cc:"MX"},
  {id:"A2",g:"A",h:"Corea Rep.",a:"Chequia",et:"2026-06-11T22:00",v:"Estadio Akron, Guadalajara",cc:"MX"},
  {id:"A3",g:"A",h:"Chequia",a:"Sudáfrica",et:"2026-06-18T12:00",v:"Mercedes-Benz, Atlanta",cc:"US"},
- {id:"A4",g:"A",h:"México",a:"Corea Rep.",et:"2026-06-18T23:00",v:"Estadio Akron, Guadalajara",cc:"MX"},
+ {id:"A4",g:"A",h:"México",a:"Corea Rep.",et:"2026-06-18T21:00",v:"Estadio Akron, Guadalajara",cc:"MX"},
  {id:"A5",g:"A",h:"Chequia",a:"México",et:"2026-06-24T21:00",v:"Estadio Azteca, CDMX",cc:"MX"},
  {id:"A6",g:"A",h:"Sudáfrica",a:"Corea Rep.",et:"2026-06-24T21:00",v:"Estadio BBVA, Monterrey",cc:"MX"},
  // GROUP B
@@ -588,14 +597,14 @@ const M = [
  {id:"C1",g:"C",h:"Brasil",a:"Marruecos",et:"2026-06-13T18:00",v:"MetLife, Nueva Jersey",cc:"US"},
  {id:"C2",g:"C",h:"Haití",a:"Escocia",et:"2026-06-13T21:00",v:"Gillette, Foxborough",cc:"US"},
  {id:"C3",g:"C",h:"Escocia",a:"Marruecos",et:"2026-06-19T18:00",v:"Gillette, Foxborough",cc:"US"},
- {id:"C4",g:"C",h:"Brasil",a:"Haití",et:"2026-06-19T21:00",v:"Lincoln Financial, Filadelfia",cc:"US"},
+ {id:"C4",g:"C",h:"Brasil",a:"Haití",et:"2026-06-19T20:30",v:"Lincoln Financial, Filadelfia",cc:"US"},
  {id:"C5",g:"C",h:"Escocia",a:"Brasil",et:"2026-06-24T18:00",v:"Hard Rock, Miami",cc:"US"},
  {id:"C6",g:"C",h:"Marruecos",a:"Haití",et:"2026-06-24T18:00",v:"Mercedes-Benz, Atlanta",cc:"US"},
  // GROUP D
  {id:"D1",g:"D",h:"Estados Unidos",a:"Paraguay",et:"2026-06-12T21:00",v:"SoFi Stadium, Inglewood",cc:"US"},
  {id:"D2",g:"D",h:"Australia",a:"Turquía",et:"2026-06-14T00:00",v:"BC Place, Vancouver",cc:"CA"},
  {id:"D3",g:"D",h:"Estados Unidos",a:"Australia",et:"2026-06-19T15:00",v:"Lumen Field, Seattle",cc:"US"},
- {id:"D4",g:"D",h:"Turquía",a:"Paraguay",et:"2026-06-20T00:00",v:"Levi's Stadium, Santa Clara",cc:"US"},
+ {id:"D4",g:"D",h:"Turquía",a:"Paraguay",et:"2026-06-19T23:00",v:"Levi's Stadium, Santa Clara",cc:"US"},
  {id:"D5",g:"D",h:"Turquía",a:"Estados Unidos",et:"2026-06-25T22:00",v:"SoFi Stadium, Inglewood",cc:"US"},
  {id:"D6",g:"D",h:"Paraguay",a:"Australia",et:"2026-06-25T22:00",v:"Levi's Stadium, Santa Clara",cc:"US"},
  // GROUP E
@@ -613,14 +622,14 @@ const M = [
  {id:"F5",g:"F",h:"Japón",a:"Suecia",et:"2026-06-25T19:00",v:"AT&T Stadium, Arlington",cc:"US"},
  {id:"F6",g:"F",h:"Túnez",a:"Países Bajos",et:"2026-06-25T19:00",v:"Arrowhead, Kansas City",cc:"US"},
  // GROUP G
- {id:"G1",g:"G",h:"Bélgica",a:"Egipto",et:"2026-06-15T18:00",v:"Lumen Field, Seattle",cc:"US"},
- {id:"G2",g:"G",h:"Irán",a:"Nueva Zelanda",et:"2026-06-16T00:00",v:"SoFi Stadium, Inglewood",cc:"US"},
+ {id:"G1",g:"G",h:"Bélgica",a:"Egipto",et:"2026-06-15T15:00",v:"Lumen Field, Seattle",cc:"US"},
+ {id:"G2",g:"G",h:"Irán",a:"Nueva Zelanda",et:"2026-06-15T21:00",v:"SoFi Stadium, Inglewood",cc:"US"},
  {id:"G3",g:"G",h:"Bélgica",a:"Irán",et:"2026-06-21T15:00",v:"SoFi Stadium, Inglewood",cc:"US"},
  {id:"G4",g:"G",h:"Nueva Zelanda",a:"Egipto",et:"2026-06-21T21:00",v:"BC Place, Vancouver",cc:"CA"},
  {id:"G5",g:"G",h:"Egipto",a:"Irán",et:"2026-06-26T23:00",v:"Lumen Field, Seattle",cc:"US"},
  {id:"G6",g:"G",h:"Nueva Zelanda",a:"Bélgica",et:"2026-06-26T23:00",v:"BC Place, Vancouver",cc:"CA"},
  // GROUP H
- {id:"H1",g:"H",h:"España",a:"Cabo Verde",et:"2026-06-15T13:00",v:"Mercedes-Benz, Atlanta",cc:"US"},
+ {id:"H1",g:"H",h:"España",a:"Cabo Verde",et:"2026-06-15T12:00",v:"Mercedes-Benz, Atlanta",cc:"US"},
  {id:"H2",g:"H",h:"Arabia Saudita",a:"Uruguay",et:"2026-06-15T18:00",v:"Hard Rock, Miami",cc:"US"},
  {id:"H3",g:"H",h:"España",a:"Arabia Saudita",et:"2026-06-21T12:00",v:"Mercedes-Benz, Atlanta",cc:"US"},
  {id:"H4",g:"H",h:"Uruguay",a:"Cabo Verde",et:"2026-06-21T18:00",v:"Hard Rock, Miami",cc:"US"},
@@ -720,6 +729,10 @@ function flag(code){
  return `<img class="flagimg" src="https://flagcdn.com/w80/${cc}.png" alt="" loading="lazy">`;
 }
 function fl(team){return flag(T[team].c);}
+
+/* país sede del partido (cc: US/MX/CA) -> chip con bandera */
+const CC={US:{f:"us",n:"EE.UU."},MX:{f:"mx",n:"México"},CA:{f:"ca",n:"Canadá"}};
+function ccChip(cc){const c=CC[cc];return c?`<span class="vc"><img src="https://flagcdn.com/w40/${c.f}.png" alt="">${c.n}</span>`:"";}
 
 /* ============================================================
    TIME
@@ -922,12 +935,16 @@ function probsRow(m){
 }
 function scoreCell(m){
  const r=RESULTS[m.id]; const d=matchDate(m.et); const now=new Date();
- const ended=now>new Date(d.getTime()+2*3600*1000);
+ const live=now>=d && now<new Date(d.getTime()+2*3600*1000) && !r;
  if(r){
   const[h,a]=r;
   return {status:`<span class="m-status st-ft">Final</span>`,
    mid:`<div class="score"><span class="t ${h>a?'win':''}">${h}</span> <span class="vs">·</span> <span class="t ${a>h?'win':''}">${a}</span></div>`,
    hw:h>a,aw:a>h};
+ }
+ if(live){
+  return {status:`<span class="m-status st-live"><span class="lpulse"></span>En vivo</span>`,
+   mid:`<div class="score"><span class="livetxt">En curso</span></div>`,hw:false,aw:false,live:true};
  }
  return {status:`<span class="m-status st-up">${fmtDayShort.format(d)}</span>`,
   mid:`<div class="score"><span class="d">${fmtTime.format(d)}</span><div class="vs" style="font-size:11px;margin-top:2px">vs</div></div>`,hw:false,aw:false};
@@ -936,7 +953,7 @@ function scoreCell(m){
 function matchCard(m){
  const sc=scoreCell(m); const d=matchDate(m.et);
  const isMx=(m.h==="México"||m.a==="México");
- return `<div class="match${isMx?' mx':''}">
+ return `<div class="match${isMx?' mx':''}${sc.live?' live':''}">
    <div class="m-top">
      <span class="m-tag">${isMx?'🇲🇽 ':''}Grupo <b>${m.g}</b> · ${fmtTime.format(d)}</span>
      ${sc.status}
@@ -948,7 +965,7 @@ function matchCard(m){
    </div>
    ${probsRow(m)}
    <div class="m-foot">
-     <span class="venue"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>${m.v}</span></span>
+     <span class="venue"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>${m.v}</span>${ccChip(m.cc)}</span>
      <div class="cal-btns">
        <a class="btn-cal" href="${gcalLink(m)}" target="_blank" rel="noopener">Google Calendar</a>
        <button class="btn-cal" onclick="icsDownload('${m.id}')">Teléfono Calendario</button>
@@ -1195,6 +1212,7 @@ function renderClock(){
 }
 
 function init(){
+ window.scrollTo(0,0);
  renderClock();
  renderFilters();renderPredToggle();
  recalcAll();
@@ -1202,6 +1220,7 @@ function init(){
  setInterval(renderClock,1000);
  setInterval(renderCountdown,30000);
  setInterval(renderNext,30000);
+ setInterval(renderMatches,30000); // refresca estado próximo→en vivo→jugado sin recargar
  // auto results: load now + refresh every 30 min (final scores only, via cached server proxy)
  loadResults();
  setInterval(loadResults,1800000);
