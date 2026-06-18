@@ -527,6 +527,16 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
   .sup-mc{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-size:13px;color:var(--fg-2);background:var(--navy-3);border:1px solid var(--border);border-radius:9px;padding:8px 12px}
   .sup-mc b{color:var(--orange);font-size:15px}
   @media(max-width:560px){.sup-head h3{font-size:24px}.sup-branch{flex-direction:column;gap:5px}.sup-branch .bk{flex-basis:auto}}
+  /* ---- Explícamelo fácil ---- */
+  .sup-explain-btn{display:inline-flex;align-items:center;gap:6px;margin:-8px 0 16px;padding:8px 14px;border-radius:999px;border:1px dashed var(--orange-ring);background:var(--orange-soft);color:var(--orange);font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+  .sup-explain-btn:hover{background:var(--orange);color:#fff;border-style:solid}
+  .sup-explain{display:flex;flex-direction:column;gap:12px;background:var(--navy-3);border:1px solid var(--border);border-radius:13px;padding:16px;margin-bottom:18px}
+  .se-step{display:flex;gap:12px;align-items:flex-start}
+  .se-ic{font-size:20px;flex:0 0 auto;line-height:1.25}
+  .se-step>div{font-size:13.5px;color:var(--fg-1);line-height:1.5}
+  .se-step b{color:var(--white)}
+  .se-note{font-size:12.5px;color:var(--fg-2);line-height:1.5;background:var(--navy-2);border-left:3px solid var(--orange);border-radius:8px;padding:9px 12px}
+  .se-note b{color:var(--orange)}
   /* ---- Partido en vivo en el header ---- */
   .nm-label.nm-live{color:var(--red)}
   .nm-count.nm-live{color:var(--red)}
@@ -1220,7 +1230,7 @@ function slotLabel(s){
 /* ============================================================
    SUPUESTOS — escenarios de clasificación por selección
    ============================================================ */
-let supTeam=null;
+let supTeam=null, supExplain=false;
 
 function teamGroup(team){for(const g in GROUPS)if(GROUPS[g].includes(team))return g;}
 function remGroupMatches(g){return M.filter(m=>m.g===g&&!RESULTS[m.id]).sort((a,b)=>matchDate(a.et)-matchDate(b.et));}
@@ -1283,12 +1293,12 @@ function nextMatchTree(team){
    if(pr.best<=3&&pr.worst>=3)anyThird=true;
    if(pr.bubble)anyBubble=true;
   });
-  let cls,txt,sub="";
-  if(allTop2){cls="in";txt="Avanzas a octavos seguro (1º o 2º).";}
-  else if(anyTop2){cls="mid";txt="Puedes avanzar directo, pero depende de otros partidos.";sub=anyBubble?"Y de tu diferencia de goles si quedas empatado en puntos.":"";}
-  else if(anyThird){cls="mid";txt="Lo más alto sería 3º: solo avanzas por repechaje (mejores terceros).";}
-  else{cls="out";txt="Con este resultado quedas eliminado.";}
-  return {k:d.k,cls,txt,sub};
+  let cls,txt,sub="",plain;
+  if(allTop2){cls="in";txt="Avanzas a octavos seguro (1º o 2º).";plain="pasa directo a la siguiente ronda. Ya nadie podría bajarlo de los 2 primeros. ✅";}
+  else if(anyTop2){cls="mid";txt="Puedes avanzar directo, pero depende de otros partidos.";sub=anyBubble?"Y de tu diferencia de goles si quedas empatado en puntos.":"";plain="todavía puede pasar entre los 2 primeros, pero necesita que otros partidos del grupo le ayuden"+(anyBubble?" y que su diferencia de goles aguante.":".");}
+  else if(anyThird){cls="mid";txt="Lo más alto sería 3º: solo avanzas por repechaje (mejores terceros).";plain="como mucho quedaría 3º; solo seguiría si entra entre los 8 mejores terceros.";}
+  else{cls="out";txt="Con este resultado quedas eliminado.";plain="quedaría eliminado. ❌";}
+  return {k:d.k,cls,txt,sub,plain};
  })};
 }
 
@@ -1317,6 +1327,33 @@ const SUP_VERDICT={
  eliminated:{cls:"v-out",vi:"❌",t:"Sin opciones de avanzar."}
 };
 
+// explicación "peras con peras" — específica para el equipo y su situación
+function plainExplain(team){
+ const g=teamGroup(team), st=groupStandings(g,RESULTS);
+ const myi=st.findIndex(r=>r.t===team), my=st[myi], ov=overallVerdict(team), tree=nextMatchTree(team);
+ const VE={clinched:"🎉",contention:"🤞",thirdonly:"🟡",eliminated:"😔"};
+ const need={
+  clinched:"Ya juntó suficientes puntos: <b>nadie lo puede alcanzar</b> para sacarlo de los 2 primeros. Ya está en la siguiente ronda, juegue como juegue lo que le queda.",
+  contention:"Está en plena pelea: ni asegurado ni eliminado. Lo que pase depende de cómo le vaya en los partidos que le faltan (y a veces de otros del grupo). Abajo está el detalle.",
+  thirdonly:"Ya no puede quedar 1º ni 2º. Su única puerta es colarse como <b>uno de los 8 mejores terceros</b>: juntar los más puntos posibles y esperar que a otros terceros les vaya mal.",
+  eliminated:"Aunque ganara todo lo que le queda, <b>ya no le alcanzan los puntos</b> para entrar. Quedó fuera."
+ };
+ let h=`<div class="sup-explain">`;
+ h+=`<div class="se-step"><span class="se-ic">🥅</span><div><b>Cómo funciona su grupo</b><br>Son 4 equipos y cada uno juega 3 partidos entre ellos. Ganar vale <b>3 puntos</b>, empatar <b>1</b> y perder <b>0</b>. Pasan los <b>2 que más puntos junten</b>. Y sumando los 12 grupos, los <b>8 mejores terceros</b> también siguen. El resto se va a casa.</div></div>`;
+ h+=`<div class="se-step"><span class="se-ic">📍</span><div><b>Cómo va ${team}</b><br>Lleva <b>${my.pts} punto${my.pts===1?'':'s'}</b> en ${my.pj} partido${my.pj===1?'':'s'}. Ahora mismo va <b>${myi+1}º</b> de 4 en el Grupo ${g}.</div></div>`;
+ h+=`<div class="se-step"><span class="se-ic">${VE[ov.state]}</span><div><b>Qué necesita</b><br>${need[ov.state]}</div></div>`;
+ if(tree){
+  h+=`<div class="se-step"><span class="se-ic">⚽</span><div><b>En su próximo partido (vs ${tree.rival})</b><br>`
+   +tree.branches.map(b=>`• Si <b>${b.k.toLowerCase()}</b>: ${b.plain}`).join("<br>")+`</div></div>`;
+ }
+ if(ov.state==="contention"||ov.state==="thirdonly"){
+  h+=`<div class="se-note"><b>¿"Diferencia de goles"?</b> Si dos equipos terminan con los mismos puntos, pasa el que tenga mejor resta entre los goles que metió y los que le metieron. Por eso a veces no basta ganar: importa por cuántos.</div>`;
+  h+=`<div class="se-note"><b>¿"Mejores terceros"?</b> Hay 12 grupos, o sea 12 equipos en 3er lugar, pero solo 8 siguen. Se ordenan por puntos (y diferencia de goles) y los 8 de arriba avanzan.</div>`;
+ }
+ h+=`</div>`;
+ return h;
+}
+
 function renderSupuestos(){
  const pick=$("#supPicker"); if(!pick)return;
  if(!supTeam||!T[supTeam])supTeam="México";
@@ -1343,6 +1380,10 @@ function renderSupPanel(){
    <div class="sup-meta">Grupo <b>${g}</b> · ${my.pj} jugados · <b>${my.pts} pts</b> · DG <b>${my.dg>0?'+':''}${my.dg}</b> · ${myi+1}º actual</div></div></div>`;
 
  h+=`<div class="sup-verdict ${v.cls}"><span class="vi">${v.vi}</span><span>${v.t}${ov.done&&ov.pos?` Terminó <b>${ov.pos}º</b>.`:""}</span></div>`;
+
+ // botón "explícamelo fácil"
+ h+=`<button class="sup-explain-btn" id="supExpBtn">${supExplain?'▲ Ocultar explicación':'🧒 Explícamelo fácil'}</button>`;
+ if(supExplain)h+=plainExplain(team);
 
  // tabla actual del grupo
  h+=`<div class="sup-sub">Cómo va el Grupo ${g}</div>`;
@@ -1389,6 +1430,7 @@ function renderSupPanel(){
  h+=`<div class="sup-note">Los escenarios se calculan por <b>puntos</b>. Cuando aparece "diferencia de goles" significa que un empate en puntos lo decide el marcador exacto, así que el resultado puntual importa. Estructura de cruces de octavos según el fixture oficial; los terceros se asignan al cerrar la fase de grupos.</div>`;
 
  box.innerHTML=h;
+ const eb=$("#supExpBtn"); if(eb)eb.onclick=()=>{supExplain=!supExplain;renderSupPanel();};
 }
 
 /* ============================================================
