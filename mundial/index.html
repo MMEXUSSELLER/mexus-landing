@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MEXUS Seller">
 <meta property="og:title" content="⚽ MEXUS · Mundial 2026 🏆">
-<meta property="og:description" content="Todo el Mundial en un solo lugar: calendario en tu hora, resultados en vivo, probabilidades y recordatorios para no perderte un partido. 🇲🇽">
+<meta property="og:description" content="Todo el Mundial en un solo lugar: calendario en hora de México, resultados en vivo, probabilidades y recordatorios para no perderte un partido. 🇲🇽">
 <meta property="og:url" content="https://www.mexusseller.com/mundial">
 <meta property="og:image" content="https://www.mexusseller.com/assets/og-mundial.png?v=2">
 <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
 <meta property="og:locale" content="es_MX">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="⚽ MEXUS · Mundial 2026 🏆">
-<meta name="twitter:description" content="Todo el Mundial en un solo lugar: calendario en tu hora, resultados en vivo, probabilidades y recordatorios para no perderte un partido. 🇲🇽">
+<meta name="twitter:description" content="Todo el Mundial en un solo lugar: calendario en hora de México, resultados en vivo, probabilidades y recordatorios para no perderte un partido. 🇲🇽">
 <meta name="twitter:image" content="https://www.mexusseller.com/assets/og-mundial.png?v=2">
 <link rel="icon" type="image/svg+xml" href="/mundial/icon.svg?v=1">
 <link rel="icon" type="image/png" sizes="512x512" href="/mundial/icon-512.png?v=1">
@@ -473,7 +473,7 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 
   <section id="partidos" class="active">
     <h2 class="sec-title">Calendario y resultados</h2>
-    <p class="sec-sub">Horarios en tu zona horaria local. Toca <b style="color:var(--orange)">+ Calendar</b> para agregar un partido a Google Calendar.</p>
+    <p class="sec-sub">Horarios en hora del centro de México (CDMX). Toca <b style="color:var(--orange)">+ Calendar</b> para agregar un partido a Google Calendar (se ajusta a tu zona).</p>
     <div class="filters" id="phaseFilters"></div>
     <div id="matchList"></div>
   </section>
@@ -808,10 +808,14 @@ function ccChip(cc){const c=CC[cc];return c?`<span class="vc"><img src="https://
 function matchDate(et){ // et is US Eastern (UTC-4 in summer) -> real Date
  return new Date(et+":00-04:00");
 }
-const fmtTime=new Intl.DateTimeFormat('es-MX',{hour:'numeric',minute:'2-digit',hour12:true});
-const fmtDay =new Intl.DateTimeFormat('es-MX',{weekday:'long',day:'numeric',month:'long'});
-const fmtDayShort=new Intl.DateTimeFormat('es-MX',{day:'numeric',month:'short'});
-const userTZ=Intl.DateTimeFormat().resolvedOptions().timeZone;
+/* Todos los horarios se muestran SIEMPRE en hora del Centro de México (CDMX,
+   UTC-6 todo el año desde que México eliminó el horario de verano en 2022),
+   sin importar la zona del visitante. */
+const MX_TZ='America/Mexico_City';
+const fmtTime=new Intl.DateTimeFormat('es-MX',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:MX_TZ});
+const fmtDay =new Intl.DateTimeFormat('es-MX',{weekday:'long',day:'numeric',month:'long',timeZone:MX_TZ});
+const fmtDayShort=new Intl.DateTimeFormat('es-MX',{day:'numeric',month:'short',timeZone:MX_TZ});
+const dayKey=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:MX_TZ}); // clave de día (YYYY-MM-DD) en CDMX
 
 /* ============================================================
    STANDINGS
@@ -1065,7 +1069,7 @@ function renderMatches(){
  const played=ms.filter(isPast).sort((a,b)=>matchDate(b.et)-matchDate(a.et)); // más reciente primero
  // agrupa por día con su encabezado
  const byDay=arr=>{let h="",lastDay="";arr.forEach(m=>{
-   const d=matchDate(m.et),dk=d.toDateString();
+   const d=matchDate(m.et),dk=dayKey.format(d); // agrupa por día en hora CDMX
    if(dk!==lastDay){lastDay=dk;let lbl=fmtDay.format(d);lbl=lbl.charAt(0).toUpperCase()+lbl.slice(1);h+=`<div class="day-head">${lbl}</div>`;}
    h+=matchCard(m);});return h;};
  let html="";
@@ -1196,9 +1200,19 @@ function renderPred(){
 function pct(x){return (x*100).toFixed(x>=0.1?0:1)+"%";}
 
 /* bracket */
+/* partes de fecha (día/mes/hora) de un instante, en hora CDMX, para las tarjetas del bracket */
+const MX_MON=new Intl.DateTimeFormat('es-MX',{month:'short',timeZone:MX_TZ});
+const MX_DAYNUM=new Intl.DateTimeFormat('en-CA',{day:'2-digit',timeZone:MX_TZ});
+function koDateParts(inst){return {dnum:MX_DAYNUM.format(inst),mon:MX_MON.format(inst).replace('.','').toUpperCase().slice(0,3),time:fmtTime.format(inst)};}
+/* offset UTC de cada sede de eliminatorias (verano 2026; CDMX no usa horario de verano) */
+const KO_OFF={"Houston":-5,"Dallas":-5,"Kansas City":-5,"Filadelfia":-4,"Nueva Jersey":-4,"Atlanta":-4,"Boston":-4,"Miami":-4,"CDMX":-6,"Seattle":-7,"Vancouver":-7,"Los Ángeles":-7};
+function koVenueToMx(m){
+ const off=KO_OFF[m.city]; if(off==null)return {dnum:m.dnum,mon:m.mon,time:m.time};
+ const mon=m.mon==="JUL"?"07":"06", o=(off<0?'-':'+')+String(Math.abs(off)).padStart(2,'0')+':00';
+ return koDateParts(new Date(`2026-${mon}-${String(m.dnum).padStart(2,'0')}T${m.time}:00${o}`));
+}
 function renderBracket(){
  const wrap=$("#bracketView");
- const MES={"06":"JUN","07":"JUL"};
  const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
  const card=m=>`<div class="ko-card">
    <div class="ko-date"><span class="d">${m.dnum}</span><span class="m">${m.mon}</span><span class="t">${m.time}</span></div>
@@ -1208,9 +1222,9 @@ function renderBracket(){
      <div class="ko-team${m.tbd?' tbd':''}">${m.b}</div>
      <div class="ko-venue"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}</div>
    </div></div>`;
- const r32=KO_R32.map(mt=>{const sc=split(mt.v);return {a:slotLabel(mt.a),b:slotLabel(mt.b),tbd:false,dnum:mt.et.slice(8,10),mon:MES[mt.et.slice(5,7)]||"",time:mt.et.slice(11,16),stadium:sc[0],city:sc[1]};});
+ const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et));return {a:slotLabel(mt.a),b:slotLabel(mt.b),tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
  const ROUNDS=[{key:"16avos",name:"16avos",sub:"28 jun – 3 jul · 32 equipos",matches:r32}].concat(
-   KO_ROUNDS.map(rd=>({key:rd.key,name:rd.name,sub:rd.sub,matches:rd.matches.map(m=>Object.assign({},m,{a:"Por definir",b:"Por definir",tbd:true}))})));
+   KO_ROUNDS.map(rd=>({key:rd.key,name:rd.name,sub:rd.sub,matches:rd.matches.map(m=>Object.assign({},m,koVenueToMx(m),{a:"Por definir",b:"Por definir",tbd:true}))})));
  const nav=`<div class="ko-nav">`+ROUNDS.map((r,i)=>`<button class="ko-pill${i?'':' active'}" data-jump="ko-${r.key}">${r.name}</button>`).join("")+`</div>`;
  let body="";
  ROUNDS.forEach(r=>{
@@ -1494,8 +1508,8 @@ function sendContact(e){
 }
 
 function renderClock(){
- const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
- $("#tzbox").innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Hora local <b>${t}</b> · ${userTZ.split('/').pop().replace('_',' ')}`;
+ const t=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:MX_TZ});
+ $("#tzbox").innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Hora <b>${t}</b> · Ciudad de México`;
 }
 
 function init(){
