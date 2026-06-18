@@ -463,6 +463,7 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 <nav><div class="nav-inner" id="tabs">
   <button class="tab active" data-sec="partidos">Partidos</button>
   <button class="tab" data-sec="grupos">Grupos</button>
+  <button class="tab" data-sec="supuestos">Supuestos</button>
   <button class="tab" data-sec="pronosticos">Pronósticos</button>
   <button class="tab" data-sec="bracket">Bracket</button>
   <button class="tab" data-sec="info">Info</button>
@@ -481,6 +482,63 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
     <h2 class="sec-title">Fase de grupos</h2>
     <p class="sec-sub">Tablas en vivo. Avanzan los 2 primeros de cada grupo + los 8 mejores terceros.</p>
     <div class="grid" id="groupGrid"></div>
+  </section>
+
+  <style>
+  /* ---- Supuestos ---- */
+  .sup-pick{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+  .sup-grp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .sup-gl{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--orange-soft);color:var(--orange);font-family:var(--disp);font-weight:700;font-size:14px;flex:0 0 auto}
+  .sup-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px 6px 7px;border-radius:999px;border:1px solid var(--border);background:var(--navy-2);color:var(--fg-2);font-size:13px;cursor:pointer;transition:.15s}
+  .sup-chip:hover{border-color:var(--border-2);color:var(--fg-1)}
+  .sup-chip.active{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:600}
+  .sup-chip .flagimg{width:18px;height:13px;border-radius:2px;object-fit:cover}
+  .sup-panel{background:var(--navy-2);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+  .sup-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .sup-head .flagimg{width:42px;height:30px;border-radius:4px;object-fit:cover}
+  .sup-head h3{font-family:var(--disp);font-size:30px;line-height:1;color:var(--white);font-weight:700;letter-spacing:.5px}
+  .sup-meta{font-size:13px;color:var(--gray-2)}
+  .sup-meta b{color:var(--fg-1)}
+  .sup-verdict{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:11px;font-size:14px;font-weight:600;margin-bottom:18px;line-height:1.35}
+  .sup-verdict .vi{font-size:20px;flex:0 0 auto}
+  .v-in{background:var(--green-soft);color:var(--green);border:1px solid rgba(52,211,153,.3)}
+  .v-mid{background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-ring)}
+  .v-out{background:rgba(248,113,122,.12);color:var(--red);border:1px solid rgba(248,113,122,.3)}
+  .sup-sub{font-family:var(--disp);font-size:18px;letter-spacing:.5px;color:var(--white);margin:20px 0 10px}
+  .sup-rem{display:flex;flex-direction:column;gap:7px}
+  .sup-rem .r{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--fg-1);background:var(--navy-3);border:1px solid var(--border);border-radius:9px;padding:9px 12px}
+  .sup-rem .r .flagimg{width:20px;height:14px;border-radius:2px;object-fit:cover}
+  .sup-rem .r .when{margin-left:auto;color:var(--gray-2);font-size:12px;text-align:right}
+  .sup-tree{display:flex;flex-direction:column;gap:9px}
+  .sup-branch{display:flex;gap:12px;align-items:flex-start;background:var(--navy-3);border:1px solid var(--border);border-radius:11px;padding:12px 14px;border-left:3px solid var(--gray-2)}
+  .sup-branch.b-in{border-left-color:var(--green)}
+  .sup-branch.b-mid{border-left-color:var(--orange)}
+  .sup-branch.b-out{border-left-color:var(--red)}
+  .sup-branch .bk{font-family:var(--disp);font-size:15px;letter-spacing:.4px;flex:0 0 92px;text-transform:uppercase}
+  .sup-branch.b-in .bk{color:var(--green)} .sup-branch.b-mid .bk{color:var(--orange)} .sup-branch.b-out .bk{color:var(--red)}
+  .sup-branch .bt{font-size:13.5px;color:var(--fg-1);line-height:1.4}
+  .sup-branch .bt small{display:block;color:var(--gray-2);font-size:12px;margin-top:3px}
+  .sup-r32{display:flex;flex-direction:column;gap:9px}
+  .sup-r32 .row{background:var(--navy-3);border:1px solid var(--border);border-radius:11px;padding:11px 14px}
+  .sup-r32 .row .seed{font-family:var(--disp);font-size:14px;color:var(--orange);letter-spacing:.4px}
+  .sup-r32 .row .opp{font-size:14px;color:var(--white);font-weight:600;margin-top:2px}
+  .sup-r32 .row .km{font-size:12px;color:var(--gray-2);margin-top:3px}
+  .sup-note{font-size:12.5px;color:var(--gray-2);line-height:1.5;margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+  .sup-mc{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-size:13px;color:var(--fg-2);background:var(--navy-3);border:1px solid var(--border);border-radius:9px;padding:8px 12px}
+  .sup-mc b{color:var(--orange);font-size:15px}
+  @media(max-width:560px){.sup-head h3{font-size:24px}.sup-branch{flex-direction:column;gap:5px}.sup-branch .bk{flex-basis:auto}}
+  /* ---- Partido en vivo en el header ---- */
+  .nm-label.nm-live{color:var(--red)}
+  .nm-count.nm-live{color:var(--red)}
+  .nm-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(248,113,122,.55);animation:livedot 1.4s infinite}
+  @keyframes livedot{0%{box-shadow:0 0 0 0 rgba(248,113,122,.55)}70%{box-shadow:0 0 0 8px rgba(248,113,122,0)}100%{box-shadow:0 0 0 0 rgba(248,113,122,0)}}
+  </style>
+
+  <section id="supuestos">
+    <h2 class="sec-title">Supuestos</h2>
+    <p class="sec-sub">Elige una selección y mira <b style="color:var(--orange)">qué necesita para avanzar</b>: con qué resultados, según los demás partidos, y contra quién jugaría en octavos.</p>
+    <div class="sup-pick" id="supPicker"></div>
+    <div class="sup-panel" id="supPanel"></div>
   </section>
 
   <section id="pronosticos">
@@ -894,7 +952,20 @@ function renderCountdown(){
 function renderNext(){
  const box=$("#nextMatch"); if(!box)return;
  const now=new Date();
- const up=M.map(x=>({m:x,d:matchDate(x.et)})).filter(o=>o.d>now).sort((a,b)=>a.d-b.d);
+ const withD=M.map(x=>({m:x,d:matchDate(x.et)}));
+ // partido en vivo: ya empezó, dentro de la ventana de ~2h y sin marcador final
+ const live=withD.filter(o=>{const end=new Date(o.d.getTime()+2*36e5);return now>=o.d&&now<end&&!RESULTS[o.m.id];}).sort((a,b)=>a.d-b.d);
+ if(live.length){
+  const m=live[0].m,d=live[0].d;
+  let day=fmtDay.format(d); day=day.charAt(0).toUpperCase()+day.slice(1);
+  box.style.display="";
+  box.innerHTML=`<div class="nm-label nm-live"><span class="nm-dot"></span> En vivo ahora</div>`
+   +`<div class="nm-row"><div class="nm-team">${fl(m.h)}<b>${m.h}</b></div><div class="nm-vs">VS</div><div class="nm-team away"><b>${m.a}</b>${fl(m.a)}</div></div>`
+   +`<div class="nm-meta">Grupo ${m.g} · comenzó ${fmtTime.format(d)} · ${m.v}</div>`
+   +`<div class="nm-count nm-live">● Partido en curso</div>`;
+  return;
+ }
+ const up=withD.filter(o=>o.d>now).sort((a,b)=>a.d-b.d);
  if(!up.length){box.style.display="none";box.innerHTML="";return;}
  box.style.display="";
  const m=up[0].m,d=up[0].d,diff=d-now;
@@ -1147,6 +1218,180 @@ function slotLabel(s){
 }
 
 /* ============================================================
+   SUPUESTOS — escenarios de clasificación por selección
+   ============================================================ */
+let supTeam=null;
+
+function teamGroup(team){for(const g in GROUPS)if(GROUPS[g].includes(team))return g;}
+function remGroupMatches(g){return M.filter(m=>m.g===g&&!RESULTS[m.id]).sort((a,b)=>matchDate(a.et)-matchDate(b.et));}
+
+// puntos base (solo partidos ya jugados con resultado real)
+function basePts(g){
+ const pm={}; GROUPS[g].forEach(t=>pm[t]=0);
+ M.filter(m=>m.g===g&&RESULTS[m.id]).forEach(m=>{
+  const[hg,ag]=RESULTS[m.id];
+  if(hg>ag)pm[m.h]+=3;else if(hg<ag)pm[m.a]+=3;else{pm[m.h]++;pm[m.a]++;}
+ });
+ return pm;
+}
+// rango de posición de `team` por PUNTOS dado el mapa de puntos finales
+function posRange(pm,team){
+ const p=pm[team]; let above=0,equal=0;
+ for(const t in pm){if(t===team)continue; if(pm[t]>p)above++; else if(pm[t]===p)equal++;}
+ return {best:above+1, worst:above+equal+1, bubble: above<2 && (above+equal)>=2};
+}
+// recorre las 3^n combinaciones de resultados (0 gana local, 1 empate, 2 gana visita)
+function eachOutcome(n,cb){
+ const out=new Array(n).fill(0), total=Math.pow(3,n);
+ for(let k=0;k<total;k++){let x=k;for(let i=0;i<n;i++){out[i]=x%3;x=(x/3)|0;}cb(out);}
+}
+function applyTo(pm,m,o){if(o===0)pm[m.h]+=3;else if(o===2)pm[m.a]+=3;else{pm[m.h]++;pm[m.a]++;}}
+
+// veredicto global enumerando TODO lo que falta del grupo
+function overallVerdict(team){
+ const g=teamGroup(team), rem=remGroupMatches(g);
+ if(rem.length===0){
+  const st=groupStandings(g,RESULTS), pos=st.findIndex(r=>r.t===team)+1;
+  return {state: pos<=2?"clinched":pos===3?"thirdonly":"eliminated", pos, done:true};
+ }
+ const base=basePts(g);
+ let allTop2=true,anyTop2=false,anyThird=false;
+ eachOutcome(rem.length,out=>{
+  const pm=Object.assign({},base); rem.forEach((m,i)=>applyTo(pm,m,out[i]));
+  const pr=posRange(pm,team);
+  if(pr.worst>2)allTop2=false;
+  if(pr.best<=2)anyTop2=true;
+  if(pr.best<=3&&pr.worst>=3)anyThird=true;
+ });
+ return {state: allTop2?"clinched":anyTop2?"contention":anyThird?"thirdonly":"eliminated"};
+}
+
+// árbol de decisión del PRÓXIMO partido del equipo
+function nextMatchTree(team){
+ const g=teamGroup(team), rem=remGroupMatches(g);
+ const nm=rem.find(m=>m.h===team||m.a===team); if(!nm)return null;
+ const rest=rem.filter(m=>m!==nm), base=basePts(g), home=nm.h===team;
+ const rival=home?nm.a:nm.h;
+ const defs=[{k:"Gana",oc:home?0:2},{k:"Empata",oc:1},{k:"Pierde",oc:home?2:0}];
+ return {rival, nm, branches: defs.map(d=>{
+  let allTop2=true,anyTop2=false,anyThird=false,anyBubble=false;
+  eachOutcome(rest.length,out=>{
+   const pm=Object.assign({},base); applyTo(pm,nm,d.oc); rest.forEach((m,i)=>applyTo(pm,m,out[i]));
+   const pr=posRange(pm,team);
+   if(pr.worst>2)allTop2=false;
+   if(pr.best<=2)anyTop2=true;
+   if(pr.best<=3&&pr.worst>=3)anyThird=true;
+   if(pr.bubble)anyBubble=true;
+  });
+  let cls,txt,sub="";
+  if(allTop2){cls="in";txt="Avanzas a octavos seguro (1º o 2º).";}
+  else if(anyTop2){cls="mid";txt="Puedes avanzar directo, pero depende de otros partidos.";sub=anyBubble?"Y de tu diferencia de goles si quedas empatado en puntos.":"";}
+  else if(anyThird){cls="mid";txt="Lo más alto sería 3º: solo avanzas por repechaje (mejores terceros).";}
+  else{cls="out";txt="Con este resultado quedas eliminado.";}
+  return {k:d.k,cls,txt,sub};
+ })};
+}
+
+// cruce de octavos (R32) según en qué puesto termine el grupo
+function slotText(s){
+ if(s.t==="3")return `un 3º lugar (de ${s.g.join("/")})`;
+ return `${s.t==="1"?"1º":"2º"} del Grupo ${s.g}`;
+}
+function koMeta(mt){let d=fmtDay.format(matchDate(mt.et));d=d.charAt(0).toUpperCase()+d.slice(1);return `${d} · ${fmtTime.format(matchDate(mt.et))} · ${mt.v}`;}
+function r32For(g){
+ const r={one:null,two:null,three:[]};
+ KO_R32.forEach(mt=>{
+  [[mt.a,mt.b],[mt.b,mt.a]].forEach(([slot,opp])=>{
+   if(slot.g===g&&slot.t==="1")r.one={mt,opp};
+   else if(slot.g===g&&slot.t==="2")r.two={mt,opp};
+   else if(slot.t==="3"&&Array.isArray(slot.g)&&slot.g.includes(g))r.three.push({mt,opp});
+  });
+ });
+ return r;
+}
+
+const SUP_VERDICT={
+ clinched:{cls:"v-in",vi:"✅",t:"Ya clasificado a octavos."},
+ contention:{cls:"v-mid",vi:"🟠",t:"En la pelea por avanzar — todo por definir."},
+ thirdonly:{cls:"v-mid",vi:"🟡",t:"Ya no puede ser 1º ni 2º: solo avanza como mejor tercero."},
+ eliminated:{cls:"v-out",vi:"❌",t:"Sin opciones de avanzar."}
+};
+
+function renderSupuestos(){
+ const pick=$("#supPicker"); if(!pick)return;
+ if(!supTeam||!T[supTeam])supTeam="México";
+ let ph="";
+ for(const g in GROUPS){
+  ph+=`<div class="sup-grp"><span class="sup-gl">${g}</span>`;
+  GROUPS[g].forEach(t=>{ph+=`<button class="sup-chip${t===supTeam?' active':''}" data-team="${t}">${fl(t)}<span>${t}</span></button>`;});
+  ph+=`</div>`;
+ }
+ pick.innerHTML=ph;
+ pick.querySelectorAll(".sup-chip").forEach(b=>b.onclick=()=>{supTeam=b.dataset.team;renderSupuestos();});
+ renderSupPanel();
+}
+
+function renderSupPanel(){
+ const box=$("#supPanel"); if(!box)return;
+ const team=supTeam, g=teamGroup(team);
+ const st=groupStandings(g,RESULTS);
+ const myi=st.findIndex(r=>r.t===team), my=st[myi];
+ const ov=overallVerdict(team), v=SUP_VERDICT[ov.state];
+ const rem=remGroupMatches(g), teamRem=rem.filter(m=>m.h===team||m.a===team);
+
+ let h=`<div class="sup-head">${fl(team)}<div><h3>${team}</h3>
+   <div class="sup-meta">Grupo <b>${g}</b> · ${my.pj} jugados · <b>${my.pts} pts</b> · DG <b>${my.dg>0?'+':''}${my.dg}</b> · ${myi+1}º actual</div></div></div>`;
+
+ h+=`<div class="sup-verdict ${v.cls}"><span class="vi">${v.vi}</span><span>${v.t}${ov.done&&ov.pos?` Terminó <b>${ov.pos}º</b>.`:""}</span></div>`;
+
+ // tabla actual del grupo
+ h+=`<div class="sup-sub">Cómo va el Grupo ${g}</div>`;
+ h+=`<div class="gcard" style="box-shadow:none"><table class="gtable"><thead><tr><th class="tl">Equipo</th><th>PJ</th><th>DG</th><th>Pts</th></tr></thead><tbody>`;
+ st.forEach((r,i)=>{
+  const cls=i===0?"q1":i===1?"q2":i===2?"q3":"";
+  const me=r.t===team?'style="outline:2px solid var(--orange);outline-offset:-2px"':"";
+  h+=`<tr class="${cls}" ${me}><td class="team"><span class="pos">${i+1}</span> <span class="flag">${fl(r.t)}</span>${r.t}</td><td>${r.pj}</td><td>${r.dg>0?'+':''}${r.dg}</td><td class="pts">${r.pts}</td></tr>`;
+ });
+ h+=`</tbody></table></div>`;
+
+ // partidos que le faltan
+ if(teamRem.length){
+  h+=`<div class="sup-sub">Le faltan ${teamRem.length} partido${teamRem.length>1?'s':''}</div><div class="sup-rem">`;
+  teamRem.forEach(m=>{const riv=m.h===team?m.a:m.h, loc=m.h===team?"(local)":"(visita)";let d=fmtDayShort.format(matchDate(m.et));
+   h+=`<div class="r">${fl(riv)} vs <b>${riv}</b> <span style="color:var(--gray-2)">${loc}</span><span class="when">${d} · ${fmtTime.format(matchDate(m.et))}</span></div>`;});
+  h+=`</div>`;
+ }
+
+ // árbol del próximo partido
+ const tree=nextMatchTree(team);
+ if(tree){
+  h+=`<div class="sup-sub">Si tu próximo partido (vs ${tree.rival})…</div><div class="sup-tree">`;
+  tree.branches.forEach(b=>{h+=`<div class="sup-branch b-${b.cls}"><span class="bk">${b.k}</span><span class="bt">${b.txt}${b.sub?`<small>${b.sub}</small>`:""}</span></div>`;});
+  h+=`</div>`;
+ }
+
+ // con quién jugaría en octavos
+ if(ov.state!=="eliminated"){
+  const r=r32For(g);
+  h+=`<div class="sup-sub">¿Contra quién en octavos?</div><div class="sup-r32">`;
+  if(r.one)h+=`<div class="row"><div class="seed">Si terminas 1º del Grupo ${g}</div><div class="opp">vs ${slotText(r.one.opp)}</div><div class="km">${koMeta(r.one.mt)}</div></div>`;
+  if(r.two)h+=`<div class="row"><div class="seed">Si terminas 2º del Grupo ${g}</div><div class="opp">vs ${slotText(r.two.opp)}</div><div class="km">${koMeta(r.two.mt)}</div></div>`;
+  if(r.three.length){
+   const venues=r.three.map(x=>koMeta(x.mt)).join(" · ");
+   h+=`<div class="row"><div class="seed">Si terminas 3º del Grupo ${g}</div><div class="opp">Solo avanzas entre los 8 mejores terceros</div><div class="km">Tu cruce dependería de qué grupos aporten terceros. Posibles sedes: ${venues}</div></div>`;
+  }
+  h+=`</div>`;
+ }
+
+ // probabilidad por simulación (si ya corrió)
+ if(MC&&MC[team]){h+=`<div class="sup-mc">Probabilidad de avanzar (simulación 6,000 torneos): <b>${pct(MC[team].adv)}</b></div>`;}
+
+ h+=`<div class="sup-note">Los escenarios se calculan por <b>puntos</b>. Cuando aparece "diferencia de goles" significa que un empate en puntos lo decide el marcador exacto, así que el resultado puntual importa. Estructura de cruces de octavos según el fixture oficial; los terceros se asignan al cerrar la fase de grupos.</div>`;
+
+ box.innerHTML=h;
+}
+
+/* ============================================================
    TABS + INIT
    ============================================================ */
 $("#tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
@@ -1156,9 +1401,9 @@ $("#tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
 });
 
 function recalcAll(){
- renderCountdown();renderMatches();renderGroups();renderBracket();
+ renderCountdown();renderNext();renderMatches();renderGroups();renderBracket();renderSupuestos();
  MC=null;renderPred();
- setTimeout(()=>runMonteCarlo(6000,st=>{MC=st;renderPred();}),60);
+ setTimeout(()=>runMonteCarlo(6000,st=>{MC=st;renderPred();renderSupuestos();}),60);
 }
 
 /* ---- Auto results from football-data.org via our cached server proxy ---- */
