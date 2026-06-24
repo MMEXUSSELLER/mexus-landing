@@ -276,6 +276,37 @@ table{width:100%;border-collapse:collapse}
 .ko-vs{font-family:var(--mono);font-size:9px;color:var(--gray-2);margin:1px 0 1px 1px}
 .ko-venue{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--gray-2);margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
 .ko-venue .pin{color:var(--orange);font-style:normal}
+.ko-clk{cursor:pointer}
+.ko-clk:active{transform:scale(.992)}
+.ko-tap{margin-left:auto;flex:0 0 auto;color:var(--orange);background:var(--orange-soft);border:1px solid var(--orange-ring);border-radius:999px;padding:2px 8px;font-size:9.5px;letter-spacing:.03em;white-space:nowrap}
+
+/* detalle de partido (lugar, hora, probabilidad) */
+.ko-modal{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;justify-content:center;background:rgba(4,7,12,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.ko-modal.on{display:flex;animation:kdfade .18s ease}
+@keyframes kdfade{from{opacity:0}to{opacity:1}}
+.kd-sheet{position:relative;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;background:var(--navy-2);border:1px solid var(--border-2);border-radius:18px 18px 0 0;padding:22px 18px 26px;animation:kdup .22s cubic-bezier(.22,1,.36,1)}
+@keyframes kdup{from{transform:translateY(28px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.kd-close{position:absolute;top:13px;right:13px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--navy-3);color:var(--fg-2);font-size:13px;cursor:pointer;line-height:1}
+.kd-round{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:20px;color:var(--orange);margin-bottom:14px}
+.kd-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.kd-mi{display:flex;gap:9px;background:var(--navy-3);border:1px solid var(--border);border-radius:11px;padding:10px 11px}
+.kd-ic{font-size:16px;line-height:1.3}
+.kd-mi div{min-width:0;font-family:var(--mono);font-size:11px;color:var(--fg-1);line-height:1.4}
+.kd-mi b{display:block;font-family:var(--body);font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-2);margin-bottom:2px}
+.kd-mi small{color:var(--gray-2)}
+.kd-cap{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:13px;color:var(--fg-1);margin-bottom:11px}
+.kd-cap small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--gray-2);text-transform:none;letter-spacing:0;font-weight:400;margin-top:2px}
+.kd-sides{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:420px){.kd-sides{grid-template-columns:1fr}.kd-meta{grid-template-columns:1fr}}
+.kd-side-h{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:7px}
+.kd-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;margin-bottom:8px}
+.kd-fl{font-size:13px}.kd-fl .flagimg{height:.95em}
+.kd-tn{font-family:var(--disp);font-weight:600;text-transform:uppercase;font-size:12px;color:var(--fg-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kd-pv{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg-1);text-align:right}
+.kd-bar{grid-column:1/-1;height:4px;background:var(--navy-4);border-radius:3px;overflow:hidden}
+.kd-bar i{display:block;height:100%;background:var(--orange);border-radius:3px}
+.kd-note,.kd-empty{font-family:var(--body);font-size:13px;color:var(--fg-2);background:var(--navy-3);border:1px solid var(--border);border-radius:11px;padding:13px 14px;line-height:1.5}
+.kd-empty{font-size:11.5px;padding:9px 10px}
 
 /* info / footer */
 .prose{max-width:720px}
@@ -883,6 +914,9 @@ function koWinner(h,a){
 
 function runMonteCarlo(N,done){
  const stat={}; Object.keys(T).forEach(t=>stat[t]={win:0,sec:0,adv:0,r16:0,qf:0,sf:0,fin:0,champ:0});
+ // ocupación por casilla del cuadro: slot[ronda][nºpartido][lado] = {equipo:conteo}
+ const slot={'16avos':[],octavos:[],cuartos:[],semis:[],final:[]};
+ const bump=(rd,mi,side,t)=>{if(!t)return;const a=slot[rd];if(!a[mi])a[mi]=[{},{}];a[mi][side][t]=(a[mi][side][t]||0)+1;};
  let i=0;
  function chunk(){
   const end=Math.min(i+500,N);
@@ -899,23 +933,31 @@ function runMonteCarlo(N,done){
    const pool=ranked.map(x=>({t:x.t,grp:x.grp}));
    // build R32 participants in listed order
    const r32=KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
+   r32.forEach((pr,j)=>{bump('16avos',j,0,pr[0]);bump('16avos',j,1,pr[1]);});
    // R32 -> winners (these teams reached R32 already counted via adv); now knockout rounds
-   let round=r32.map(([h,a])=>koWinner(h,a)); // winners of R32 = into R16 (16 teams)
+   let round=r32.map(([h,a])=>koWinner(h,a)); // winners of R32 = into R16/octavos (16 teams)
    round.forEach(t=>{if(t)stat[t].r16++;});
-   // R16
+   for(let j=0;2*j+1<round.length;j++){bump('octavos',j,0,round[2*j]);bump('octavos',j,1,round[2*j+1]);}
+   // R16 (octavos)
    let nxt=[];for(let k=0;k<round.length;k+=2)nxt.push(koWinner(round[k],round[k+1]));
-   nxt.forEach(t=>{if(t)stat[t].qf++;}); round=nxt;
-   // QF
+   nxt.forEach(t=>{if(t)stat[t].qf++;});
+   for(let j=0;2*j+1<nxt.length;j++){bump('cuartos',j,0,nxt[2*j]);bump('cuartos',j,1,nxt[2*j+1]);}
+   round=nxt;
+   // QF (cuartos)
    nxt=[];for(let k=0;k<round.length;k+=2)nxt.push(koWinner(round[k],round[k+1]));
-   nxt.forEach(t=>{if(t)stat[t].sf++;}); round=nxt;
-   // SF
+   nxt.forEach(t=>{if(t)stat[t].sf++;});
+   for(let j=0;2*j+1<nxt.length;j++){bump('semis',j,0,nxt[2*j]);bump('semis',j,1,nxt[2*j+1]);}
+   round=nxt;
+   // SF (semis)
    nxt=[];for(let k=0;k<round.length;k+=2)nxt.push(koWinner(round[k],round[k+1]));
-   nxt.forEach(t=>{if(t)stat[t].fin++;}); round=nxt;
+   nxt.forEach(t=>{if(t)stat[t].fin++;});
+   bump('final',0,0,nxt[0]);bump('final',0,1,nxt[1]);
+   round=nxt;
    // Final
    const champ=koWinner(round[0],round[1]); if(champ)stat[champ].champ++;
   }
   if(i<N){setTimeout(chunk,0);}
-  else{for(const t in stat)for(const k in stat[t])stat[t][k]/=N; done(stat);}
+  else{for(const t in stat)for(const k in stat[t])stat[t][k]/=N; MC_SLOT={slot,N}; done(stat);}
  }
  chunk();
 }
@@ -1104,7 +1146,7 @@ function renderGroups(){
 }
 
 /* predictions */
-let MC=null, predMode="proj";
+let MC=null, MC_SLOT=null, KO_CARDS={}, predMode="proj";
 const PRED_MODES=[["proj","Cómo quedarán"],["adv","Avanzar a eliminatorias"],["win","Ganar su grupo"],["champ","Ser campeón"]];
 function renderPredToggle(){
  $("#predToggle").innerHTML=PRED_MODES.map(([k,l])=>
@@ -1242,14 +1284,18 @@ function bracketTeams(){
 function renderBracket(){
  const wrap=$("#bracketView");
  const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
- const card=m=>`<div class="ko-card">
+ KO_CARDS={};
+ const card=(m,rd,idx,rname)=>{
+  KO_CARDS[rd+"|"+idx]={rd,idx,name:rname,stadium:m.stadium,city:m.city,dnum:m.dnum,mon:m.mon,time:m.time,decided:!m.tbd};
+  return `<div class="ko-card ko-clk" data-rd="${rd}" data-mi="${idx}">
    <div class="ko-date"><span class="d">${m.dnum}</span><span class="m">${m.mon}</span><span class="t">${m.time}</span></div>
    <div class="ko-body">
      <div class="ko-team${m.tbd?' tbd':''}">${m.a}</div>
      <div class="ko-vs">vs</div>
      <div class="ko-team${m.tbd?' tbd':''}">${m.b}</div>
-     <div class="ko-venue"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}</div>
+     <div class="ko-venue"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}<span class="ko-tap">📊 probabilidad</span></div>
    </div></div>`;
+ };
  const BT=bracketTeams();
  const realFor=(mt,side,slot)=>slot.t==="3"?BT.thirdSlot[mt.id+side]:BT.pos[slot.g+slot.t];
  const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et));return {a:slotLabel(mt.a,realFor(mt,"a",mt.a)),b:slotLabel(mt.b,realFor(mt,"b",mt.b)),tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
@@ -1258,13 +1304,57 @@ function renderBracket(){
  const nav=`<div class="ko-nav">`+ROUNDS.map((r,i)=>`<button class="ko-pill${i?'':' active'}" data-jump="ko-${r.key}">${r.name}</button>`).join("")+`</div>`;
  let body="";
  ROUNDS.forEach(r=>{
-  body+=`<div class="ko-round" id="ko-${r.key}"><div class="ko-round-head"><h4>${r.name}</h4><span>${r.sub}</span></div><div class="ko-grid">${r.matches.map(card).join("")}</div></div>`;
+  body+=`<div class="ko-round" id="ko-${r.key}"><div class="ko-round-head"><h4>${r.name}</h4><span>${r.sub}</span></div><div class="ko-grid">${r.matches.map((m,idx)=>card(m,r.key,idx,r.name)).join("")}</div></div>`;
  });
  wrap.innerHTML=nav+body;
  wrap.querySelectorAll(".ko-pill").forEach(p=>p.onclick=()=>{
   wrap.querySelectorAll(".ko-pill").forEach(x=>x.classList.remove("active"));p.classList.add("active");
   const el=document.getElementById(p.dataset.jump);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
  });
+ wrap.querySelectorAll(".ko-clk").forEach(c=>c.onclick=()=>openKoDetail(c.dataset.rd,+c.dataset.mi));
+}
+
+/* ---- detalle de un partido del cuadro: lugar, hora y probabilidad de quién juega ---- */
+function koSideProbs(rd,mi,side){
+ if(!MC_SLOT||!MC_SLOT.slot[rd]||!MC_SLOT.slot[rd][mi])return null;
+ const m=MC_SLOT.slot[rd][mi][side]; const N=MC_SLOT.N;
+ return Object.keys(m).map(t=>({t,p:m[t]/N})).sort((a,b)=>b.p-a.p).slice(0,5);
+}
+function koSideHtml(rows){
+ if(!rows||!rows.length)return `<div class="kd-empty">Aún sin datos suficientes.</div>`;
+ return rows.map(r=>`<div class="kd-row"><span class="kd-fl">${fl(r.t)}</span><span class="kd-tn">${r.t}</span>
+   <span class="kd-pv">${pct(r.p)}</span><div class="kd-bar"><i style="width:${Math.max(3,r.p*100).toFixed(1)}%"></i></div></div>`).join("");
+}
+function openKoDetail(rd,mi){
+ const info=KO_CARDS[rd+"|"+mi]; if(!info)return;
+ let mo=$("#koModal");
+ if(!mo){mo=document.createElement("div");mo.id="koModal";mo.className="ko-modal";document.body.appendChild(mo);
+  mo.addEventListener("click",e=>{if(e.target===mo||e.target.classList.contains("kd-close"))mo.classList.remove("on");});}
+ const tracked=!!(MC_SLOT&&MC_SLOT.slot[rd]);
+ const a=koSideProbs(rd,mi,0), b=koSideProbs(rd,mi,1);
+ const venue=`${info.stadium}${info.city?' · '+info.city:''}`;
+ let probBlock;
+ if(info.decided){
+  probBlock=`<div class="kd-note">Este cruce ya está confirmado por los resultados. Toca un equipo en el cuadro para su camino completo.</div>`;
+ }else if(!MC_SLOT){
+  probBlock=`<div class="kd-note"><span class="spin"></span> Calculando probabilidades…</div>`;
+ }else if(!tracked){
+  probBlock=`<div class="kd-note">El tercer lugar lo juegan los perdedores de semifinales; se define sobre la marcha.</div>`;
+ }else{
+  probBlock=`<div class="kd-cap">Quién es más probable que juegue aquí <small>(simulación de 6,000 torneos)</small></div>
+   <div class="kd-sides">
+     <div class="kd-side"><div class="kd-side-h">Local</div>${koSideHtml(a)}</div>
+     <div class="kd-side"><div class="kd-side-h">Visitante</div>${koSideHtml(b)}</div>
+   </div>`;
+ }
+ mo.innerHTML=`<div class="kd-sheet">
+   <button class="kd-close" aria-label="Cerrar">✕</button>
+   <div class="kd-round">${info.name}</div>
+   <div class="kd-meta"><div class="kd-mi"><span class="kd-ic">🕐</span><div><b>Hora</b>${info.dnum} ${info.mon} · ${info.time} <small>(CDMX)</small></div></div>
+     <div class="kd-mi"><span class="kd-ic">📍</span><div><b>Lugar</b>${venue}</div></div></div>
+   ${probBlock}
+ </div>`;
+ mo.classList.add("on");
 }
 function slotLabel(s,real){
  if(real)return `${fl(real)}${real}`;
