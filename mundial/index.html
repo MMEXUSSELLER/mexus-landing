@@ -546,7 +546,7 @@ footer{border-top:1px solid var(--border);background:var(--navy-3);padding:26px 
 
   <section id="supuestos">
     <h2 class="sec-title">Supuestos</h2>
-    <p class="sec-sub">Elige una selección y mira <b style="color:var(--orange)">qué necesita para avanzar</b>: con qué resultados, según los demás partidos, y contra quién jugaría en octavos.</p>
+    <p class="sec-sub">Elige una selección y mira <b style="color:var(--orange)">qué necesita para avanzar</b>: con qué resultados, según los demás partidos, y contra quién jugaría en 16avos.</p>
     <div class="sup-pick" id="supPicker"></div>
     <div class="sup-panel" id="supPanel"></div>
   </section>
@@ -1211,6 +1211,34 @@ function koVenueToMx(m){
  const mon=m.mon==="JUL"?"07":"06", o=(off<0?'-':'+')+String(Math.abs(off)).padStart(2,'0')+':00';
  return koDateParts(new Date(`2026-${mon}-${String(m.dnum).padStart(2,'0')}T${m.time}:00${o}`));
 }
+/* Resuelve los equipos reales del cuadro de 16avos en cuanto cierran los grupos:
+   1º/2º apenas el grupo juega sus 6 partidos; 3º (mejores terceros) hasta que los 12
+   grupos cerraron. Octavos en adelante dependen de resultados de eliminatoria (fase 2). */
+function bracketTeams(){
+ const pos={}; // pos["A1"], pos["A2"] -> equipo real
+ const allDone=Object.keys(GROUPS).every(g=>remGroupMatches(g).length===0);
+ for(const g in GROUPS){
+  if(remGroupMatches(g).length===0){
+   const st=groupStandings(g,RESULTS);
+   if(st[0])pos[g+"1"]=st[0].t; if(st[1])pos[g+"2"]=st[1].t;
+  }
+ }
+ const thirdSlot={}; // matchId+lado ("a"/"b") -> equipo tercero asignado
+ if(allDone){
+  const thirds=[];
+  for(const g in GROUPS){const r=groupStandings(g,RESULTS)[2]; if(r)thirds.push({t:r.t,grp:g,pts:r.pts,dg:r.dg,gf:r.gf});}
+  thirds.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||(T[b.t].s-T[a.t].s));
+  const pool=thirds.slice(0,8).map(x=>({t:x.t,grp:x.grp}));
+  KO_R32.forEach(mt=>{
+   [["a",mt.a],["b",mt.b]].forEach(([side,slot])=>{
+    if(slot.t!=="3")return;
+    let i=pool.findIndex(p=>slot.g.includes(p.grp)); if(i<0&&pool.length)i=0;
+    if(i>=0)thirdSlot[mt.id+side]=pool.splice(i,1)[0].t;
+   });
+  });
+ }
+ return {pos,thirdSlot};
+}
 function renderBracket(){
  const wrap=$("#bracketView");
  const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
@@ -1222,7 +1250,9 @@ function renderBracket(){
      <div class="ko-team${m.tbd?' tbd':''}">${m.b}</div>
      <div class="ko-venue"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}</div>
    </div></div>`;
- const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et));return {a:slotLabel(mt.a),b:slotLabel(mt.b),tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
+ const BT=bracketTeams();
+ const realFor=(mt,side,slot)=>slot.t==="3"?BT.thirdSlot[mt.id+side]:BT.pos[slot.g+slot.t];
+ const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et));return {a:slotLabel(mt.a,realFor(mt,"a",mt.a)),b:slotLabel(mt.b,realFor(mt,"b",mt.b)),tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
  const ROUNDS=[{key:"16avos",name:"16avos",sub:"28 jun – 3 jul · 32 equipos",matches:r32}].concat(
    KO_ROUNDS.map(rd=>({key:rd.key,name:rd.name,sub:rd.sub,matches:rd.matches.map(m=>Object.assign({},m,koVenueToMx(m),{a:"Por definir",b:"Por definir",tbd:true}))})));
  const nav=`<div class="ko-nav">`+ROUNDS.map((r,i)=>`<button class="ko-pill${i?'':' active'}" data-jump="ko-${r.key}">${r.name}</button>`).join("")+`</div>`;
@@ -1236,7 +1266,8 @@ function renderBracket(){
   const el=document.getElementById(p.dataset.jump);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
  });
 }
-function slotLabel(s){
+function slotLabel(s,real){
+ if(real)return `${fl(real)}${real}`;
  if(s.t==="3")return `<span style="color:var(--gray-2)">3º (${s.g.join("/")})</span>`;
  return `<span style="color:var(--gray-2)">${s.t==="1"?"1º":"2º"} Grupo ${s.g}</span>`;
 }
@@ -1308,7 +1339,7 @@ function nextMatchTree(team){
    if(pr.bubble)anyBubble=true;
   });
   let cls,txt,sub="",plain;
-  if(allTop2){cls="in";txt="Avanzas a octavos seguro (1º o 2º).";plain="pasa directo a la siguiente ronda. Ya nadie podría bajarlo de los 2 primeros. ✅";}
+  if(allTop2){cls="in";txt="Avanzas a 16avos seguro (1º o 2º).";plain="pasa directo a la siguiente ronda. Ya nadie podría bajarlo de los 2 primeros. ✅";}
   else if(anyTop2){cls="mid";txt="Puedes avanzar directo, pero depende de otros partidos.";sub=anyBubble?"Y de tu diferencia de goles si quedas empatado en puntos.":"";plain="todavía puede pasar entre los 2 primeros, pero necesita que otros partidos del grupo le ayuden"+(anyBubble?" y que su diferencia de goles aguante.":".");}
   else if(anyThird){cls="mid";txt="Lo más alto sería 3º: solo avanzas por repechaje (mejores terceros).";plain="como mucho quedaría 3º; solo seguiría si entra entre los 8 mejores terceros.";}
   else{cls="out";txt="Con este resultado quedas eliminado.";plain="quedaría eliminado. ❌";}
@@ -1316,7 +1347,7 @@ function nextMatchTree(team){
  })};
 }
 
-// cruce de octavos (R32) según en qué puesto termine el grupo
+// cruce de 16avos (R32, primera ronda de eliminación en el formato de 48) según en qué puesto termine el grupo
 function slotText(s){
  if(s.t==="3")return `un 3º lugar (de ${s.g.join("/")})`;
  return `${s.t==="1"?"1º":"2º"} del Grupo ${s.g}`;
@@ -1335,7 +1366,7 @@ function r32For(g){
 }
 
 const SUP_VERDICT={
- clinched:{cls:"v-in",vi:"✅",t:"Ya clasificado a octavos."},
+ clinched:{cls:"v-in",vi:"✅",t:"Ya clasificado a 16avos."},
  contention:{cls:"v-mid",vi:"🟠",t:"En la pelea por avanzar — todo por definir."},
  thirdonly:{cls:"v-mid",vi:"🟡",t:"Ya no puede ser 1º ni 2º: solo avanza como mejor tercero."},
  eliminated:{cls:"v-out",vi:"❌",t:"Sin opciones de avanzar."}
@@ -1425,10 +1456,10 @@ function renderSupPanel(){
   h+=`</div>`;
  }
 
- // con quién jugaría en octavos
+ // con quién jugaría en 16avos
  if(ov.state!=="eliminated"){
   const r=r32For(g);
-  h+=`<div class="sup-sub">¿Contra quién en octavos?</div><div class="sup-r32">`;
+  h+=`<div class="sup-sub">¿Contra quién en 16avos?</div><div class="sup-r32">`;
   if(r.one)h+=`<div class="row"><div class="seed">Si terminas 1º del Grupo ${g}</div><div class="opp">vs ${slotText(r.one.opp)}</div><div class="km">${koMeta(r.one.mt)}</div></div>`;
   if(r.two)h+=`<div class="row"><div class="seed">Si terminas 2º del Grupo ${g}</div><div class="opp">vs ${slotText(r.two.opp)}</div><div class="km">${koMeta(r.two.mt)}</div></div>`;
   if(r.three.length){
@@ -1441,7 +1472,7 @@ function renderSupPanel(){
  // probabilidad por simulación (si ya corrió)
  if(MC&&MC[team]){h+=`<div class="sup-mc">Probabilidad de avanzar (simulación 6,000 torneos): <b>${pct(MC[team].adv)}</b></div>`;}
 
- h+=`<div class="sup-note">Los escenarios se calculan por <b>puntos</b>. Cuando aparece "diferencia de goles" significa que un empate en puntos lo decide el marcador exacto, así que el resultado puntual importa. Estructura de cruces de octavos según el fixture oficial; los terceros se asignan al cerrar la fase de grupos.</div>`;
+ h+=`<div class="sup-note">Los escenarios se calculan por <b>puntos</b>. Cuando aparece "diferencia de goles" significa que un empate en puntos lo decide el marcador exacto, así que el resultado puntual importa. Estructura de cruces de 16avos según el fixture oficial; los terceros se asignan al cerrar la fase de grupos.</div>`;
 
  box.innerHTML=h;
  const eb=$("#supExpBtn"); if(eb)eb.onclick=()=>{supExplain=!supExplain;renderSupPanel();};
