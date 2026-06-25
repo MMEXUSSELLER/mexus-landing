@@ -1286,7 +1286,7 @@ function renderBracket(){
  const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
  KO_CARDS={};
  const card=(m,rd,idx,rname)=>{
-  KO_CARDS[rd+"|"+idx]={rd,idx,name:rname,stadium:m.stadium,city:m.city,dnum:m.dnum,mon:m.mon,time:m.time,decided:!m.tbd};
+  KO_CARDS[rd+"|"+idx]={rd,idx,name:rname,stadium:m.stadium,city:m.city,dnum:m.dnum,mon:m.mon,time:m.time,decided:('decided' in m)?m.decided:!m.tbd};
   return `<div class="ko-card ko-clk" data-rd="${rd}" data-mi="${idx}">
    <div class="ko-date"><span class="d">${m.dnum}</span><span class="m">${m.mon}</span><span class="t">${m.time}</span></div>
    <div class="ko-body">
@@ -1298,7 +1298,7 @@ function renderBracket(){
  };
  const BT=bracketTeams();
  const realFor=(mt,side,slot)=>slot.t==="3"?BT.thirdSlot[mt.id+side]:BT.pos[slot.g+slot.t];
- const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et));return {a:slotLabel(mt.a,realFor(mt,"a",mt.a)),b:slotLabel(mt.b,realFor(mt,"b",mt.b)),tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
+ const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et)),ra=realFor(mt,"a",mt.a),rb=realFor(mt,"b",mt.b);return {a:slotLabel(mt.a,ra),b:slotLabel(mt.b,rb),tbd:false,decided:!!(ra&&rb),dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
  const ROUNDS=[{key:"16avos",name:"16avos",sub:"28 jun – 3 jul · 32 equipos",matches:r32}].concat(
    KO_ROUNDS.map(rd=>({key:rd.key,name:rd.name,sub:rd.sub,matches:rd.matches.map(m=>Object.assign({},m,koVenueToMx(m),{a:"Por definir",b:"Por definir",tbd:true}))})));
  const nav=`<div class="ko-nav">`+ROUNDS.map((r,i)=>`<button class="ko-pill${i?'':' active'}" data-jump="ko-${r.key}">${r.name}</button>`).join("")+`</div>`;
