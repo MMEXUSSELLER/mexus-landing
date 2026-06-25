@@ -145,6 +145,12 @@ details.played-wrap[open] .chev{transform:rotate(180deg)}
 .match{background:var(--navy-2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;transition:.18s}
 .match:hover{border-color:var(--border-2);transform:translateY(-1px)}
 .m-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
+.m-top-r{display:flex;align-items:center;gap:7px;flex:none}
+.m-sc{width:25px;height:25px;border-radius:50%;border:1px solid var(--border-2);background:var(--navy-3);color:var(--orange);font-size:12px;line-height:1;padding:0;cursor:pointer;flex:none;transition:.15s}
+.m-sc:hover{background:var(--orange-soft);border-color:var(--orange);transform:scale(1.08)}
+.sc-sub{font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--gray);text-transform:uppercase;margin-bottom:6px}
+.sc-team{border-top:1px solid var(--border);margin-top:14px;padding-top:14px}
+.sc-team:first-of-type{border-top:0;margin-top:4px;padding-top:0}
 .m-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;color:var(--gray);text-transform:uppercase}
 .m-tag b{color:var(--orange);font-weight:500}
 .m-status{font-family:var(--disp);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:6px}
@@ -1080,10 +1086,12 @@ function scoreCell(m){
 function matchCard(m){
  const sc=scoreCell(m); const d=matchDate(m.et);
  const isMx=(m.h==="México"||m.a==="México");
+ const hasSc=!RESULTS[m.id]&&M.some(x=>x.g===m.g&&RESULTS[x.id]);
+ const scBtn=hasSc?`<button class="m-sc" onclick="openMatchScenario('${m.id}')" title="¿Qué se juega cada equipo?">🎯</button>`:'';
  return `<div class="match${isMx?' mx':''}${sc.live?' live':''}">
    <div class="m-top">
      <span class="m-tag">${isMx?'🇲🇽 ':''}Grupo <b>${m.g}</b> · ${fmtTime.format(d)}</span>
-     ${sc.status}
+     <span class="m-top-r">${sc.status}${scBtn}</span>
    </div>
    <div class="m-body">
      <div class="side"><span class="flag">${fl(m.h)}</span><span class="tname ${sc.hw?'win':''}">${m.h}</span></div>
@@ -1411,10 +1419,9 @@ function overallVerdict(team){
  return {state: allTop2?"clinched":anyTop2?"contention":anyThird?"thirdonly":"eliminated"};
 }
 
-// árbol de decisión del PRÓXIMO partido del equipo
-function nextMatchTree(team){
+// árbol de decisión para UN partido concreto del equipo (Gana/Empata/Pierde)
+function branchTree(team,nm){
  const g=teamGroup(team), rem=remGroupMatches(g);
- const nm=rem.find(m=>m.h===team||m.a===team); if(!nm)return null;
  const rest=rem.filter(m=>m!==nm), base=basePts(g), home=nm.h===team;
  const rival=home?nm.a:nm.h;
  const defs=[{k:"Gana",oc:home?0:2},{k:"Empata",oc:1},{k:"Pierde",oc:home?2:0}];
@@ -1435,6 +1442,45 @@ function nextMatchTree(team){
   else{cls="out";txt="Con este resultado quedas eliminado.";plain="quedaría eliminado. ❌";}
   return {k:d.k,cls,txt,sub,plain};
  })};
+}
+// árbol del PRÓXIMO partido del equipo
+function nextMatchTree(team){
+ const rem=remGroupMatches(teamGroup(team));
+ const nm=rem.find(m=>m.h===team||m.a===team); if(!nm)return null;
+ return branchTree(team,nm);
+}
+// Escenario de un partido por jugar: veredicto + qué necesita cada equipo en ESTE partido.
+function matchScenarioData(m){
+ if(RESULTS[m.id]) return null;                       // ya se jugó
+ if(!M.some(x=>x.g===m.g&&RESULTS[x.id])) return null;  // grupo aún sin empezar
+ const st=groupStandings(m.g,RESULTS);
+ return [m.h,m.a].map(team=>{
+  const ov=overallVerdict(team), v=SUP_VERDICT[ov.state];
+  const i=st.findIndex(r=>r.t===team), my=st[i]||{pts:0,pj:0,dg:0};
+  const tree=branchTree(team,m);
+  return {team, v, pos:i+1, my, branches: tree?tree.branches:null};
+ });
+}
+function openMatchScenario(id){
+ const m=M.find(x=>x.id===id); if(!m)return;
+ const data=matchScenarioData(m); if(!data)return;
+ let mo=$("#scModal");
+ if(!mo){mo=document.createElement("div");mo.id="scModal";mo.className="ko-modal";document.body.appendChild(mo);
+  mo.addEventListener("click",e=>{if(e.target===mo||e.target.classList.contains("kd-close"))mo.classList.remove("on");});}
+ const block=(d)=>`<div class="sc-team">
+   <div class="sup-head" style="margin-bottom:9px">${fl(d.team)}<div><h3 style="font-size:17px">${d.team}</h3>
+     <div class="sup-meta">${d.pos}º del Grupo ${m.g} · ${d.my.pj} jugados · <b>${d.my.pts} pts</b> · DG ${d.my.dg>0?'+':''}${d.my.dg}</div></div></div>
+   <div class="sup-verdict ${d.v.cls}"><span class="vi">${d.v.vi}</span><span>${d.v.t}</span></div>
+   ${d.branches?`<div class="sup-tree" style="margin-top:9px">${d.branches.map(b=>`<div class="sup-branch b-${b.cls}"><span class="bk">${b.k}</span><span class="bt">${b.txt}${b.sub?`<small>${b.sub}</small>`:""}</span></div>`).join("")}</div>`:""}
+ </div>`;
+ mo.innerHTML=`<div class="kd-sheet">
+   <button class="kd-close" aria-label="Cerrar">✕</button>
+   <div class="kd-round">¿Qué se juega?</div>
+   <div class="sc-sub">Grupo ${m.g} · ${m.h} vs ${m.a}</div>
+   ${data.map(block).join("")}
+   <div class="sup-note">Escenarios calculados por <b>puntos</b>. "DG" (diferencia de goles) desempata cuando hay igualdad. Los <b>mejores terceros</b> se cierran al terminar la fase de grupos.</div>
+ </div>`;
+ mo.classList.add("on");
 }
 
 // cruce de 16avos (R32, primera ronda de eliminación en el formato de 48) según en qué puesto termine el grupo
