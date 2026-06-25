@@ -281,10 +281,10 @@ table{width:100%;border-collapse:collapse}
 .ko-tap{margin-left:auto;flex:0 0 auto;color:var(--orange);background:var(--orange-soft);border:1px solid var(--orange-ring);border-radius:999px;padding:2px 8px;font-size:9.5px;letter-spacing:.03em;white-space:nowrap}
 
 /* detalle de partido (lugar, hora, probabilidad) */
-.ko-modal{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;justify-content:center;background:rgba(4,7,12,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.ko-modal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;background:rgba(4,7,12,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .ko-modal.on{display:flex;animation:kdfade .18s ease}
 @keyframes kdfade{from{opacity:0}to{opacity:1}}
-.kd-sheet{position:relative;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;background:var(--navy-2);border:1px solid var(--border-2);border-radius:18px 18px 0 0;padding:22px 18px 26px;animation:kdup .22s cubic-bezier(.22,1,.36,1)}
+.kd-sheet{position:relative;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;background:var(--navy-2);border:1px solid var(--border-2);border-radius:18px;padding:22px 18px 26px;animation:kdup .22s cubic-bezier(.22,1,.36,1)}
 @keyframes kdup{from{transform:translateY(28px);opacity:.4}to{transform:translateY(0);opacity:1}}
 .kd-close{position:absolute;top:13px;right:13px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--navy-3);color:var(--fg-2);font-size:13px;cursor:pointer;line-height:1}
 .kd-round{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:20px;color:var(--orange);margin-bottom:14px}
