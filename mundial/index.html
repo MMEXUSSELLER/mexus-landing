@@ -289,6 +289,12 @@ table{width:100%;border-collapse:collapse}
 .ko-t{display:flex;align-items:center;gap:6px;font-family:var(--disp);font-weight:700;font-size:14px;text-transform:uppercase;color:var(--fg-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
 .ko-t.dim{color:var(--gray-2);font-weight:500;font-size:12.5px}
 .ko-t .flagimg{height:.78em}
+.ko-sc{margin-left:auto;font-family:var(--mono);font-weight:800;font-size:14px;color:var(--fg-2);padding-left:8px}
+.ko-sc small{font-size:9px;font-weight:600;color:var(--gray-2)}
+.ko-t.won{color:var(--orange)}
+.ko-t.won .ko-sc{color:var(--orange)}
+.ko-m.done{background:linear-gradient(180deg,rgba(244,121,32,.06),var(--navy-2))}
+.pen-note{font-family:var(--mono);font-size:9.5px;color:var(--gray-2);margin-top:2px;text-align:center}
 .ko-v{font-family:var(--mono);font-size:9px;color:var(--gray-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
 .ko-v .pin{color:var(--orange);font-style:normal}
 
@@ -924,6 +930,7 @@ function resolveSlot(slot,gr,thirdsPool){
 }
 function koWinner(h,a){
  if(!h)return a; if(!a)return h;
+ const rw=koRealWinner(h,a); if(rw)return rw;          // ya se jugó: usa el ganador real
  const[hg,ag]=simMatch(h,a,"NEU");
  if(hg>ag)return h; if(ag>hg)return a;
  return T[h].s+Math.random()*0.5 > T[a].s+Math.random()*0.5 ? h : a; // pens-ish
@@ -934,6 +941,9 @@ function runMonteCarlo(N,done){
  // ocupación por casilla del cuadro: slot[ronda][nºpartido][lado] = {equipo:conteo}
  const slot={'16avos':[],octavos:[],cuartos:[],semis:[],final:[]};
  const bump=(rd,mi,side,t)=>{if(!t)return;const a=slot[rd];if(!a[mi])a[mi]=[{},{}];a[mi][side][t]=(a[mi][side][t]||0)+1;};
+ // si el API ya tiene los 16 cruces reales, siembra la simulación con ellos (corrige terceros)
+ const api32=KO_LIVE['16avos'];
+ const realR32=(api32&&api32.length===16&&api32.every(k=>k.h&&k.a))?api32.map(k=>[k.h,k.a]):null;
  let i=0;
  function chunk(){
   const end=Math.min(i+500,N);
@@ -948,8 +958,8 @@ function runMonteCarlo(N,done){
    const ranked=thirdRank(thirds).slice(0,8);
    ranked.forEach(x=>stat[x.t].adv++);
    const pool=ranked.map(x=>({t:x.t,grp:x.grp}));
-   // build R32 participants in listed order
-   const r32=KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
+   // build R32 participants: real bracket if known, else projected slots
+   const r32=realR32||KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
    r32.forEach((pr,j)=>{bump('16avos',j,0,pr[0]);bump('16avos',j,1,pr[1]);});
    // R32 -> winners (these teams reached R32 already counted via adv); now knockout rounds
    let round=r32.map(([h,a])=>koWinner(h,a)); // winners of R32 = into R16/octavos (16 teams)
@@ -1025,20 +1035,22 @@ function renderCountdown(){
 function renderNext(){
  const box=$("#nextMatch"); if(!box)return;
  const now=new Date();
- const withD=M.map(x=>({m:x,d:matchDate(x.et)}));
- // partido en vivo: ya empezó, dentro de la ventana de ~2h y sin marcador final
- const live=withD.filter(o=>{const end=new Date(o.d.getTime()+2*36e5);return now>=o.d&&now<end&&!RESULTS[o.m.id];}).sort((a,b)=>a.d-b.d);
+ const mMeta=m=>m.ko?m.label:("Grupo "+m.g);
+ const mFin=(m,d)=>m.ko?m.finished:!!RESULTS[m.id];
+ const withD=M.map(x=>({m:x,d:matchDate(x.et)}))
+   .concat(koKnownMatches().map(k=>({m:k,d:k.date})));
+ // partido en vivo: ya empezó, dentro de la ventana de ~2.5h y sin marcador final
+ const live=withD.filter(o=>{const end=new Date(o.d.getTime()+2.5*36e5);return now>=o.d&&now<end&&!mFin(o.m,o.d);}).sort((a,b)=>a.d-b.d);
  if(live.length){
   const m=live[0].m,d=live[0].d;
-  let day=fmtDay.format(d); day=day.charAt(0).toUpperCase()+day.slice(1);
   box.style.display="";
   box.innerHTML=`<div class="nm-label nm-live"><span class="nm-dot"></span> En vivo ahora</div>`
    +`<div class="nm-row"><div class="nm-team">${fl(m.h)}<b>${m.h}</b></div><div class="nm-vs">VS</div><div class="nm-team away"><b>${m.a}</b>${fl(m.a)}</div></div>`
-   +`<div class="nm-meta">Grupo ${m.g} · comenzó ${fmtTime.format(d)} · ${m.v}</div>`
+   +`<div class="nm-meta">${mMeta(m)} · comenzó ${fmtTime.format(d)}${m.v?' · '+m.v:''}</div>`
    +`<div class="nm-count nm-live">● Partido en curso</div>`;
   return;
  }
- const up=withD.filter(o=>o.d>now).sort((a,b)=>a.d-b.d);
+ const up=withD.filter(o=>o.d>now&&!mFin(o.m,o.d)).sort((a,b)=>a.d-b.d);
  if(!up.length){box.style.display="none";box.innerHTML="";return;}
  box.style.display="";
  const m=up[0].m,d=up[0].d,diff=d-now;
@@ -1047,7 +1059,7 @@ function renderNext(){
  let day=fmtDay.format(d); day=day.charAt(0).toUpperCase()+day.slice(1);
  box.innerHTML=`<div class="nm-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Próximo partido</div>`
   +`<div class="nm-row"><div class="nm-team">${fl(m.h)}<b>${m.h}</b></div><div class="nm-vs">VS</div><div class="nm-team away"><b>${m.a}</b>${fl(m.a)}</div></div>`
-  +`<div class="nm-meta">${day} · ${fmtTime.format(d)} · ${m.v}</div>`
+  +`<div class="nm-meta">${day} · ${fmtTime.format(d)}${m.v?' · '+m.v:''}${m.ko?` · ${m.label}`:''}</div>`
   +`<div class="nm-count">Comienza en <b>${cd}</b></div>`;
 }
 function phases(){
@@ -1071,20 +1083,25 @@ function matchProbs(m){
  return {h:H,d:D,a:A};
 }
 function probsRow(m){
- if(RESULTS[m.id])return '';
+ if(m.ko?m.finished:RESULTS[m.id])return '';
  const p=matchProbs(m);
  return `<div class="probs"><div class="pcap">Pronóstico · prob. de ganar</div>`
   +`<div class="pbar"><i class="ph" style="width:${p.h}%"></i><i class="pd" style="width:${p.d}%"></i><i class="pa" style="width:${p.a}%"></i></div>`
   +`<div class="plabels"><span class="lh">${p.h}%</span><span class="ld">Empate ${p.d}%</span><span class="la">${p.a}%</span></div></div>`;
 }
+function mDate(m){return m.ko?m.date:matchDate(m.et);}
 function scoreCell(m){
- const r=RESULTS[m.id]; const d=matchDate(m.et); const now=new Date();
- const live=now>=d && now<new Date(d.getTime()+2*3600*1000) && !r;
+ const d=mDate(m); const now=new Date();
+ const r=m.ko?(m.finished?[m.hs,m.as]:null):RESULTS[m.id];
+ const live=now>=d && now<new Date(d.getTime()+2.5*3600*1000) && !r;
  if(r){
   const[h,a]=r;
+  // knockouts can be decided in extra time / penalties: trust the API winner
+  const hw=m.ko?(m.winner===m.h):h>a, aw=m.ko?(m.winner===m.a):a>h;
+  const pen=m.ko&&m.pens?`<div class="pen-note">Penales ${m.pens[0]}–${m.pens[1]}</div>`:'';
   return {status:`<span class="m-status st-ft">Final</span>`,
-   mid:`<div class="score"><span class="t ${h>a?'win':''}">${h}</span> <span class="vs">·</span> <span class="t ${a>h?'win':''}">${a}</span></div>`,
-   hw:h>a,aw:a>h};
+   mid:`<div class="score"><span class="t ${hw?'win':''}">${h}</span> <span class="vs">·</span> <span class="t ${aw?'win':''}">${a}</span>${pen}</div>`,
+   hw,aw};
  }
  if(live){
   return {status:`<span class="m-status st-live"><span class="lpulse"></span>En vivo</span>`,
@@ -1095,8 +1112,23 @@ function scoreCell(m){
 }
 
 function matchCard(m){
- const sc=scoreCell(m); const d=matchDate(m.et);
+ const sc=scoreCell(m); const d=mDate(m);
  const isMx=(m.h==="México"||m.a==="México");
+ if(m.ko){
+  return `<div class="match${isMx?' mx':''}${sc.live?' live':''}">
+   <div class="m-top">
+     <span class="m-tag">${isMx?'🇲🇽 ':''}<b>${m.label}</b> · ${fmtTime.format(d)}</span>
+     <span class="m-top-r">${sc.status}</span>
+   </div>
+   <div class="m-body">
+     <div class="side"><span class="flag">${fl(m.h)}</span><span class="tname ${sc.hw?'win':''}">${m.h}</span></div>
+     ${sc.mid}
+     <div class="side away"><span class="flag">${fl(m.a)}</span><span class="tname ${sc.aw?'win':''}">${m.a}</span></div>
+   </div>
+   ${probsRow(m)}
+   ${m.venue?`<div class="m-foot"><span class="venue"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>${m.venue}</span></span></div>`:''}
+ </div>`;
+ }
  const hasSc=!RESULTS[m.id]&&M.some(x=>x.g===m.g&&RESULTS[x.id]);
  const scBtn=hasSc?`<button class="m-sc" onclick="openMatchScenario('${m.id}')" title="¿Qué se juega cada equipo?">🎯</button>`:'';
  return `<div class="match${isMx?' mx':''}${sc.live?' live':''}">
@@ -1123,14 +1155,15 @@ function matchCard(m){
 function renderMatches(){
  const list=$("#matchList");
  const now=new Date();
- const ms=M.filter(m=>curPhase==="all"||m.g===curPhase);
+ let ms=M.filter(m=>curPhase==="all"||m.g===curPhase);
+ if(curPhase==="all") ms=ms.concat(koKnownMatches());   // eliminatorias con equipos ya definidos
  if(!ms.length){list.innerHTML=`<div class="empty">Sin partidos.</div>`;return;}
- const isPast=m=>RESULTS[m.id]||now>new Date(matchDate(m.et).getTime()+2*3600*1000);
- const upcoming=ms.filter(m=>!isPast(m)).sort((a,b)=>matchDate(a.et)-matchDate(b.et));
- const played=ms.filter(isPast).sort((a,b)=>matchDate(b.et)-matchDate(a.et)); // más reciente primero
+ const isPast=m=>(m.ko?m.finished:RESULTS[m.id])||now>new Date(mDate(m).getTime()+2.5*3600*1000);
+ const upcoming=ms.filter(m=>!isPast(m)).sort((a,b)=>mDate(a)-mDate(b));
+ const played=ms.filter(isPast).sort((a,b)=>mDate(b)-mDate(a)); // más reciente primero
  // agrupa por día con su encabezado
  const byDay=arr=>{let h="",lastDay="";arr.forEach(m=>{
-   const d=matchDate(m.et),dk=dayKey.format(d); // agrupa por día en hora CDMX
+   const d=mDate(m),dk=dayKey.format(d); // agrupa por día en hora CDMX
    if(dk!==lastDay){lastDay=dk;let lbl=fmtDay.format(d);lbl=lbl.charAt(0).toUpperCase()+lbl.slice(1);h+=`<div class="day-head">${lbl}</div>`;}
    h+=matchCard(m);});return h;};
  let html="";
@@ -1189,14 +1222,19 @@ function projStandings(g){
  return Object.values(st).map(x=>({...x,dg:x.gf-x.gc}))
    .sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||T[b.t].s-T[a.t].s);
 }
-function projKoWin(h,a){if(!h)return a;if(!a)return h;const p=matchProbs({h,a,cc:"NEU"});return p.h>=p.a?h:a;}
+// favorito de un cruce, pero si ya se jugó de verdad, manda el resultado real
+function projKoWin(h,a){if(!h)return a;if(!a)return h;const rw=koRealWinner(h,a);if(rw)return rw;const p=matchProbs({h,a,cc:"NEU"});return p.h>=p.a?h:a;}
 function buildProjection(){
  const gr={};for(const g in GROUPS)gr[g]=projStandings(g);
  const thirds=[];for(const g in gr)thirds.push({t:gr[g][2].t,grp:g,pts:gr[g][2].pts,dg:gr[g][2].dg,gf:gr[g][2].gf});
  const ranked=thirds.slice().sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf||T[b.t].s-T[a.t].s).slice(0,8);
  const qualThirds=new Set(ranked.map(x=>x.t));
  const pool=ranked.map(x=>({t:x.t,grp:x.grp}));
- const r32=KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
+ // cruces reales del API en cuanto existen (corrige los terceros del esqueleto); si no, proyecta desde grupos
+ const api32=KO_LIVE['16avos'];
+ const r32=(api32&&api32.length===16&&api32.every(k=>k.h&&k.a))
+   ? api32.map(k=>[k.h,k.a])
+   : KO_R32.map(mt=>[resolveSlot(mt.a,gr,pool),resolveSlot(mt.b,gr,pool)]);
  const pair=arr=>{const o=[];for(let k=0;k<arr.length;k+=2)o.push(projKoWin(arr[k],arr[k+1]));return o;};
  const octavos=r32.map(([h,a])=>projKoWin(h,a));
  const cuartos=pair(octavos),semis=pair(cuartos),finalistas=pair(semis);
@@ -1345,20 +1383,46 @@ function renderBracket(){
  const split=v=>{const i=(v||"").indexOf(", ");return i<0?[v||"",""]:[v.slice(0,i),v.slice(i+2)];};
  KO_CARDS={};
  const card=(m,rd,idx,rname)=>{
-  KO_CARDS[rd+"|"+idx]={rd,idx,name:rname,stadium:m.stadium,city:m.city,dnum:m.dnum,mon:m.mon,time:m.time,decided:('decided' in m)?m.decided:!m.tbd};
+  const fin=m.sa!=null&&m.sb!=null;
+  KO_CARDS[rd+"|"+idx]={rd,idx,name:rname,stadium:m.stadium,city:m.city,dnum:m.dnum,mon:m.mon,time:m.time,decided:('decided' in m)?m.decided:!m.tbd,finished:fin,h:m.h,a:m.aTeam};
   const tc=m.tbd?' dim':'';
-  return `<div class="ko-m${m.tbd?' tbd':''}" data-rd="${rd}" data-mi="${idx}">
+  const scT=(s,pen)=> fin?`<span class="ko-sc">${s}${pen!=null?` <small>(${pen})</small>`:''}</span>`:'';
+  return `<div class="ko-m${m.tbd?' tbd':''}${fin?' done':''}" data-rd="${rd}" data-mi="${idx}">
     <div class="ko-m-top"><span class="ko-d">${m.dnum} ${m.mon} · ${m.time}</span><button class="ko-prob" data-rd="${rd}" data-mi="${idx}" aria-label="Probabilidad">📊</button></div>
-    <div class="ko-t${tc}">${m.a}</div>
-    <div class="ko-t${tc}">${m.b}</div>
+    <div class="ko-t${tc}${m.wa?' won':''}">${m.a}${scT(m.sa,m.pens&&m.pens[0])}</div>
+    <div class="ko-t${tc}${m.wb?' won':''}">${m.b}${scT(m.sb,m.pens&&m.pens[1])}</div>
     <div class="ko-v"><span class="pin">📍</span>${m.stadium}${m.city?' · '+m.city:''}</div>
   </div>`;
  };
  const BT=bracketTeams();
  const realFor=(mt,side,slot)=>slot.t==="3"?BT.thirdSlot[mt.id+side]:BT.pos[slot.g+slot.t];
- const r32=KO_R32.map(mt=>{const sc=split(mt.v),p=koDateParts(matchDate(mt.et)),ra=realFor(mt,"a",mt.a),rb=realFor(mt,"b",mt.b);return {a:slotLabel(mt.a,ra),b:slotLabel(mt.b,rb),tbd:false,decided:!!(ra&&rb),dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};});
+ // Real knockout data (API) wins; fall back to the projected slots before it loads.
+ const liveBox=(base,lv)=>{
+  const p=koDateParts(lv.date); base.dnum=p.dnum; base.mon=p.mon; base.time=p.time;
+  if(lv.venue){const v=lv.venue.split(',');base.stadium=v[0].trim();base.city=(v[1]||'').trim();}
+  base.a=teamLabel(lv.h); base.b=teamLabel(lv.a); base.h=lv.h; base.aTeam=lv.a; base.tbd=false; base.decided=true;
+  if(lv.finished){base.sa=lv.hs;base.sb=lv.as;base.wa=lv.winner===lv.h;base.wb=lv.winner===lv.a;base.pens=lv.pens;}
+  return base;
+ };
+ const api32=KO_LIVE['16avos']||[];
+ const r32=KO_R32.map((mt,i)=>{
+  const sc=split(mt.v),p=koDateParts(matchDate(mt.et));
+  const base={tbd:false,dnum:p.dnum,mon:p.mon,time:p.time,stadium:sc[0],city:sc[1]};
+  const lv=api32[i];
+  if(lv&&lv.h&&lv.a) return liveBox(base,lv);
+  const ra=realFor(mt,"a",mt.a),rb=realFor(mt,"b",mt.b);
+  return Object.assign(base,{a:slotLabel(mt.a,ra),b:slotLabel(mt.b,rb),decided:!!(ra&&rb)});
+ });
  const kb={};
- KO_ROUNDS.forEach(rd=>{kb[rd.key]=rd.matches.map(m=>Object.assign({},m,koVenueToMx(m),{a:"Por definir",b:"Por definir",tbd:true}));});
+ KO_ROUNDS.forEach(rd=>{
+  const api=KO_LIVE[rd.key]||[];
+  kb[rd.key]=rd.matches.map((m,i)=>{
+   const base=Object.assign({},m,koVenueToMx(m));
+   const lv=api[i];
+   if(lv&&lv.h&&lv.a) return liveBox(base,lv);
+   return Object.assign(base,{a:"Por definir",b:"Por definir",tbd:true});
+  });
+ });
  const treeRounds=[
    {key:"16avos",name:"16avos",sub:"32 equipos",matches:r32},
    {key:"octavos",name:"Octavos",sub:"16 equipos",matches:kb.octavos||[]},
@@ -1415,8 +1479,16 @@ function openKoDetail(rd,mi){
  const a=koSideProbs(rd,mi,0), b=koSideProbs(rd,mi,1);
  const venue=`${info.stadium}${info.city?' · '+info.city:''}`;
  let probBlock;
- if(info.decided){
-  probBlock=`<div class="kd-note">Este cruce ya está confirmado por los resultados. Toca un equipo en el cuadro para su camino completo.</div>`;
+ if(info.finished){
+  probBlock=`<div class="kd-note">Resultado final. Toca un equipo en el cuadro para ver su camino a la final.</div>`;
+ }else if(info.decided&&info.h&&info.a){
+  const p=matchProbs({h:info.h,a:info.a,cc:"NEU"});
+  probBlock=`<div class="kd-cap">Probabilidad de ganar este cruce <small>(en tiempo regular)</small></div>
+   <div class="pbar" style="margin-top:6px"><i class="ph" style="width:${p.h}%"></i><i class="pd" style="width:${p.d}%"></i><i class="pa" style="width:${p.a}%"></i></div>
+   <div class="plabels"><span class="lh">${info.h} ${p.h}%</span><span class="ld">Empate ${p.d}%</span><span class="la">${info.a} ${p.a}%</span></div>
+   <div class="kd-note" style="margin-top:8px">El empate manda a tiempo extra y penales.</div>`;
+ }else if(info.decided){
+  probBlock=`<div class="kd-note">Cruce confirmado. Toca un equipo en el cuadro para su camino.</div>`;
  }else if(!MC_SLOT){
   probBlock=`<div class="kd-note"><span class="spin"></span> Calculando probabilidades…</div>`;
  }else if(!tracked){
@@ -1706,6 +1778,52 @@ function recalcAll(){
 /* ---- Auto results from football-data.org via our cached server proxy ---- */
 const EN2ES={"Mexico":"México","South Africa":"Sudáfrica","South Korea":"Corea Rep.","Czechia":"Chequia","Canada":"Canadá","Bosnia-Herzegovina":"Bosnia","Qatar":"Catar","Switzerland":"Suiza","Brazil":"Brasil","Morocco":"Marruecos","Haiti":"Haití","Scotland":"Escocia","United States":"Estados Unidos","Paraguay":"Paraguay","Australia":"Australia","Turkey":"Turquía","Germany":"Alemania","Curaçao":"Curazao","Ivory Coast":"Costa de Marfil","Ecuador":"Ecuador","Netherlands":"Países Bajos","Japan":"Japón","Sweden":"Suecia","Tunisia":"Túnez","Belgium":"Bélgica","Egypt":"Egipto","Iran":"Irán","New Zealand":"Nueva Zelanda","Spain":"España","Cape Verde Islands":"Cabo Verde","Saudi Arabia":"Arabia Saudita","Uruguay":"Uruguay","France":"Francia","Senegal":"Senegal","Iraq":"Irak","Norway":"Noruega","Argentina":"Argentina","Algeria":"Argelia","Austria":"Austria","Jordan":"Jordania","Portugal":"Portugal","Congo DR":"RD Congo","Uzbekistan":"Uzbekistán","Colombia":"Colombia","England":"Inglaterra","Croatia":"Croacia","Ghana":"Ghana","Panama":"Panamá"};
 
+/* ---- Knockout rounds, live from the API (real pairings + scores) ----
+   The hardcoded KO_R32 skeleton mis-assigns 4 of the best-third slots, so once
+   the API has the real bracket we drive teams, scores and winners straight from
+   it. KO_LIVE is keyed by our round names and ordered by kickoff (matching the
+   KO_R32 / KO_ROUNDS skeleton order, which is what the tree connectors assume). */
+const KO_STAGE2RD={LAST_32:'16avos',LAST_16:'octavos',QUARTER_FINALS:'cuartos',SEMI_FINALS:'semis',THIRD_PLACE:'tercer',FINAL:'final'};
+const KO_RD_LABEL={'16avos':'16avos de final',octavos:'Octavos de final',cuartos:'Cuartos de final',semis:'Semifinal',tercer:'Tercer lugar',final:'Final'};
+let KO_LIVE={};
+function ingestKO(apiMatches){
+ const by={};
+ apiMatches.forEach(m=>{
+  const rd=KO_STAGE2RD[m.stage]; if(!rd) return;
+  const h=(m.homeTeam&&EN2ES[m.homeTeam.name])||null, a=(m.awayTeam&&EN2ES[m.awayTeam.name])||null;
+  const ft=m.score&&m.score.fullTime, pk=m.score&&m.score.penalties;
+  const finished=m.status==='FINISHED';
+  const hs=ft?ft.home:null, as=ft?ft.away:null;
+  let winner=null;
+  if(finished){
+   if(m.score&&m.score.winner==='HOME_TEAM')winner=h;
+   else if(m.score&&m.score.winner==='AWAY_TEAM')winner=a;
+   else if(hs!=null&&as!=null)winner=hs>as?h:as>hs?a:null;
+  }
+  const pens=(pk&&pk.home!=null&&pk.away!=null)?[pk.home,pk.away]:null;
+  (by[rd]=by[rd]||[]).push({h,a,hs,as,winner,pens,finished,status:m.status,date:new Date(m.utcDate),venue:m.venue||null});
+ });
+ for(const k in by) by[k].sort((x,y)=>x.date-y.date);
+ KO_LIVE=by;
+}
+/* real winner of a finished knockout tie between two teams (any round) */
+function koRealWinner(h,a){
+ if(!h||!a) return null;
+ for(const rd in KO_LIVE) for(const k of KO_LIVE[rd]){
+  if(k.finished&&k.winner&&((k.h===h&&k.a===a)||(k.h===a&&k.a===h))) return k.winner;
+ }
+ return null;
+}
+/* every knockout match whose teams are already known — for the calendar/next-match views */
+function koKnownMatches(){
+ const out=[];
+ ['16avos','octavos','cuartos','semis','tercer','final'].forEach(rd=>{
+  (KO_LIVE[rd]||[]).forEach(k=>{ if(k.h&&k.a) out.push(Object.assign({ko:true,rd,label:KO_RD_LABEL[rd]},k)); });
+ });
+ return out;
+}
+function teamLabel(t){return `${fl(t)}<b>${t}</b>`;}
+
 function mapResults(apiMatches){
  const idx={};
  M.forEach(m=>{ idx[m.g+"|"+[m.h,m.a].sort().join("~")]=m; });
@@ -1727,8 +1845,10 @@ function mapResults(apiMatches){
 function loadResults(){
  fetch('api/results',{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{
   const arr=j&&j.matches; if(!Array.isArray(arr))return;
-  const res=mapResults(arr);
-  if(Object.keys(res).length){RESULTS=Object.assign({},RESULTS,res);recalcAll();}
+  ingestKO(arr);                                  // knockout pairings + scores
+  const res=mapResults(arr);                      // group-stage results
+  RESULTS=Object.assign({},RESULTS,res);
+  recalcAll();                                    // always: knockout fixtures may have advanced
  }).catch(()=>{});
 }
 

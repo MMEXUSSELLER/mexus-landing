@@ -27,9 +27,17 @@ app.get('/mundial/api/results', async (_req, res) => {
       stage: m.stage,
       status: m.status,
       utcDate: m.utcDate,
+      venue: m.venue || null,
       homeTeam: { name: m.homeTeam && m.homeTeam.name },
       awayTeam: { name: m.awayTeam && m.awayTeam.name },
-      score: { fullTime: { home: m.score?.fullTime?.home ?? null, away: m.score?.fullTime?.away ?? null } },
+      // winner + penalties are needed for knockout rounds (a tie in fullTime can
+      // still have a winner via extra time / shootout).
+      score: {
+        winner: m.score?.winner ?? null,
+        duration: m.score?.duration ?? null,
+        fullTime: { home: m.score?.fullTime?.home ?? null, away: m.score?.fullTime?.away ?? null },
+        penalties: { home: m.score?.penalties?.home ?? null, away: m.score?.penalties?.away ?? null },
+      },
     }));
     if (matches.length > 0) { // empty almost always means rate-limited — don't poison cache
       WC_CACHE.data = { matches };
