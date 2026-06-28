@@ -74,6 +74,7 @@ header{position:relative;background:
 .nm-team .flagimg{height:1.05em}
 .nm-team.away{flex-direction:row-reverse;text-align:right}
 .nm-vs{font-family:var(--disp);font-weight:800;color:var(--gray-2);font-size:13px;flex-shrink:0}
+.nm-live-sc{font-family:var(--disp);font-weight:800;color:var(--orange);font-size:22px;white-space:nowrap}
 .nm-meta{margin-top:11px;font-size:12.5px;color:var(--fg-2);text-align:center}
 .nm-count{margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--orange);text-align:center}
 .nm-count b{font-weight:700}
@@ -1043,9 +1044,11 @@ function renderNext(){
  const live=withD.filter(o=>{const end=new Date(o.d.getTime()+2.5*36e5);return now>=o.d&&now<end&&!mFin(o.m,o.d);}).sort((a,b)=>a.d-b.d);
  if(live.length){
   const m=live[0].m,d=live[0].d;
+  const hasLive=m.ko&&m.hs!=null&&m.as!=null;
+  const vs=hasLive?`<span class="nm-live-sc">${m.hs} – ${m.as}</span>`:`VS`;
   box.style.display="";
   box.innerHTML=`<div class="nm-label nm-live"><span class="nm-dot"></span> En vivo ahora</div>`
-   +`<div class="nm-row"><div class="nm-team">${fl(m.h)}<b>${m.h}</b></div><div class="nm-vs">VS</div><div class="nm-team away"><b>${m.a}</b>${fl(m.a)}</div></div>`
+   +`<div class="nm-row"><div class="nm-team">${fl(m.h)}<b>${m.h}</b></div><div class="nm-vs">${vs}</div><div class="nm-team away"><b>${m.a}</b>${fl(m.a)}</div></div>`
    +`<div class="nm-meta">${mMeta(m)} · comenzó ${fmtTime.format(d)}${m.v?' · '+m.v:''}</div>`
    +`<div class="nm-count nm-live">● Partido en curso</div>`;
   return;
@@ -1093,7 +1096,9 @@ function mDate(m){return m.ko?m.date:matchDate(m.et);}
 function scoreCell(m){
  const d=mDate(m); const now=new Date();
  const r=m.ko?(m.finished?[m.hs,m.as]:null):RESULTS[m.id];
- const live=now>=d && now<new Date(d.getTime()+2.5*3600*1000) && !r;
+ // a KO match is live per the API status; otherwise fall back to the time window
+ const live=m.ko?(m.live||(now>=d && now<new Date(d.getTime()+2.5*3600*1000) && !m.finished))
+                :(now>=d && now<new Date(d.getTime()+2*3600*1000) && !r);
  if(r){
   const[h,a]=r;
   // knockouts can be decided in extra time / penalties: trust the API winner
@@ -1104,8 +1109,11 @@ function scoreCell(m){
    hw,aw};
  }
  if(live){
-  return {status:`<span class="m-status st-live"><span class="lpulse"></span>En vivo</span>`,
-   mid:`<div class="score"><span class="livetxt">En curso</span></div>`,hw:false,aw:false,live:true};
+  // show the live score when the API gives it (KO in-play), else just "En curso"
+  const hasLive=m.ko&&m.hs!=null&&m.as!=null;
+  const mid=hasLive?`<div class="score"><span class="t">${m.hs}</span> <span class="vs">·</span> <span class="t">${m.as}</span></div>`
+                   :`<div class="score"><span class="livetxt">En curso</span></div>`;
+  return {status:`<span class="m-status st-live"><span class="lpulse"></span>En vivo</span>`,mid,hw:false,aw:false,live:true};
  }
  return {status:`<span class="m-status st-up">${fmtDayShort.format(d)}</span>`,
   mid:`<div class="score"><span class="d">${fmtTime.format(d)}</span><div class="vs" style="font-size:11px;margin-top:2px">vs</div></div>`,hw:false,aw:false};
@@ -1801,7 +1809,8 @@ function ingestKO(apiMatches){
    else if(hs!=null&&as!=null)winner=hs>as?h:as>hs?a:null;
   }
   const pens=(pk&&pk.home!=null&&pk.away!=null)?[pk.home,pk.away]:null;
-  (by[rd]=by[rd]||[]).push({h,a,hs,as,winner,pens,finished,status:m.status,date:new Date(m.utcDate),venue:m.venue||null});
+  const live=(m.status==='IN_PLAY'||m.status==='PAUSED');
+  (by[rd]=by[rd]||[]).push({h,a,hs,as,winner,pens,finished,live,status:m.status,date:new Date(m.utcDate),venue:m.venue||null});
  });
  for(const k in by) by[k].sort((x,y)=>x.date-y.date);
  KO_LIVE=by;
@@ -1883,9 +1892,10 @@ function init(){
  setInterval(renderCountdown,30000);
  setInterval(renderNext,30000);
  setInterval(renderMatches,30000); // refresca estado próximo→en vivo→jugado sin recargar
- // auto results: load now + refresh every 30 min (final scores only, via cached server proxy)
+ // auto results: load now + refresh every 2 min (matches the server cache window),
+ // so finished scores show within ~2 min and live/in-play scores update if the feed has them
  loadResults();
- setInterval(loadResults,1800000);
+ setInterval(loadResults,120000);
 }
 init();
 </script>

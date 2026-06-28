@@ -8,14 +8,18 @@ const PORT = process.env.PORT || 3000;
 app.disable('x-powered-by');
 
 // --- World Cup 2026 results proxy (football-data.org) ---
-// Hides the API token and caches upstream for 30 min so the free tier is never
-// hit more than ~twice an hour regardless of how many visitors are on the page.
+// Hides the API token and caches upstream so the free tier (10 req/min) is hit
+// at most once per cache window regardless of how many visitors are on the page.
+// 2 min keeps us at ~30 calls/hour (well under the limit) while surfacing a
+// finished score within ~2 min — and live/in-play scores too if the free tier
+// exposes them.
+const WC_CACHE_MS = 2 * 60 * 1000;
 const WC_CACHE = { at: 0, data: null };
 app.get('/mundial/api/results', async (_req, res) => {
   const token = process.env.FOOTBALL_DATA_TOKEN;
   if (!token) return res.json({ matches: [], note: 'no token configured' });
   const now = Date.now();
-  if (WC_CACHE.data && now - WC_CACHE.at < 30 * 60 * 1000) return res.json(WC_CACHE.data);
+  if (WC_CACHE.data && now - WC_CACHE.at < WC_CACHE_MS) return res.json(WC_CACHE.data);
   try {
     const r = await fetch('https://api.football-data.org/v4/competitions/WC/matches', {
       headers: { 'X-Auth-Token': token },
