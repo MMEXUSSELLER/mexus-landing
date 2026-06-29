@@ -1813,6 +1813,15 @@ function ingestKO(apiMatches){
   (by[rd]=by[rd]||[]).push({h,a,hs,as,winner,pens,finished,live,status:m.status,date:new Date(m.utcDate),venue:m.venue||null});
  });
  for(const k in by) by[k].sort((x,y)=>x.date-y.date);
+ // The API serves matches in kickoff order, but the WC2026 bracket does NOT pair
+ // R32 winners in date order — the official structure (Match 73–96) interleaves
+ // them (e.g. R16 match 1 = Canada's tie vs the Netherlands tie, which are 1st and
+ // 4th by date). Reorder the date-sorted R32 list so consecutive pairs equal the
+ // real R16 matchups; every downstream consumer (bracket tree, projection, Monte
+ // Carlo) pairs consecutively, so this single reorder fixes all of them.
+ const R32_TO_R16=[0,3, 2,5, 1,4, 6,7, 10,11, 8,9, 13,14, 12,15];
+ const r32=by['16avos'];
+ if(r32&&r32.length===16) by['16avos']=R32_TO_R16.map(i=>r32[i]);
  KO_LIVE=by;
 }
 /* real winner of a finished knockout tie between two teams (any round) */
