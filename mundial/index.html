@@ -1421,13 +1421,28 @@ function renderBracket(){
   const ra=realFor(mt,"a",mt.a),rb=realFor(mt,"b",mt.b);
   return Object.assign(base,{a:slotLabel(mt.a,ra),b:slotLabel(mt.b,rb),decided:!!(ra&&rb)});
  });
+ // winner/loser of an already-decided box (scores present ⇒ finished). wa/wb
+ // carry the API winner, so penalty-shootout ties resolve correctly too.
+ const boxWinner=b=>(!b||b.sa==null||b.sb==null)?null:(b.wa?b.h:b.wb?b.aTeam:null);
+ const boxLoser =b=>(!b||b.sa==null||b.sb==null)?null:(b.wa?b.aTeam:b.wb?b.h:null);
+ // derived (not-yet-played) box: teams known, no score → renders as an upcoming tie.
+ const deriveBox=(base,h,a)=>Object.assign(base,{a:teamLabel(h),b:teamLabel(a),h,aTeam:a,tbd:false,decided:true});
  const kb={};
  KO_ROUNDS.forEach(rd=>{
   const api=KO_LIVE[rd.key]||[];
+  // the round whose winners feed this one (tercer = the two semifinal losers)
+  const feeder=rd.key==='octavos'?r32:rd.key==='cuartos'?kb.octavos:rd.key==='semis'?kb.cuartos:(rd.key==='final'||rd.key==='tercer')?kb.semis:null;
   kb[rd.key]=rd.matches.map((m,i)=>{
    const base=Object.assign({},m,koVenueToMx(m));
    const lv=api[i];
    if(lv&&lv.h&&lv.a) return liveBox(base,lv);
+   // API hasn't drawn this tie yet — advance the winners ourselves once both
+   // feeder matches are decided (fixes e.g. México vs Inglaterra sitting on
+   // "Por definir" after both won their R32 ties).
+   if(feeder){
+    if(rd.key==='tercer'){const lA=boxLoser(feeder[0]),lB=boxLoser(feeder[1]); if(lA&&lB) return deriveBox(base,lA,lB);}
+    else{const wA=boxWinner(feeder[2*i]),wB=boxWinner(feeder[2*i+1]); if(wA&&wB) return deriveBox(base,wA,wB);}
+   }
    return Object.assign(base,{a:"Por definir",b:"Por definir",tbd:true});
   });
  });
