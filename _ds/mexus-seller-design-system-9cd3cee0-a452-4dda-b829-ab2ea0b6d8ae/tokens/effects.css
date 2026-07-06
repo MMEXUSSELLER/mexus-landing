@@ -1,0 +1,38 @@
+/* ============================================================
+   MEXUS SELLER — Effects: radii, shadows, borders, motion
+   Product uses tight 3/6/9px radii; landing uses soft 8/12/16/pill.
+   ============================================================ */
+
+:root {
+  /* ── Radii ── */
+  --mx-radius-xs:   3px;    /* small chips, inputs in product */
+  --mx-radius-sm:   6px;    /* buttons in product */
+  --mx-radius-md:   9px;    /* default card in product */
+  --mx-radius-lg:   12px;   /* landing card */
+  --mx-radius-xl:   16px;   /* hero & featured cards */
+  --mx-radius-pill: 999px;
+
+  /* ── Shadows (always offset-Y, never offset-X, never inset on cards) ── */
+  --mx-shadow-xs:   0 1px 2px 0 rgba(21, 34, 50, 0.05);
+  --mx-shadow-sm:   0 2px 4px 0 rgba(21, 34, 50, 0.06), 0 1px 2px -1px rgba(21, 34, 50, 0.08);
+  --mx-shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.08);   /* landing default */
+  --mx-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.12);   /* hero KPI cards */
+  --mx-shadow-lift: 0 14px 40px rgba(0, 0, 0, 0.18);  /* hover lift */
+  --mx-shadow-orange:   0 6px 20px rgba(244, 121, 32, 0.35); /* CTA hover glow */
+  --mx-shadow-whatsapp: 0 6px 20px rgba(37, 211, 102, 0.35);
+  --mx-shadow-ring:     0 0 0 4px rgba(244, 121, 32, 0.18); /* focus rings + pipeline number rings */
+
+  /* ── Borders ── */
+  --mx-border-hairline:   1px solid var(--mx-border);
+  --mx-border-strong:     1.5px solid var(--mx-orange);
+  --mx-border-top-accent: 3px solid var(--mx-orange); /* the signature KPI + market-card top edge */
+
+  /* ── Motion ── */
+  --mx-ease:       cubic-bezier(0.16, 1, 0.3, 1);   /* @kind other */ /* signature: swift entry, slow settle */
+  --mx-ease-swift: cubic-bezier(0.4, 0, 0.2, 1);    /* @kind other */ /* hovers, small nudges */
+  --mx-dur-1:      .1s;     /* @kind other */ /* press */
+  --mx-dur-2:      .15s;    /* @kind other */ /* color/opacity */
+  --mx-dur-3:      .25s;    /* @kind other */ /* hover lift */
+  --mx-dur-4:      .4s;     /* @kind other */ /* panel open */
+  --mx-dur-slow:   .6s;     /* @kind other */ /* reveal-on-scroll */
+}

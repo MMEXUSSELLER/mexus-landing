@@ -1,233 +1,912 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
-<title>MEXUS Seller · Agencia para vendedores en Amazon · USA y México</title>
-<meta name="description" content="Agencia para vendedores en Amazon USA y México. Lanzamos y escalamos marcas en Amazon — 6+ años de experiencia, 20+ marcas escaladas. Diagnóstico gratis con Patricio y Rodrigo.">
-<meta name="keywords" content="agencia amazon, agencia para vendedores amazon, consultor amazon, lanzar marca amazon, vender en amazon, amazon seller central, amazon vendor central">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#152232">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-<meta name="author" content="MEXUS Seller">
-<link rel="canonical" href="https://www.mexusseller.com/">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>MEXUS SELLER — Agencia Amazon USA + México | Full Management, PPC y Cross-border</title>
+  <meta name="description" content="Agencia operadora de Amazon para USA y México. Full Management, PPC, inventario y exportación MX→US. 20+ marcas activas, $12M+ USD GMV operado. Diagnóstico gratis de 30 min.">
+  <meta name="keywords" content="agencia amazon méxico, amazon full management, amazon ppc, vender en amazon usa, exportar a amazon, cross-border méxico estados unidos">
+  <meta property="og:title" content="MEXUS SELLER — Agencia Amazon USA + México">
+  <meta property="og:description" content="Lanzamos y escalamos marcas en Amazon. 20+ marcas activas, $12M+ USD GMV operado. Diagnóstico gratis de 30 min.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mexusseller.com">
+  <meta property="og:image" content="https://mexusseller.com/assets/logo-mexus-orange.png">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://mexusseller.com">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"MEXUS SELLER","description":"Agencia operadora de Amazon para USA y México. Full Management, PPC, inventario y cross-border MX→US.","url":"https://mexusseller.com","email":"hola@mexusseller.com","areaServed":["MX","US"],"parentOrganization":{"@type":"Organization","name":"Roospa Products LLC"}}</script>
+  <link rel="icon" href="assets/mexus-mark.png">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/base.css">
+  <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/styles.css">
+  <script src="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/_ds_bundle.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #152232; }
+    @keyframes mxMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes waPulse { 0% { transform: scale(1); opacity: .35; } 100% { transform: scale(1.7); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: .01s !important; } }
+  </style>
+</helmet>
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="MEXUS Seller">
-<meta property="og:title" content="MEXUS Seller — Agencia Amazon USA y México">
-<meta property="og:description" content="Lanzamos y escalamos marcas en Amazon USA y México. Diagnóstico gratis con Patricio y Rodrigo.">
-<meta property="og:url" content="https://www.mexusseller.com/">
-<meta property="og:locale" content="es_MX">
-<meta property="og:image" content="https://www.mexusseller.com/assets/logo-mexus-orange.png">
-<meta property="og:image:alt" content="MEXUS Seller — Agencia para vendedores en Amazon USA y México">
+<sc-if value="{{ showOverlay }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; inset: 0; z-index: 200; background: #152232; display: flex; align-items: center; justify-content: center; font-family: Inter, sans-serif; isolation: isolate">
+    <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none"></div>
+    <div style="position: relative; text-align: center; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 28px">
+      <img src="assets/logo-mexus-white.png" alt="MEXUS SELLER" style="height: 44px">
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(26px, 5vw, 40px); text-transform: uppercase; color: #fff; line-height: 1.1; letter-spacing: -.01em">Elige tu idioma<br><span style="color: rgba(255,255,255,.55); font-size: .62em; font-weight: 600; letter-spacing: .06em">Choose your language</span></div>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center">
+        <button onClick="{{ chooseEs }}" style="background: #F47920; color: #fff; border: none; cursor: pointer; padding: 18px 34px; border-radius: 8px; font-family: Inter, sans-serif; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 26px rgba(244,121,32,.4)" style-hover="background: #E56A15; transform: translateY(-2px)" style-active="transform: translateY(1px)">🇲🇽 Español</button>
+        <button onClick="{{ chooseEn }}" style="background: rgba(255,255,255,.05); color: #fff; border: 1.5px solid rgba(255,255,255,.25); cursor: pointer; padding: 18px 34px; border-radius: 8px; font-family: Inter, sans-serif; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; gap: 10px" style-hover="border-color: #F47920; transform: translateY(-2px)" style-active="transform: translateY(1px)">🇺🇸 English</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MEXUS Seller — Agencia Amazon USA y México">
-<meta name="twitter:description" content="Lanzamos y escalamos marcas en Amazon USA y México.">
-<meta name="twitter:image" content="https://www.mexusseller.com/assets/logo-mexus-orange.png">
+<div style="position: fixed; top: 0; left: 0; height: 3px; background: #F47920; width: {{ progress }}; z-index: 99; pointer-events: none; box-shadow: 0 0 8px rgba(244,121,32,.6)"></div>
+<nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 90; background: {{ navBg }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid {{ navBorder }}; font-family: Inter, sans-serif; transition: background .25s, border-color .25s">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+    <a href="#top" style="display: flex; align-items: center; text-decoration: none">
+      <img src="assets/logo-mexus-white.png" alt="MEXUS SELLER" style="height: 30px; display: block">
+    </a>
+    <sc-if value="{{ notMobile }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; align-items: center; gap: 26px">
+        <a href="#servicios" style="color: rgba(255,255,255,.8); text-decoration: none; font-size: 13.5px; font-weight: 600" style-hover="color: #F47920">{{ t.navServicios }}</a>
+        <a href="#casos" style="color: rgba(255,255,255,.8); text-decoration: none; font-size: 13.5px; font-weight: 600" style-hover="color: #F47920">{{ t.navMarcas }}</a>
+        <a href="#plataforma" style="color: rgba(255,255,255,.8); text-decoration: none; font-size: 13.5px; font-weight: 600" style-hover="color: #F47920">{{ t.navPlataforma }}</a>
+        <a href="#equipo" style="color: rgba(255,255,255,.8); text-decoration: none; font-size: 13.5px; font-weight: 600" style-hover="color: #F47920">{{ t.navEquipo }}</a>
+        <a href="#faq" style="color: rgba(255,255,255,.8); text-decoration: none; font-size: 13.5px; font-weight: 600" style-hover="color: #F47920">FAQ</a>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <div style="display: flex; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; overflow: hidden">
+          <button onClick="{{ chooseEs }}" style="background: {{ esBg }}; color: {{ esCol }}; border: none; cursor: pointer; padding: 5px 12px; font-size: 11px; font-weight: 700; font-family: Inter, sans-serif">ES</button>
+          <button onClick="{{ chooseEn }}" style="background: {{ enBg }}; color: {{ enCol }}; border: none; cursor: pointer; padding: 5px 12px; font-size: 11px; font-weight: 700; font-family: Inter, sans-serif">EN</button>
+        </div>
+        <a href="#contacto" style="background: #F47920; color: #fff; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none" style-hover="background: #E56A15; transform: translateY(-1px)" style-active="transform: translateY(1px)">{{ t.navCta }}</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.2); border-radius: 8px; width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; color: #fff">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+      </button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="background: rgba(13,24,38,.97); border-top: 1px solid rgba(255,255,255,.08); padding: 18px 24px 24px; display: flex; flex-direction: column; gap: 4px">
+      <a href="#servicios" onClick="{{ closeMenu }}" style="color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06)">{{ t.navServicios }}</a>
+      <a href="#casos" onClick="{{ closeMenu }}" style="color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06)">{{ t.navMarcas }}</a>
+      <a href="#plataforma" onClick="{{ closeMenu }}" style="color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06)">{{ t.navPlataforma }}</a>
+      <a href="#equipo" onClick="{{ closeMenu }}" style="color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06)">{{ t.navEquipo }}</a>
+      <a href="#faq" onClick="{{ closeMenu }}" style="color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06)">FAQ</a>
+      <div style="display: flex; gap: 10px; margin-top: 16px; align-items: center">
+        <a href="#contacto" onClick="{{ closeMenu }}" style="flex: 1; text-align: center; background: #F47920; color: #fff; padding: 14px 18px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none">{{ t.navCta }}</a>
+        <div style="display: flex; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; overflow: hidden">
+          <button onClick="{{ chooseEs }}" style="background: {{ esBg }}; color: {{ esCol }}; border: none; cursor: pointer; padding: 8px 14px; font-size: 12px; font-weight: 700; font-family: Inter, sans-serif">ES</button>
+          <button onClick="{{ chooseEn }}" style="background: {{ enBg }}; color: {{ enCol }}; border: none; cursor: pointer; padding: 8px 14px; font-size: 12px; font-weight: 700; font-family: Inter, sans-serif">EN</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</nav>
 
-<!-- Structured data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "MEXUS Seller",
-  "legalName": "Roospa Products LLC",
-  "description": "Agencia para vendedores en Amazon. Lanzamos y escalamos marcas en Amazon USA y México.",
-  "url": "https://www.mexusseller.com/",
-  "logo": "https://www.mexusseller.com/assets/logo-mexus-orange.png",
-  "image": "https://www.mexusseller.com/assets/logo-mexus-orange.png",
-  "email": "hola@mexusseller.com",
-  "telephone": "+1-347-387-3386",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "30 N Gould St STE 21317",
-    "addressLocality": "Sheridan",
-    "addressRegion": "WY",
-    "postalCode": "82801",
-    "addressCountry": "US"
-  },
-  "areaServed": [
-    {"@type": "Country", "name": "United States"},
-    {"@type": "Country", "name": "Mexico"},
-    {"@type": "Country", "name": "Canada"}
-  ],
-  "serviceType": "Amazon Marketplace Services",
-  "founder": [
-    {"@type": "Person", "name": "Patricio Cobar"},
-    {"@type": "Person", "name": "Rodrigo Cobar"}
-  ],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "sales",
-    "email": "hola@mexusseller.com",
-    "telephone": "+1-347-387-3386",
-    "availableLanguage": ["Spanish", "English"]
-  },
-  "sameAs": ["https://app.mexusseller.com"],
-  "knowsAbout": ["Amazon Seller Central", "Amazon Vendor Central", "Amazon PPC", "Amazon Brand Registry", "Amazon Global Selling", "Amazon FBA", "Cross-border ecommerce México USA"],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Servicios Amazon MEXUS",
-    "itemListElement": [
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Full Management (Seller 3P / Vendor 1P)"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "PPC Management"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estudios de mercado Amazon"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Asesoría 1:1"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cross-border MX → US (LLC, EIN, logística)"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Auditoría completa de cuenta"}}
-    ]
+<section id="top" data-screen-label="Hero" style="position: relative; background: #152232; color: #fff; font-family: Inter, sans-serif; overflow: hidden; padding: clamp(120px, 16vw, 150px) 0 clamp(64px, 9vw, 100px); isolation: isolate">
+  <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none"></div>
+  <div style="position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(244,121,32,.15) 0%, transparent 60%); pointer-events: none; z-index: 0"></div>
+  <div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 0 24px; text-align: center; z-index: 1">
+    <div style="color: #F47920; font-size: clamp(12px, 1.2vw, 15px); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 22px">{{ t.heroEyebrow }}</div>
+    <h1 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(40px, 7.5vw, 76px); line-height: 1.03; letter-spacing: -.015em; margin: 0 0 24px; color: #fff; text-transform: uppercase; text-wrap: balance">{{ t.heroH1a }}<br>{{ t.heroH1b }} <span style="color: #F47920">AMAZON.</span></h1>
+    <p style="font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,.75); max-width: 620px; margin: 0 auto 36px; line-height: 1.55; text-wrap: pretty">{{ t.heroSub }}</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center">
+      <a href="#contacto" style="background: #F47920; color: #fff; padding: 16px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 26px rgba(244,121,32,.4); transition: transform .25s, background .15s" style-hover="background: #E56A15; transform: translateY(-2px)" style-active="transform: translateY(1px)">{{ t.heroCta1 }} →</a>
+      <a href="#servicios" style="background: rgba(255,255,255,.05); color: #fff; padding: 16px 28px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,.25); font-weight: 700; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .25s, border-color .15s" style-hover="border-color: #F47920; transform: translateY(-2px)" style-active="transform: translateY(1px)">{{ t.heroCta2 }} →</a>
+    </div>
+    <div style="margin: clamp(44px, 6vw, 64px) auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; max-width: 760px">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; color: #F47920; line-height: 1; font-variant-numeric: tabular-nums">{{ statA }}</span>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 1.6px; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.stat1 }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; color: #F47920; line-height: 1; font-variant-numeric: tabular-nums">{{ statB }}</span>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 1.6px; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.stat2 }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; color: #F47920; line-height: 1; font-variant-numeric: tabular-nums">{{ statC }}</span>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 1.6px; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.stat3 }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; color: #F47920; line-height: 1; font-variant-numeric: tabular-nums">{{ statD }}</span>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 1.6px; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.stat4 }}</span>
+      </div>
+    </div>
+    <div id="hero-dash" style="margin: clamp(48px, 7vw, 80px) auto 0; background: #0D1826; border: 1px solid rgba(255,255,255,.10); border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,.5); max-width: 920px; overflow: hidden; text-align: left">
+      <div style="padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: space-between; gap: 12px">
+        <div style="display: flex; gap: 6px">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF5F57"></span>
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #FEBC2E"></span>
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #28C840"></span>
+        </div>
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: rgba(255,255,255,.5); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">MEXUS · Brand Pulse · ARTISANS BAZAAR</div>
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: hsl(142 71% 45%); box-shadow: 0 0 0 4px rgba(74,222,128,.22); flex-shrink: 0"></span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: rgba(255,255,255,.06)">
+        <div style="background: #0D1826; padding: 16px 18px; border-top: 3px solid #F47920; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-size: 9.5px; letter-spacing: 1.5px; font-weight: 700; color: rgba(255,255,255,.55); text-transform: uppercase">GMV (30d)</div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums">{{ dashGmv }}</div>
+          <div style="font-size: 11px; font-weight: 700; color: #7AD694; font-variant-numeric: tabular-nums">▲ +24.3%</div>
+        </div>
+        <div style="background: #0D1826; padding: 16px 18px; border-top: 3px solid #F47920; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-size: 9.5px; letter-spacing: 1.5px; font-weight: 700; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.dashUnits }}</div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums">{{ dashUnits }}</div>
+          <div style="font-size: 11px; font-weight: 700; color: #7AD694; font-variant-numeric: tabular-nums">▲ +18.1%</div>
+        </div>
+        <div style="background: #0D1826; padding: 16px 18px; border-top: 3px solid #F47920; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-size: 9.5px; letter-spacing: 1.5px; font-weight: 700; color: rgba(255,255,255,.55); text-transform: uppercase">TACOS</div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums">{{ dashTacos }}</div>
+          <div style="font-size: 11px; font-weight: 700; color: #7AD694; font-variant-numeric: tabular-nums">▼ -3.4%</div>
+        </div>
+        <div style="background: #0D1826; padding: 16px 18px; border-top: 3px solid #F47920; display: flex; flex-direction: column; gap: 4px">
+          <div style="font-size: 9.5px; letter-spacing: 1.5px; font-weight: 700; color: rgba(255,255,255,.55); text-transform: uppercase">{{ t.dashConv }}</div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums">{{ dashConv }}</div>
+          <div style="font-size: 11px; font-weight: 700; color: #7AD694; font-variant-numeric: tabular-nums">▲ +11.5%</div>
+        </div>
+      </div>
+      <div style="height: 80px; padding: 8px 18px 0; display: flex; align-items: flex-end; gap: 4px; border-top: 1px solid rgba(255,255,255,.08)">
+        <sc-for list="{{ heroBars }}" as="b" hint-placeholder-count="12">
+          <div style="flex: 1; height: {{ b.h }}; background: linear-gradient(180deg, #F47920, rgba(244,121,32,.2)); border-radius: 4px 4px 0 0; transition: height .9s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: {{ b.delay }}"></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="casos" data-screen-label="Marcas" data-reveal="1" style="background: #0D1826; color: #fff; padding: clamp(56px, 8vw, 80px) 0; font-family: Inter, sans-serif; scroll-margin-top: 68px">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; text-align: center; margin-bottom: 40px">
+    <div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">{{ t.brOverline }}</div>
+    <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(28px, 4.5vw, 44px); line-height: 1.05; letter-spacing: -.01em; text-transform: uppercase; margin: 0; color: #fff">{{ t.brTitle1 }}<br>{{ t.brTitle2 }}</h2>
+  </div>
+  <div style="display: flex; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); margin-bottom: 48px">
+    <div style="display: flex; gap: 20px; white-space: nowrap; padding-right: 20px; animation: mxMarquee 38s linear infinite" style-hover="animation-play-state: paused">
+      <sc-for list="{{ brandCards }}" as="b" hint-placeholder-count="0">
+        <div title="{{ b.name }}" style="flex-shrink: 0; width: clamp(150px, 18vw, 200px); height: 110px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; padding: 14px 18px; box-shadow: 0 14px 36px rgba(0,0,0,.30); border: 1px solid rgba(255,255,255,.10); overflow: hidden">
+          <div role="img" aria-label="{{ b.name }}" style="width: 100%; height: 60px; max-width: 160px; background-image: url('{{ b.src }}'); background-size: contain; background-position: center; background-repeat: no-repeat; filter: grayscale(100%) contrast(1.05); opacity: .85; transform: {{ b.scale }}; transition: filter .3s, opacity .3s" style-hover="filter: grayscale(0); opacity: 1"></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; align-items: center">
+    <img src="assets/badge-amazon-spn.png" alt="Amazon SPN" style="height: 60px; background: #fff; border-radius: 14px; padding: 8px 18px; box-shadow: 0 14px 40px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.12); object-fit: contain">
+    <img src="assets/badge-amazon-global-selling.png" alt="Amazon Global Selling" style="height: 60px; background: #fff; border-radius: 14px; padding: 8px 18px; box-shadow: 0 14px 40px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.12); object-fit: contain">
+    <img src="assets/badge-amazon-ads.png" alt="Amazon Ads" style="height: 60px; background: #fff; border-radius: 14px; padding: 8px 18px; box-shadow: 0 14px 40px rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.12); object-fit: contain">
+  </div>
+</section>
+
+<section id="servicios" data-screen-label="Servicios" style="background: #fff; padding: clamp(64px, 9vw, 96px) 0; font-family: Inter, sans-serif; scroll-margin-top: 68px">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px">
+    <div data-reveal="1" style="text-align: center; margin-bottom: 56px">
+      <div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">{{ t.svOverline }}</div>
+      <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(34px, 5.5vw, 56px); line-height: 1.05; letter-spacing: -.01em; text-transform: uppercase; margin: 0 0 16px; color: #152232">{{ t.svTitle1 }}<br>{{ t.svTitle2 }}</h2>
+      <p style="color: #4D4D4D; max-width: 640px; margin: 0 auto; font-size: 17px; line-height: 1.55; text-wrap: pretty">{{ t.svSub }}</p>
+    </div>
+    <div data-reveal="1" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px">
+      <sc-for list="{{ svCards }}" as="s" hint-placeholder-count="6">
+        <div style="position: relative; background: #fff; border: 1px solid {{ s.border }}; border-radius: 12px; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), border-color .2s, box-shadow .25s" style-hover="transform: translateY(-4px); border-color: #F47920; box-shadow: 0 18px 44px rgba(21,34,50,.12)">
+          <sc-if value="{{ s.hasTag }}" hint-placeholder-val="{{ false }}">
+            <span style="position: absolute; top: 16px; right: 16px; background: #F47920; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 4px 10px; border-radius: 999px; text-transform: uppercase">{{ s.tag }}</span>
+          </sc-if>
+          <div style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(244,121,32,.14); color: #F47920">
+            <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="{{ s.icon }}" size="22" hint-size="22px,22px"></x-import>
+          </div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: .3px; line-height: 1.1; color: #152232">{{ s.title }}</div>
+          <div style="font-size: 14px; line-height: 1.55; color: #4D4D4D">{{ s.desc }}</div>
+          <sc-if value="{{ showPrices }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top: 8px; display: inline-flex; align-items: baseline; padding: 6px 12px; background: rgba(244,121,32,.14); color: #F47920; border-radius: 999px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .3px; text-transform: uppercase; width: fit-content">{{ s.price }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="text-align: center; margin-top: 40px">
+      <a href="#contacto" style="display: inline-flex; align-items: center; gap: 8px; background: #F47920; color: #fff; padding: 14px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; box-shadow: 0 6px 20px rgba(244,121,32,.28); transition: transform .25s, background .15s" style-hover="background: #E56A15; transform: translateY(-2px)" style-active="transform: translateY(1px)">{{ t.svCta }} →</a>
+    </div>
+  </div>
+</section>
+
+<section id="plataforma" data-screen-label="Plataforma" style="background: #152232; color: #fff; padding: clamp(64px, 9vw, 96px) 0; font-family: Inter, sans-serif; scroll-margin-top: 68px">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px">
+    <div data-reveal="1" style="text-align: center; margin-bottom: 56px">
+      <div style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">{{ t.pfOverline }}</div>
+      <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(34px, 5.5vw, 56px); line-height: 1.05; letter-spacing: -.01em; text-transform: uppercase; margin: 0 0 16px; color: #fff">{{ t.pfTitle1 }}<br>{{ t.pfTitle2 }}</h2>
+      <p style="color: rgba(255,255,255,.78); max-width: 640px; margin: 0 auto; font-size: 17px; line-height: 1.55; text-wrap: pretty">{{ t.pfSub }}</p>
+    </div>
+    <div data-reveal="1" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 48px">
+      <sc-for list="{{ pfFeats }}" as="ft" hint-placeholder-count="4">
+        <div style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.10); border-radius: 12px; padding: 24px 22px; display: flex; flex-direction: column; gap: 12px; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), border-color .2s, background .2s" style-hover="transform: translateY(-4px); border-color: #F47920; background: rgba(255,255,255,.06)">
+          <div style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(244,121,32,.14); color: #F47920">
+            <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="{{ ft.icon }}" size="22" hint-size="22px,22px"></x-import>
+          </div>
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: .3px; line-height: 1.1; color: #fff">{{ ft.title }}</div>
+          <div style="font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.72)">{{ ft.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div data-reveal="1" style="background: #0D1826; border: 1px solid rgba(255,255,255,.10); border-radius: 14px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.5)">
+      <div style="padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,.02)">
+        <div style="display: flex; gap: 6px; flex-shrink: 0">
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #FF5F57"></span>
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #FEBC2E"></span>
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #28C840"></span>
+        </div>
+        <div style="flex: 1; max-width: 480px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 5px 14px; font-size: 11px; color: rgba(255,255,255,.55); font-family: 'JetBrains Mono', monospace; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">app.mexusseller.com / {{ pfUrl }}</div>
+        <div style="width: 40px; flex-shrink: 0"></div>
+      </div>
+      <div style="display: flex; align-items: stretch; font-family: Montserrat, sans-serif; text-align: left; background: #0A111A">
+        <sc-if value="{{ notMobile }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 200px; flex-shrink: 0; background: #0D1826; border-right: 1px solid rgba(255,255,255,.08); display: flex; flex-direction: column">
+            <div style="display: flex; align-items: center; gap: 8px; padding: 16px 16px 10px">
+              <img src="assets/logo-mexus-white.png" alt="MEXUS SELLER" style="height: 17px">
+              <span style="font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #F47920; border: 1px solid rgba(244,121,32,.4); border-radius: 999px; padding: 2px 7px">V3.0</span>
+            </div>
+            <div style="flex: 1; padding-bottom: 10px">
+              <sc-for list="{{ sbGroups }}" as="g" hint-placeholder-count="0">
+                <div style="font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(255,255,255,.4); padding: 13px 16px 5px">{{ g.label }}</div>
+                <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="0">
+                  <button onClick="{{ it.select }}" style="width: 100%; display: flex; align-items: center; gap: 9px; background: {{ it.bg }}; border: none; border-left: 2px solid {{ it.brd }}; color: {{ it.col }}; opacity: {{ it.op }}; cursor: {{ it.cur }}; padding: 7px 16px; font-family: Montserrat, sans-serif; font-size: 12px; font-weight: 600; text-align: left; transition: background .15s, color .15s" style-hover="background: rgba(255,255,255,.05)">
+                    <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconDashboard" name="{{ it.icon }}" size="14" hint-size="14px,14px"></x-import>
+                    <span style="flex: 1">{{ it.label }}</span>
+                    <sc-if value="{{ it.hasBadge }}" hint-placeholder-val="{{ false }}">
+                      <span style="background: #F47920; color: #fff; font-size: 9px; font-weight: 700; border-radius: 999px; padding: 1px 6px">{{ it.badge }}</span>
+                    </sc-if>
+                  </button>
+                </sc-for>
+              </sc-for>
+            </div>
+            <div style="display: flex; align-items: center; gap: 9px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.08)">
+              <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(244,121,32,.2); color: #F47920; display: grid; place-items: center; font-size: 10px; font-weight: 800; flex-shrink: 0">PC</div>
+              <div style="min-width: 0">
+                <div style="font-size: 11.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Patricio Cobar</div>
+                <div style="font-size: 10px; color: rgba(255,255,255,.5)">Admin</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02)">
+            <div style="min-width: 0">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ vwCrumbs }}</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; letter-spacing: .5px; color: #fff; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ vwTitle }}</div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-shrink: 0">
+              <span style="width: 30px; height: 30px; border-radius: 6px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; color: rgba(255,255,255,.6)">
+                <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconDashboard" name="search" size="14" hint-size="14px,14px"></x-import>
+              </span>
+              <span style="position: relative; width: 30px; height: 30px; border-radius: 6px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; color: rgba(255,255,255,.6)">
+                <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconDashboard" name="bell" size="14" hint-size="14px,14px"></x-import>
+                <span style="position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: #F47920"></span>
+              </span>
+              <span style="width: 30px; height: 30px; border-radius: 6px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; color: rgba(255,255,255,.6)">
+                <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconDashboard" name="refresh" size="14" hint-size="14px,14px"></x-import>
+              </span>
+            </div>
+          </div>
+          <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; gap: 6px; padding: 10px 14px 0; overflow-x: auto">
+              <sc-for list="{{ mobTabs }}" as="mt" hint-placeholder-count="0">
+                <button onClick="{{ mt.select }}" style="flex-shrink: 0; background: {{ mt.bg }}; color: {{ mt.col }}; border: 1px solid {{ mt.brd }}; border-radius: 999px; padding: 6px 13px; font-family: Montserrat, sans-serif; font-size: 11.5px; font-weight: 700; cursor: pointer">{{ mt.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="padding: 14px 16px 16px">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+              <sc-for list="{{ pfKpis }}" as="k" hint-placeholder-count="4">
+                <div style="background: #1B2F45; border: 1px solid rgba(255,255,255,.06); border-top: 3px solid #F47920; border-radius: 9px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1)" style-hover="transform: translateY(-2px)">
+                  <div style="font-size: 9.5px; letter-spacing: 1.4px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase">{{ k.l }}</div>
+                  <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; color: #fff; line-height: 1.05; font-variant-numeric: tabular-nums">{{ k.v }}</div>
+                  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 8px">
+                    <span style="font-size: 11px; font-weight: 700; color: {{ k.col }}; font-variant-numeric: tabular-nums">{{ k.ar }} {{ k.d }}</span>
+                    <svg width="60" height="20" viewBox="0 0 60 20" style="flex-shrink: 0"><polyline points="{{ k.spark }}" fill="none" stroke="#F47920" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline></svg>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="background: #1B2F45; border: 1px solid rgba(255,255,255,.06); border-radius: 10px; overflow: hidden; margin-top: 12px">
+              <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 14px 16px 10px">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: .8px; color: #fff">{{ t.pfTbl }}</div>
+                <div style="font-size: 10.5px; color: rgba(255,255,255,.45)">{{ t.pfTblSub }}</div>
+              </div>
+              <div style="overflow-x: auto">
+                <table style="width: 100%; border-collapse: collapse; min-width: 620px">
+                  <thead>
+                    <tr>
+                      <th style="text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">ASIN</th>
+                      <th style="text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">{{ t.pfColTitle }}</th>
+                      <th style="text-align: right; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">GMV (30d)</th>
+                      <th style="text-align: right; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">{{ t.dashUnits }}</th>
+                      <th style="text-align: right; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">ACOS</th>
+                      <th style="text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.45); padding: 7px 16px; border-bottom: 1px solid rgba(255,255,255,.08)">Health</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <sc-for list="{{ pfRows }}" as="r" hint-placeholder-count="0">
+                      <tr style="transition: background .15s" style-hover="background: rgba(255,255,255,.03)">
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,.55); white-space: nowrap">{{ r.sku }}</td>
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; color: rgba(255,255,255,.85); max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ r.title }}</td>
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; font-weight: 700; color: #fff; text-align: right; font-variant-numeric: tabular-nums">{{ r.gmv }}</td>
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; color: rgba(255,255,255,.75); text-align: right; font-variant-numeric: tabular-nums">{{ r.units }}</td>
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; color: rgba(255,255,255,.75); text-align: right; font-variant-numeric: tabular-nums">{{ r.acos }}</td>
+                        <td style="padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.05)"><span style="font-size: 9px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; background: {{ r.tagBg }}; color: {{ r.tagCol }}; white-space: nowrap">{{ r.tag }}</span></td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 10px 18px; border-top: 1px solid rgba(255,255,255,.08); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: rgba(255,255,255,.45); text-align: center">{{ t.pfFoot }}</div>
+    </div>
+  </div>
+</section>
+
+<section id="equipo" data-screen-label="Equipo" style="background: #F5F5F5; padding: clamp(64px, 9vw, 96px) 0; font-family: Inter, sans-serif; scroll-margin-top: 68px">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 56px; align-items: center">
+      <div data-reveal="1">
+        <div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">{{ t.tmOverline }}</div>
+        <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(34px, 5.5vw, 56px); line-height: 1.05; letter-spacing: -.01em; text-transform: uppercase; margin: 0 0 24px; color: #152232">{{ t.tmTitle1 }}<br><span style="color: #F47920">{{ t.tmTitle2 }}</span></h2>
+        <p style="font-size: 16px; line-height: 1.6; color: #4D4D4D; margin: 0 0 20px; text-wrap: pretty">{{ t.tmP1 }}</p>
+        <p style="font-size: 16px; line-height: 1.6; color: #4D4D4D; margin: 0 0 32px; text-wrap: pretty">{{ t.tmP2 }}</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 22px; margin-top: 8px">
+          <sc-for list="{{ diffs }}" as="d" hint-placeholder-count="4">
+            <div style="display: flex; gap: 14px; align-items: flex-start">
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; color: #F47920; line-height: 1">{{ d.num }}</div>
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase; color: #152232; letter-spacing: .5px">{{ d.t }}</div>
+                <div style="font-size: 13px; color: #4D4D4D; line-height: 1.4">{{ d.d }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div data-reveal="1" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+        <sc-for list="{{ members }}" as="m" hint-placeholder-count="0">
+          <div style="background: #fff; border: 1px solid #E5E5E5; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .25s, border-color .2s" style-hover="transform: translateY(-4px); border-color: #F47920; box-shadow: 0 18px 44px rgba(21,34,50,.12)">
+            <div style="aspect-ratio: 1 / 1; background: linear-gradient(135deg, #FFF5EC, #FFE5CC); overflow: hidden; border-bottom: 1px solid #E5E5E5">
+              <div role="img" aria-label="{{ m.name }}" style="width: 100%; height: 100%; background-image: url('{{ m.photo }}'); background-size: cover; background-position: center top"></div>
+            </div>
+            <div style="padding: 20px 22px">
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase; color: #152232; line-height: 1.05">{{ m.name }}</div>
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: #F47920; text-transform: uppercase; margin-top: 4px">{{ m.role }}</div>
+              <p style="font-size: 13.5px; color: #4D4D4D; margin: 10px 0 0; line-height: 1.5">{{ m.bio }}</p>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px">
+                <sc-for list="{{ m.tags }}" as="tg" hint-placeholder-count="3">
+                  <span style="font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 9px; border-radius: 999px; background: rgba(244,121,32,.10); color: #F47920; text-transform: uppercase">{{ tg }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-screen-label="FAQ" style="background: #fff; padding: clamp(64px, 9vw, 96px) 0; font-family: Inter, sans-serif; scroll-margin-top: 68px">
+  <div style="max-width: 820px; margin: 0 auto; padding: 0 24px">
+    <div data-reveal="1" style="text-align: center; margin-bottom: 48px">
+      <div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">FAQ</div>
+      <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(34px, 5.5vw, 56px); line-height: 1.05; letter-spacing: -.01em; text-transform: uppercase; margin: 0; color: #152232">{{ t.faqTitle }}</h2>
+    </div>
+    <div data-reveal="1" style="display: flex; flex-direction: column; gap: 12px">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div style="border: 1px solid {{ f.border }}; border-radius: 12px; overflow: hidden; transition: border-color .2s; background: #fff">
+          <button onClick="{{ f.toggle }}" style="width: 100%; background: none; border: none; cursor: pointer; padding: 20px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; font-family: Inter, sans-serif" style-hover="background: #F5F5F5">
+            <span style="font-size: 16px; font-weight: 600; color: #152232; line-height: 1.35">{{ f.q }}</span>
+            <span style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 999px; background: rgba(244,121,32,.14); color: #F47920; display: grid; place-items: center; font-size: 18px; font-weight: 700; transform: {{ f.rot }}; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1)">+</span>
+          </button>
+          <div style="display: {{ f.disp }}; padding: 0 22px 20px; font-size: 14.5px; line-height: 1.6; color: #4D4D4D">{{ f.a }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" data-screen-label="Contacto" style="position: relative; background: #152232; color: #fff; padding: clamp(72px, 10vw, 110px) 0; font-family: Inter, sans-serif; overflow: hidden; isolation: isolate; scroll-margin-top: 68px">
+  <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); pointer-events: none"></div>
+  <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 700px; height: 360px; background: radial-gradient(ellipse, rgba(244,121,32,.14) 0%, transparent 60%); pointer-events: none"></div>
+  <div data-reveal="1" style="position: relative; max-width: 860px; margin: 0 auto; padding: 0 24px; text-align: center">
+    <div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #F47920; margin-bottom: 16px">{{ t.ctOverline }}</div>
+    <h2 style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(36px, 6.5vw, 64px); line-height: 1.03; letter-spacing: -.015em; text-transform: uppercase; margin: 0 0 18px; color: #fff; text-wrap: balance">{{ t.ctTitle1 }}<br><span style="color: #F47920">{{ t.ctTitle2 }}</span></h2>
+    <p style="font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,.75); max-width: 560px; margin: 0 auto 36px; line-height: 1.55; text-wrap: pretty">{{ t.ctSub }}</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px">
+      <a href="mailto:hola@mexusseller.com" style="background: #F47920; color: #fff; padding: 18px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 26px rgba(244,121,32,.4); transition: transform .25s, background .15s" style-hover="background: #E56A15; transform: translateY(-2px)" style-active="transform: translateY(1px)">{{ t.ctCta1 }} →</a>
+      <a href="https://wa.me/523312345678" target="_blank" rel="noopener" style="background: #25D366; color: #fff; padding: 18px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 26px rgba(37,211,102,.35); transition: transform .25s" style-hover="transform: translateY(-2px)" style-active="transform: translateY(1px)">
+        <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="whatsapp" size="18" color="#fff" hint-size="18px,18px"></x-import>
+        WhatsApp
+      </a>
+    </div>
+    <div style="font-size: 13px; color: rgba(255,255,255,.55); display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace">
+      <span>hola@mexusseller.com</span>
+      <span>CDMX · NY</span>
+    </div>
+  </div>
+</section>
+
+<footer data-screen-label="Footer" style="background: #0D1826; color: #fff; padding: clamp(56px, 8vw, 80px) 0 32px; font-family: Inter, sans-serif">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px">
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,.08)">
+      <img src="assets/logo-mexus-white.png" alt="MEXUS SELLER" style="height: 38px">
+      <div style="font-size: 12px; color: rgba(255,255,255,.6); letter-spacing: 1px; text-transform: uppercase; font-weight: 600">{{ t.ftTagline }}</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding: 40px 0">
+      <div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #F47920; margin-bottom: 14px">{{ t.ftServicios }}</div>
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,.7)">
+          <li><a href="#servicios" style="color: inherit; text-decoration: none" style-hover="color: #F47920">Full Management</a></li>
+          <li><a href="#servicios" style="color: inherit; text-decoration: none" style-hover="color: #F47920">PPC Management</a></li>
+          <li><a href="#servicios" style="color: inherit; text-decoration: none" style-hover="color: #F47920">{{ t.ftEstudios }}</a></li>
+          <li><a href="#servicios" style="color: inherit; text-decoration: none" style-hover="color: #F47920">Cross-border MX → US</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #F47920; margin-bottom: 14px">MEXUS</div>
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,.7)">
+          <li><a href="#equipo" style="color: inherit; text-decoration: none" style-hover="color: #F47920">{{ t.navEquipo }}</a></li>
+          <li><a href="#casos" style="color: inherit; text-decoration: none" style-hover="color: #F47920">{{ t.navMarcas }}</a></li>
+          <li><a href="#plataforma" style="color: inherit; text-decoration: none" style-hover="color: #F47920">{{ t.navPlataforma }}</a></li>
+          <li><a href="#faq" style="color: inherit; text-decoration: none" style-hover="color: #F47920">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #F47920; margin-bottom: 14px">{{ t.ftContacto }}</div>
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,.7)">
+          <li>hola@mexusseller.com</li>
+          <li>WhatsApp: +52 33 1234 5678</li>
+          <li>CDMX · NY</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.06); font-size: 11px; color: rgba(255,255,255,.45); letter-spacing: .5px">
+      <span>© 2026 MEXUS SELLER · Roospa Products LLC</span>
+      <span>{{ t.ftLegal }}</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/523312345678" target="_blank" rel="noopener" aria-label="WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 95; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 12px 28px rgba(37,211,102,.45); text-decoration: none" style-hover="transform: translateY(-2px)">
+  <span style="position: absolute; inset: 0; border-radius: 999px; background: #25D366; animation: waPulse 2s ease-out infinite; pointer-events: none"></span>
+  <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="whatsapp" size="28" color="#fff" hint-size="28px,28px" style="position: relative"></x-import>
+</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mostrarPrecios&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Contenido&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = null;
+    try { saved = localStorage.getItem('mexus_lang'); } catch (e) {}
+    this.state = {
+      lang: saved,
+      scrolled: false,
+      isMobile: typeof window !== 'undefined' && window.innerWidth <= 760,
+      menuOpen: false,
+      tab: 0,
+      pfView: 'overview',
+      progress: '0%',
+      statP: 0,
+      faqOpen: -1,
+      dash: { gmv: 0, units: 0, tacos: 0, conv: 0 },
+      barsOn: false,
+      dashDone: false
+    };
+    this._cleanup = [];
+  }
+
+  setLang(l) {
+    try { localStorage.setItem('mexus_lang', l); } catch (e) {}
+    this.setState({ lang: l, menuOpen: false });
+  }
+
+  componentDidMount() {
+    const onScroll = () => {
+      const sc = window.scrollY > 24;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pr = max > 0 ? Math.min(100, (window.scrollY / max) * 100).toFixed(1) + '%' : '0%';
+      if (sc !== this.state.scrolled || pr !== this.state.progress) this.setState({ scrolled: sc, progress: pr });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this._cleanup.push(() => window.removeEventListener('scroll', onScroll));
+    onScroll();
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.setState({ statP: 1 });
+    } else {
+      setTimeout(() => {
+        const t0 = performance.now();
+        const dur = 1200;
+        const st = (now) => {
+          const p = Math.min(1, (now - t0) / dur);
+          this.setState({ statP: 1 - Math.pow(1 - p, 3) });
+          if (p < 1) requestAnimationFrame(st);
+        };
+        requestAnimationFrame(st);
+      }, 350);
+    }
+
+    const mq = window.matchMedia('(max-width: 760px)');
+    const onMq = () => this.setState({ isMobile: mq.matches, menuOpen: false });
+    mq.addEventListener('change', onMq);
+    this._cleanup.push(() => mq.removeEventListener('change', onMq));
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Scroll reveals
+    requestAnimationFrame(() => {
+      const els = document.querySelectorAll('[data-reveal]');
+      if (reduced) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            en.target.style.opacity = '1';
+            en.target.style.transform = 'translateY(0)';
+            io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.9) return; // already visible — don't hide
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity .6s cubic-bezier(0.16,1,0.3,1), transform .6s cubic-bezier(0.16,1,0.3,1)';
+        io.observe(el);
+      });
+      this._cleanup.push(() => io.disconnect());
+
+      // Hero dashboard count-up
+      const dashEl = document.getElementById('hero-dash');
+      if (!dashEl) return;
+      const startCount = () => {
+        if (this.state.dashDone) return;
+        this.setState({ barsOn: true, dashDone: true });
+        if (reduced) {
+          this.setState({ dash: { gmv: 184320, units: 2847, tacos: 12.4, conv: 22.7 } });
+          return;
+        }
+        const t0 = performance.now();
+        const dur = 1500;
+        const step = (now) => {
+          const p = Math.min(1, (now - t0) / dur);
+          const e = 1 - Math.pow(1 - p, 3);
+          this.setState({ dash: { gmv: 184320 * e, units: 2847 * e, tacos: 12.4 * e, conv: 22.7 * e } });
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const io2 = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { startCount(); io2.disconnect(); } });
+      }, { threshold: 0.3 });
+      io2.observe(dashEl);
+      this._cleanup.push(() => io2.disconnect());
+      // If reduced motion, show final values immediately
+      if (reduced) startCount();
+    });
+  }
+
+  componentWillUnmount() {
+    this._cleanup.forEach((fn) => fn());
+  }
+
+  renderVals() {
+    const lang = this.state.lang === 'en' ? 'en' : 'es';
+    const en = this.state.lang === 'en';
+    const t = en ? Component.EN : Component.ES;
+
+    const fmt = (n) => Math.round(n).toLocaleString('en-US');
+    const d = this.state.dash;
+
+    const heroRaw = [42, 58, 51, 72, 65, 81, 68, 92, 84, 96, 88, 100];
+    const heroBars = heroRaw.map((h, i) => ({
+      h: (this.state.barsOn ? h : 4) + '%',
+      delay: (i * 45) + 'ms'
+    }));
+
+    const brandsRaw = [
+      ['Artisans Bazaar', 'artisans-bazaar.png', 1],
+      ['Prisma', 'prisma.png', 1.45],
+      ['Maja', 'maja.png', 1.45],
+      ['Tía Ofilia', 'tia-ofilia.png', 1.75],
+      ['Hauss', 'hauss.png', 1.75],
+      ['Mil Flores', 'mil-flores.png', 1.45],
+      ['Pronalux', 'pronalux.png', 1],
+      ['Seima', 'seima.png', 1.75],
+      ['Lyssette', 'lyssette.webp', 1],
+      ['Habits', 'habits.webp', 1.45],
+      ['Bio Maussan', 'bio-maussan.png', 1.45],
+      ['Luxus', 'luxus.png', 1],
+      ['Regina Romero', 'regina-romero.png', 1.45],
+      ['Tamboreta', 'tamboreta.png', 1],
+      ['Tramborneas', 'tramborneas.png', 1]
+    ];
+    const brandCards = [...brandsRaw, ...brandsRaw].map(([name, file, zoom]) => ({
+      name, src: 'assets/brands/' + file, scale: 'scale(' + zoom + ')'
+    }));
+
+    const svCards = t.services.map((s) => ({
+      ...s,
+      hasTag: !!s.tag,
+      border: s.hi ? '#F47920' : '#E5E5E5'
+    }));
+
+    const members = [
+      { name: 'Patricio', role: t.mPatoRole, bio: t.mPatoBio, tags: ['PPC', 'Listings', 'Cross-border'], photo: 'assets/team/patricio.jpeg' },
+      { name: 'Rodrigo', role: t.mRodriRole, bio: t.mRodriBio, tags: ['LLC/EIN', t.mTagLog, t.mTagInv], photo: 'assets/team/rodrigo.png' },
+      { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg' }
+    ];
+
+    const diffs = t.diffs.map((x, i) => ({ num: '0' + (i + 1), t: x[0], d: x[1] }));
+
+    const faqs = t.faqs.map((f, i) => {
+      const open = this.state.faqOpen === i;
+      return {
+        q: f[0], a: f[1],
+        disp: open ? 'block' : 'none',
+        rot: open ? 'rotate(45deg)' : 'rotate(0deg)',
+        border: open ? '#F47920' : '#E5E5E5',
+        toggle: () => this.setState({ faqOpen: open ? -1 : i })
+      };
+    });
+
+    const sparkUp = '0,16 8,13 16,14 24,10 32,11 40,7 48,8 56,4 60,3';
+    const sparkUp2 = '0,14 8,15 16,11 24,12 32,8 40,9 48,6 56,6 60,4';
+    const sparkDown = '0,5 8,7 16,6 24,9 32,8 40,12 48,11 56,14 60,15';
+    const sparkFlat = '0,11 8,10 16,12 24,10 32,11 40,9 48,11 56,10 60,10';
+
+    const baseRows = [
+      ['B0CTRJM81X', 'Vela aromática Artisans · Frasco vidrio 250g · Cedro y Tabaco', '$28,420', '184', '11.2%', 'good'],
+      ['B0DZK4XQ2P', 'Set de 3 velas Artisans · Edición Limitada Otoño', '$18,960', '122', '14.8%', 'good'],
+      ['B0CYWB9PLM', 'Difusor de varillas Artisans · 200ml · Lavanda Mexicana', '$14,210', '96', '17.4%', 'warn'],
+      ['B0E2RTV3KL', 'Jabón artesanal Artisans · Pack 3 piezas · Avena y Miel', '$11,720', '154', '21.6%', 'warn'],
+      ['B0CPZN8MQR', 'Vela votiva · Set de 6 · Aromas surtidos', '$9,380', '71', '9.4%', 'good'],
+      ['B0DJY9X7TM', 'Spray ambiental Artisans · 100ml · Vainilla y Caña', '$6,120', '48', '26.1%', 'bad']
+    ];
+    const views = {
+      overview: { crumbs: 'comando / overview', url: 'overview / artisans-bazaar', title: 'Overview · Artisans Bazaar',
+        kpis: [['GMV (30d)', '$184,320', '+24.3%', 1, sparkUp], [t.dashUnits, '2,847', '+18.1%', 1, sparkUp2], ['TACOS', '12.4%', '-3.4%', 1, sparkDown], ['Buy Box', '94.2%', '+1.8%', 1, sparkFlat]],
+        rows: [0, 1, 2, 4] },
+      ppc: { crumbs: 'operación / ppc', url: 'ppc / campaigns', title: 'PPC · Campañas',
+        kpis: [['Ad Spend (30d)', '$26,140', '+9.8%', 1, sparkUp], ['ACOS', '14.2%', '-1.9%', 1, sparkDown], ['CTR', '0.48%', '+6.2%', 1, sparkUp2], ['ROAS', '4.6x', '+12.0%', 1, sparkUp]],
+        rows: [5, 3, 2, 0] },
+      inventory: { crumbs: 'operación / inventory', url: 'inventory / fba-replenish', title: 'Inventory · FBA',
+        kpis: [[t.pfStockU, '18,420', '+6.4%', 1, sparkUp2], [t.pfStockD, '54', '-8.0%', 0, sparkDown], [t.pfStockPo, '7', '+2', 1, sparkFlat], ['Fill rate', '98.2%', '+1.1%', 1, sparkFlat]],
+        rows: [1, 4, 0, 5] },
+      profit: { crumbs: 'operación / profitability', url: 'profitability / pnl-sku', title: 'Profitability · P&L',
+        kpis: [[t.pfMargin, '31.4%', '+2.2%', 1, sparkUp], ['Fees Amazon', '$42,180', '+6.1%', 0, sparkUp2], ['Freight', '$8,940', '-4.3%', 1, sparkDown], ['P&L / SKU', '100%', '—', 1, sparkFlat]],
+        rows: [0, 3, 1, 2] }
+    };
+    const cur = this.state.pfView;
+    const vw = views[cur] || views.overview;
+    const navDef = [
+      ['Comando', [['overview', 'Overview', 'grid', 1]]],
+      ['Operación', [['ppc', 'PPC', 'trendup', 1], ['inventory', 'Inventory', 'package', 1], ['profit', 'Profitability', 'dollar', 1], ['catalog', 'Catalog', 'grid2', 0], ['bbc', 'BBC / A+', 'layers', 0]]],
+      ['Workflow', [['tasks', 'Tasks', 'check', 0, 6], ['reports', 'Reports', 'file', 0], ['ai', 'KAI', 'sparkles', 0]]],
+      ['Sistema', [['admin', 'Admin', 'settings', 0]]]
+    ];
+    const sbGroups = navDef.map(([label, items]) => ({
+      label,
+      items: items.map(([id, lbl, icon, click, badge]) => {
+        const active = id === cur;
+        return {
+          label: lbl, icon,
+          bg: active ? 'rgba(244,121,32,.12)' : 'transparent',
+          brd: active ? '#F47920' : 'transparent',
+          col: active ? '#F47920' : 'rgba(255,255,255,.65)',
+          op: click ? 1 : 0.45,
+          cur: click ? 'pointer' : 'default',
+          hasBadge: !!badge, badge: badge || '',
+          select: click ? () => this.setState({ pfView: id }) : () => {}
+        };
+      })
+    }));
+    const mobTabs = [['overview', 'Overview'], ['ppc', 'PPC'], ['inventory', 'Inventory'], ['profit', 'Profit']].map(([id, lbl]) => ({
+      label: lbl,
+      bg: id === cur ? '#F47920' : 'rgba(255,255,255,.05)',
+      col: id === cur ? '#fff' : 'rgba(255,255,255,.65)',
+      brd: id === cur ? '#F47920' : 'rgba(255,255,255,.15)',
+      select: () => this.setState({ pfView: id })
+    }));
+    const pfKpis = vw.kpis.map(([l, v, dd, up, spark]) => ({
+      l, v, d: dd,
+      col: up ? '#7AD694' : '#F87171',
+      ar: dd.startsWith('-') ? '▼' : (dd === '—' ? '' : '▲'),
+      spark
+    }));
+    const tagMap = { good: ['rgba(122,214,148,.15)', '#7AD694', '▲ ok'], warn: ['rgba(244,121,32,.15)', '#F47920', 'acos ↑'], bad: ['rgba(248,113,113,.15)', '#F87171', 'acos crit'] };
+    const pfRows = vw.rows.map((i) => {
+      const [sku, title, gmv, units, acos, health] = baseRows[i];
+      const [tagBg, tagCol, tag] = tagMap[health];
+      return { sku, title, gmv, units, acos, tagBg, tagCol, tag };
+    });
+    const pfFeats = t.pfFeats.map((f) => ({ icon: f[0], title: f[1], desc: f[2] }));
+    const p1 = this.state.statP || 0;
+
+    const scrolled = this.state.scrolled;
+
+    return {
+      t,
+      showOverlay: this.state.lang === null,
+      chooseEs: () => this.setLang('es'),
+      chooseEn: () => this.setLang('en'),
+      esBg: !en ? '#F47920' : 'transparent',
+      esCol: !en ? '#fff' : 'rgba(255,255,255,.6)',
+      enBg: en ? '#F47920' : 'transparent',
+      enCol: en ? '#fff' : 'rgba(255,255,255,.6)',
+      navBg: scrolled ? 'rgba(13,24,38,.85)' : 'rgba(13,24,38,.35)',
+      navBorder: scrolled ? 'rgba(255,255,255,.08)' : 'transparent',
+      isMobile: this.state.isMobile,
+      notMobile: !this.state.isMobile,
+      menuOpen: this.state.menuOpen && this.state.isMobile,
+      toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      dashGmv: '$' + fmt(d.gmv),
+      dashUnits: fmt(d.units),
+      dashTacos: d.tacos.toFixed(1) + '%',
+      dashConv: d.conv.toFixed(1) + '%',
+      heroBars,
+      brandCards,
+      svCards,
+      showPrices: this.props.mostrarPrecios ?? true,
+      members,
+      diffs,
+      faqs,
+      sbGroups,
+      mobTabs,
+      pfKpis,
+      pfRows,
+      pfFeats,
+      vwCrumbs: vw.crumbs,
+      vwTitle: vw.title,
+      pfUrl: vw.url,
+      progress: this.state.progress,
+      statA: Math.round(20 * p1) + '+',
+      statB: '$' + Math.round(12 * p1) + 'M+',
+      statC: Math.round(7 * p1) + '+',
+      statD: String(Math.round(3 * p1))
+    };
   }
 }
-</script>
 
-<!-- FAQ structured data (rich results + AI answer engines) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "¿Qué incluye el diagnóstico gratuito?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Llamada de 30 min con Patricio o Rodrigo. Revisamos tu cuenta (si la tienes), tu producto, tu mercado objetivo y te damos un plan inicial honesto. Si no eres un buen fit, te lo decimos."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿Cuánto cuesta Full Management?",
-      "acceptedAnswer": {"@type": "Answer", "text": "$8,000 a $25,000 MXN/mes. El precio depende del estado de la cuenta, número de ASINs y la etapa del seller. Lo definimos después del diagnóstico — sin sorpresas."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿Manejan cuentas Vendor (1P) además de Seller (3P)?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Sí. Operamos tanto Seller Central (3P) como Vendor Central (1P). Te ayudamos a decidir cuál modelo conviene a tu marca según margen, control de precios, volumen y operación logística — y operamos el que elijas (o ambos en paralelo si tu portafolio lo requiere)."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿Cómo manejan el cross-border MX → USA?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Implementamos un sistema completo: LLC en EE.UU., EIN, freight forwarders validados, taxes, FBA Inbound y seguimiento de exportación. Custom según tu producto y volumen — definido en llamada de diagnóstico."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿Trabajan con marcas que ya tienen agencia?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Sí. Hacemos auditorías de cuenta y muchas marcas migran después. No hay contrato anual obligatorio: si no entregamos, te vas."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿En cuánto tiempo veo resultados?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Garantizamos primera venta en USA en 60 días desde el lanzamiento. La escala real (ROI positivo recurrente) toma 4-6 meses dependiendo de la categoría y el ad spend."}
-    },
-    {
-      "@type": "Question",
-      "name": "¿Hablo directo con los fundadores?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Sí — siempre. Patricio y Rodrigo lideran cada cuenta. No hay account managers junior. Slack o WhatsApp para comunicación diaria."}
-    }
-  ]
-}
-</script>
+Component.ES = {
+  navServicios: 'Servicios', navMarcas: 'Marcas', navPlataforma: 'Plataforma', navEquipo: 'Equipo', navCta: 'Agendar diagnóstico',
+  heroEyebrow: 'Agencia Amazon · USA + México · Certificada AGS',
+  heroH1a: 'Lanzamos y escalamos', heroH1b: 'marcas en',
+  heroSub: 'Somos sellers en Amazon. Atención y estrategia directa con Patricio y Rodrigo — para que tu marca no pague el precio de aprender Amazon.',
+  heroCta1: 'Agendar diagnóstico', heroCta2: 'Ver qué hacemos',
+  stat1: 'Marcas activas', stat2: 'USD GMV operado', stat3: 'Años en Amazon', stat4: 'Mercados Amazon',
+  dashUnits: 'Unidades', dashUnits2: 'Unidades', dashConv: 'Conversión',
+  brOverline: 'Marcas que confían', brTitle1: '20+ marcas. 3 mercados.', brTitle2: 'Operación real.',
+  svOverline: 'Lo que hacemos', svTitle1: 'Operación Amazon completa.', svTitle2: 'Sin sorpresas.',
+  svSub: 'Servicios pensados como sellers, no como agencia. Pricing transparente, scope claro, resultados medibles.',
+  svCta: 'Diagnóstico gratis · 30 min',
+  services: [
+    { icon: 'wrench', title: 'Full Management', desc: 'Operación Amazon completa en Seller Central o Vendor Central: listings, PPC, inventario y reportes mensuales.', price: '$8K – $25K MXN/mes', tag: 'Seller y Vendor', hi: true },
+    { icon: 'megaphone', title: 'PPC Management', desc: 'Sponsored Products, Brands y Display. Optimización semanal con métricas claras.', price: '$5K – $15K MXN · según ad spend' },
+    { icon: 'search', title: 'Estudios de mercado', desc: 'Demanda real, competencia, keywords, márgenes. Reporte ejecutable en 5 días.', price: '$1,200 MXN', tag: 'Básico para lanzar' },
+    { icon: 'chat', title: 'Asesoría 1:1', desc: 'Sesión directa con Patricio o Rodrigo. 60 min, agenda abierta, recomendaciones específicas.', price: '$2,000 MXN/hora' },
+    { icon: 'globe-arrow', title: 'Cross-border MX → US', desc: 'Sistema de seguimiento de exportación. LLC, EIN, logística, taxes. Custom según diagnóstico.', price: 'Custom · post-llamada', tag: 'Diferenciador único', hi: true },
+    { icon: 'chart-up', title: 'Auditoría completa', desc: 'Revisión profunda de cuenta, listings, PPC, márgenes. Plan de acción priorizado.', price: 'Incluida en diagnóstico' }
+  ],
+  pfOverline: 'Plataforma V3.0 · desarrollo propio',
+  pfTitle1: 'Tu operación completa.', pfTitle2: 'En un solo lugar.',
+  pfSub: 'No operamos a ciegas ni con PDFs mensuales. Nuestra plataforma se conecta directo a tu cuenta vía SP-API y convierte la data en decisiones — esto es lo que ve tu equipo (y tú) todos los días. Navega el menú para explorar.',
+  pfFeats: [
+    ['chart-up', 'P&L por SKU', 'Margen real por producto: fees, freight, ads y devoluciones incluidos. Sabes qué SKU gana y cuál sangra.'],
+    ['list', 'Inventario y FBA Replenish', 'PO sugeridas antes de quebrar stock. Días de inventario y fill rate por marketplace.'],
+    ['megaphone', 'PPC con data diaria', 'Campañas optimizadas cada semana contra un ACOS objetivo por SKU — no un promedio de cuenta.'],
+    ['chat', 'KAI · asistente con IA', 'Pregúntale a tu cuenta en español. KAI responde con tu data conectada, no con genéricos.']
+  ],
+  pfTbl: 'Top SKUs · Últimos 30 días', pfTblSub: '6 de 142 SKUs activos', pfColTitle: 'Título',
+  pfFoot: 'Conectada vía SP-API · data real de tu cuenta · acceso 24/7',
+  pfStockU: 'Unidades FBA', pfStockD: 'Días de stock', pfStockPo: 'PO abiertas', pfMargin: 'Margen neto',
+  tmOverline: 'Sobre nosotros', tmTitle1: 'Operación de sellers,', tmTitle2: 'para sellers.',
+  tmP1: 'Patricio y Rodrigo llevamos 7+ años exportando marcas mexicanas a Amazon USA. Aprendimos con nuestras propias marcas — perdiendo dinero en lanzamientos fallidos, optimizando PPC hasta las 2 a.m. y peleando con freight forwarders.',
+  tmP2: 'Cuando contratas a MEXUS SELLER, hablas directo con nosotros. No hay account managers junior. No hay templates copy-paste. Cada estrategia es nuestra firma.',
+  diffs: [
+    ['Sellers activos', 'Operamos 4 marcas propias'],
+    ['Atención directa', 'Slack/WhatsApp con fundadores'],
+    ['Amazon SPN', 'Agencia certificada oficial'],
+    ['Cross-border MX→US', 'Único playbook validado']
+  ],
+  mPatoRole: 'Co-founder · Estrategia', mPatoBio: '7+ años Amazon USA. Lead en lanzamientos cross-border y PPC.',
+  mRodriRole: 'Co-founder · Operaciones', mRodriBio: 'Logística, freight, taxes y exportación MX→USA. Habla con Aduanas.',
+  mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Cuida la marca como propia.',
+  mTagLog: 'Logística', mTagInv: 'Inventario',
+  faqTitle: 'Preguntas frecuentes',
+  faqs: [
+    ['¿Cómo empezamos a trabajar juntos?', 'Con un diagnóstico gratis de 30 minutos. Revisamos tu cuenta, listings, PPC y márgenes — y te decimos exactamente qué haríamos, con números. Si hay fit, arrancamos con un plan de 90 días.'],
+    ['¿Quién opera mi cuenta en el día a día?', 'Nosotros. Patricio lleva estrategia y PPC, Rodrigo la operación y logística, Ximena el contenido. Hablas directo con el equipo por Slack o WhatsApp — no hay account managers junior de por medio.'],
+    ['¿Piden permanencia o contratos largos?', 'No. Trabajamos mes a mes después de los primeros 90 días. Si no ves valor en el reporting y los resultados, te vas sin fricción — la cuenta y la data siempre son tuyas.'],
+    ['¿Qué incluye el reporting?', 'Dashboard con acceso 24/7 a tus KPIs — GMV, unidades, ACOS, stock — más un reporte mensual con P&L por SKU y plan del mes siguiente. Nada de PDFs genéricos.'],
+    ['Vendo en México. ¿Me pueden llevar a Amazon USA?', 'Sí — es nuestro diferenciador. Llevamos 7+ años exportando marcas mexicanas: LLC, EIN, taxes, freight, compliance y lanzamiento. El playbook completo, validado con marcas reales.'],
+    ['¿Cuánto cuesta?', 'Full Management va de $8K a $25K MXN/mes según catálogo y mercados. PPC solo, de $5K a $15K MXN. El diagnóstico inicial es gratis y te da el número exacto para tu caso.']
+  ],
+  ctOverline: 'Siguiente paso', ctTitle1: '¿Listo para operar', ctTitle2: 'en serio?',
+  ctSub: 'Diagnóstico gratis de 30 minutos. Revisamos tu cuenta y te decimos qué haríamos — con números, no promesas.',
+  ctCta1: 'Agendar diagnóstico',
+  ftTagline: 'Agencia Amazon · USA y México · Certificada AGS',
+  ftServicios: 'Servicios', ftEstudios: 'Estudios de mercado', ftContacto: 'Contacto',
+  ftLegal: 'Hecho en México con orgullo.'
+};
 
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="apple-touch-icon" href="assets/favicon.svg">
-<link rel="stylesheet" href="styles.css?v=8">
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
-</head>
-<body data-theme="light" data-accent="orange" data-card-style="flat">
-<div id="root"></div>
-
-<!-- Crawlable content fallback for non-JS / AI crawlers (GPTBot, ClaudeBot, PerplexityBot).
-     Hidden by the browser when JavaScript is enabled; the React app above is the live UI. -->
-<noscript>
-  <main>
-    <h1>MEXUS Seller — Agencia para vendedores en Amazon USA y México</h1>
-    <p>Lanzamos y escalamos marcas en Amazon USA y México. Somos sellers en Amazon con 6+ años de experiencia y 20+ marcas escaladas. Atención y estrategia directa con los fundadores, Patricio y Rodrigo — para que tu marca no pague el precio de aprender Amazon. Formamos parte del Amazon Service Provider Network (SPN) y de Amazon Global Selling.</p>
-    <p><a href="https://calendar.app.google/H9ncvExjQw7nZu3o9">Agenda un diagnóstico gratis de 30 minutos</a> con Patricio o Rodrigo.</p>
-
-    <section>
-      <h2>Qué hacemos</h2>
-      <ul>
-        <li><strong>Full Management</strong> — Operación Amazon completa en Seller Central (3P) o Vendor Central (1P): listings, PPC, inventario y reportes mensuales. Desde $8,000 a $25,000 MXN/mes.</li>
-        <li><strong>PPC Management</strong> — Sponsored Products, Brands y Display con optimización semanal. $5,000 a $15,000 MXN según ad spend.</li>
-        <li><strong>Estudios de mercado</strong> — Demanda real, competencia, keywords y márgenes. Reporte ejecutable en 5 días. $1,200 MXN.</li>
-        <li><strong>Asesoría 1:1</strong> — Sesión directa con Patricio o Rodrigo, 60 minutos, recomendaciones específicas. $2,000 MXN/hora.</li>
-        <li><strong>Cross-border MX → US</strong> — Sistema de exportación: LLC en EE.UU., EIN, freight forwarders, taxes y FBA Inbound. Custom según diagnóstico.</li>
-        <li><strong>Auditoría completa</strong> — Revisión profunda de cuenta, listings, PPC y márgenes con plan de acción priorizado.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Marcas que confían en nosotros</h2>
-      <p>15+ marcas operadas en 3 mercados (México, USA, Canadá): Artisans Bazaar, Prisma, Maja, Tía Ofilia, Hauss, Mil Flores, Pronalux, Seima, Lyssette, Habits, Bio Maussan, Luxus, Regina Romero, Tamboreta y Tramborneas.</p>
-    </section>
-
-    <section>
-      <h2>Preguntas frecuentes</h2>
-      <h3>¿Qué incluye el diagnóstico gratuito?</h3>
-      <p>Llamada de 30 min con Patricio o Rodrigo. Revisamos tu cuenta (si la tienes), tu producto, tu mercado objetivo y te damos un plan inicial honesto. Si no eres un buen fit, te lo decimos.</p>
-      <h3>¿Cuánto cuesta Full Management?</h3>
-      <p>$8,000 a $25,000 MXN/mes. El precio depende del estado de la cuenta, número de ASINs y la etapa del seller. Lo definimos después del diagnóstico — sin sorpresas.</p>
-      <h3>¿Manejan cuentas Vendor (1P) además de Seller (3P)?</h3>
-      <p>Sí. Operamos tanto Seller Central (3P) como Vendor Central (1P) y te ayudamos a decidir cuál modelo conviene a tu marca según margen, control de precios, volumen y operación logística.</p>
-      <h3>¿Cómo manejan el cross-border MX → USA?</h3>
-      <p>Implementamos un sistema completo: LLC en EE.UU., EIN, freight forwarders validados, taxes, FBA Inbound y seguimiento de exportación, custom según tu producto y volumen.</p>
-      <h3>¿En cuánto tiempo veo resultados?</h3>
-      <p>Garantizamos primera venta en USA en 60 días desde el lanzamiento. La escala real toma 4-6 meses dependiendo de la categoría y el ad spend.</p>
-      <h3>¿Hablo directo con los fundadores?</h3>
-      <p>Sí, siempre. Patricio y Rodrigo lideran cada cuenta. No hay account managers junior.</p>
-    </section>
-
-    <section>
-      <h2>Contacto</h2>
-      <p>Email: <a href="mailto:hola@mexusseller.com">hola@mexusseller.com</a> · WhatsApp: +1 347 387 3386 · Plataforma: <a href="https://app.mexusseller.com">app.mexusseller.com</a></p>
-      <p>MEXUS Seller, operado por Roospa Products LLC. Oficinas en Ciudad de México (MX) y Nueva York (USA).</p>
-    </section>
-  </main>
-</noscript>
-
-<script type="text/babel" src="components/Icons.jsx"></script>
-<script type="text/babel" src="components/Navbar.jsx?v=2"></script>
-<script type="text/babel" src="components/Hero.jsx"></script>
-<script type="text/babel" src="components/Sections1.jsx"></script>
-<script type="text/babel" src="components/Sections2.jsx"></script>
-<script type="text/babel" src="components/Sections3.jsx"></script>
-<script type="text/babel" src="components/Process.jsx"></script>
-
-<script type="text/babel" data-presets="env,react">
-const { useState, useEffect } = React;
-
-function App() {
-  const [lang, setLang] = useState("es");
-
-  // Reveal-on-scroll
-  useEffect(() => {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
-    }, { threshold: 0.1, rootMargin: "0px 0px -60px 0px" });
-    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <>
-      <Navbar lang={lang} onLang={setLang} theme="light" />
-      <Hero lang={lang} variant="bold" />
-      <Services lang={lang} />
-      <Process lang={lang} />
-      <Brands lang={lang} />
-      <Team lang={lang} />
-      <Platform lang={lang} />
-      <FAQ lang={lang} />
-      <Contact lang={lang} />
-      <Footer lang={lang} />
-      <WhatsApp lang={lang} />
-    </>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+Component.EN = {
+  navServicios: 'Services', navMarcas: 'Brands', navPlataforma: 'Platform', navEquipo: 'Team', navCta: 'Book diagnosis',
+  heroEyebrow: 'Amazon agency · USA + Mexico · AGS certified',
+  heroH1a: 'We launch and scale', heroH1b: 'brands on',
+  heroSub: "We're sellers on Amazon. Direct strategy with Patricio and Rodrigo — so your brand doesn't pay the cost of learning Amazon.",
+  heroCta1: 'Book diagnosis', heroCta2: 'See what we do',
+  stat1: 'Active brands', stat2: 'USD GMV managed', stat3: 'Years on Amazon', stat4: 'Amazon markets',
+  dashUnits: 'Units', dashUnits2: 'Units', dashConv: 'Conversion',
+  brOverline: 'Brands that trust us', brTitle1: '20+ brands. 3 markets.', brTitle2: 'Real operation.',
+  svOverline: 'What we do', svTitle1: 'Full Amazon operation.', svTitle2: 'No surprises.',
+  svSub: 'Services built like sellers, not an agency. Transparent pricing, clear scope, measurable results.',
+  svCta: 'Free diagnosis · 30 min',
+  services: [
+    { icon: 'wrench', title: 'Full Management', desc: 'Full Amazon operation on Seller Central or Vendor Central: listings, PPC, inventory and monthly reports.', price: '$8K – $25K MXN/mo', tag: 'Seller and Vendor', hi: true },
+    { icon: 'megaphone', title: 'PPC Management', desc: 'Sponsored Products, Brands and Display. Weekly optimization with clear metrics.', price: '$5K – $15K MXN · per ad spend' },
+    { icon: 'search', title: 'Market studies', desc: 'Real demand, competition, keywords, margins. Actionable report in 5 days.', price: '$1,200 MXN', tag: 'Launch essential' },
+    { icon: 'chat', title: '1:1 Consulting', desc: 'Direct session with Patricio or Rodrigo. 60 min, open agenda, specific recommendations.', price: '$2,000 MXN/hour' },
+    { icon: 'globe-arrow', title: 'Cross-border MX → US', desc: 'Export tracking system. LLC, EIN, logistics, taxes. Custom based on diagnosis.', price: 'Custom · post-call', tag: 'Unique differentiator', hi: true },
+    { icon: 'chart-up', title: 'Full audit', desc: 'Deep review of account, listings, PPC, margins. Prioritized action plan.', price: 'Included in diagnosis' }
+  ],
+  pfOverline: 'Platform V3.0 · built in-house',
+  pfTitle1: 'Your full operation.', pfTitle2: 'In one place.',
+  pfSub: "We don't run accounts blind or on monthly PDFs. Our platform connects straight to your account via SP-API and turns data into decisions — this is what your team (and you) see every day. Browse the menu to explore.",
+  pfFeats: [
+    ['chart-up', 'P&L per SKU', 'Real margin per product: fees, freight, ads and returns included. You know which SKU earns and which bleeds.'],
+    ['list', 'Inventory and FBA Replenish', 'Suggested POs before you run out of stock. Days of inventory and fill rate per marketplace.'],
+    ['megaphone', 'PPC with daily data', 'Campaigns optimized weekly against a target ACOS per SKU — not an account average.'],
+    ['chat', 'KAI · AI assistant', 'Ask your account anything. KAI answers with your connected data, not generic advice.']
+  ],
+  pfTbl: 'Top SKUs · Last 30 days', pfTblSub: '6 of 142 active SKUs', pfColTitle: 'Title',
+  pfFoot: "Connected via SP-API · your account's real data · 24/7 access",
+  pfStockU: 'FBA units', pfStockD: 'Days of stock', pfStockPo: 'Open POs', pfMargin: 'Net margin',
+  tmOverline: 'About us', tmTitle1: 'Run by sellers,', tmTitle2: 'for sellers.',
+  tmP1: 'Patricio and Rodrigo have spent 7+ years exporting Mexican brands to Amazon USA. We learned with our own brands — losing money on failed launches, optimizing PPC until 2 a.m., fighting with freight forwarders.',
+  tmP2: 'When you hire MEXUS SELLER, you talk to us directly. No junior account managers. No copy-paste templates. Every strategy bears our signature.',
+  diffs: [
+    ['Active sellers', 'We run 4 of our own brands'],
+    ['Direct access', 'Slack/WhatsApp with founders'],
+    ['Amazon SPN', 'Official certified agency'],
+    ['Cross-border MX→US', 'Only validated playbook']
+  ],
+  mPatoRole: 'Co-founder · Strategy', mPatoBio: '7+ years Amazon USA. Lead on cross-border launches and PPC.',
+  mRodriRole: 'Co-founder · Operations', mRodriBio: 'Logistics, freight, taxes and MX→USA export. Talks to Customs.',
+  mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Treats your brand as her own.',
+  mTagLog: 'Logistics', mTagInv: 'Inventory',
+  faqTitle: 'Frequently asked questions',
+  faqs: [
+    ['How do we start working together?', 'With a free 30-minute diagnosis. We review your account, listings, PPC and margins — and tell you exactly what we would do, with numbers. If there is fit, we start with a 90-day plan.'],
+    ['Who runs my account day to day?', 'We do. Patricio leads strategy and PPC, Rodrigo runs operations and logistics, Ximena handles content. You talk directly with the team on Slack or WhatsApp — no junior account managers in between.'],
+    ['Do you require long contracts?', 'No. We work month to month after the first 90 days. If you do not see value in the reporting and results, you leave without friction — the account and the data are always yours.'],
+    ['What does reporting include?', 'A dashboard with 24/7 access to your KPIs — GMV, units, ACOS, stock — plus a monthly report with P&L per SKU and next month\'s plan. No generic PDFs.'],
+    ['I sell in Mexico. Can you take me to Amazon USA?', 'Yes — it is our differentiator. We have spent 7+ years exporting Mexican brands: LLC, EIN, taxes, freight, compliance and launch. The full playbook, validated with real brands.'],
+    ['How much does it cost?', 'Full Management runs from $8K to $25K MXN/mo depending on catalog and markets. PPC alone, $5K to $15K MXN. The initial diagnosis is free and gives you the exact number for your case.']
+  ],
+  ctOverline: 'Next step', ctTitle1: 'Ready to operate', ctTitle2: 'for real?',
+  ctSub: 'Free 30-minute diagnosis. We review your account and tell you what we would do — with numbers, not promises.',
+  ctCta1: 'Book diagnosis',
+  ftTagline: 'Amazon agency · USA and Mexico · AGS certified',
+  ftServicios: 'Services', ftEstudios: 'Market studies', ftContacto: 'Contact',
+  ftLegal: 'Made in Mexico with pride.'
+};
 </script>
 </body>
 </html>

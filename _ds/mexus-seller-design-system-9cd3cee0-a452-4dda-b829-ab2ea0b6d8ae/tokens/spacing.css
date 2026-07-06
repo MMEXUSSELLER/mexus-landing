@@ -1,0 +1,26 @@
+/* ============================================================
+   MEXUS SELLER — Spacing tokens (4/8px base, matches tailwind 2,4,6,8,12,16)
+   ============================================================ */
+
+:root {
+  --mx-space-1:  4px;
+  --mx-space-2:  8px;
+  --mx-space-3:  12px;
+  --mx-space-4:  16px;
+  --mx-space-5:  20px;
+  --mx-space-6:  24px;
+  --mx-space-8:  32px;
+  --mx-space-10: 40px;
+  --mx-space-12: 48px;
+  --mx-space-16: 64px;
+  --mx-space-20: 80px;
+  --mx-space-24: 96px;   /* section padding */
+
+  /* ── Layout ── */
+  --mx-container:    1200px;   /* landing */
+  --mx-container-lg: 1400px;   /* dashboard */
+  --mx-nav-h:        72px;
+  --mx-nav-h-lg:     96px;
+  --mx-sidebar-w:    244px;
+  --mx-sidebar-w-collapsed: 72px;
+}

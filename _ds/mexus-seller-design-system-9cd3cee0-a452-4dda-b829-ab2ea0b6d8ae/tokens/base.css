@@ -1,0 +1,74 @@
+/* ============================================================
+   MEXUS SELLER — Base semantic elements.
+   Link styles.css and native h1/h2/p pick up the MEXUS voice.
+   ============================================================ */
+
+html { font-family: var(--mx-font-body); color: var(--mx-fg-1); }
+body { font-size: var(--mx-fs-body); line-height: var(--mx-lh-body); }
+
+/* Display — condensed uppercase, MEXUS signature */
+.mx-display-1,
+h1 {
+  font-family: var(--mx-font-display);
+  font-size: var(--mx-fs-display-1);
+  font-weight: 800;
+  line-height: var(--mx-lh-tight);
+  letter-spacing: var(--mx-ls-tight);
+  text-transform: uppercase;
+  color: var(--mx-navy);
+  margin: 0;
+}
+.mx-display-2,
+h2 {
+  font-family: var(--mx-font-display);
+  font-size: var(--mx-fs-display-2);
+  font-weight: 800;
+  line-height: var(--mx-lh-tight);
+  text-transform: uppercase;
+  color: var(--mx-navy);
+  margin: 0;
+}
+h3 {
+  font-family: var(--mx-font-display);
+  font-size: var(--mx-fs-h3);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  color: var(--mx-navy);
+  margin: 0;
+}
+h4 {
+  font-family: var(--mx-font-sans);
+  font-size: var(--mx-fs-h4);
+  font-weight: 600;
+  color: var(--mx-navy);
+  margin: 0;
+}
+p   { margin: 0; color: var(--mx-gray); }
+small, .mx-caption { font-size: var(--mx-fs-caption); color: var(--mx-gray-light); }
+
+.mx-overline {
+  font-family: var(--mx-font-sans);
+  font-size: var(--mx-fs-overline);
+  font-weight: 700;
+  letter-spacing: var(--mx-ls-wider);
+  text-transform: uppercase;
+  color: var(--mx-gray);
+}
+
+.mx-stat-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: var(--mx-ls-widest);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.mx-kpi-value {
+  font-family: var(--mx-font-display);
+  font-size: var(--mx-fs-kpi);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--mx-navy);
+  font-variant-numeric: tabular-nums;
+}

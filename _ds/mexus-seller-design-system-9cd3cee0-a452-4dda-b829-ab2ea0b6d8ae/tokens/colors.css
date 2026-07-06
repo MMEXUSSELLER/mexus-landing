@@ -1,0 +1,66 @@
+/* ============================================================
+   MEXUS SELLER — Color tokens
+   Two brand colors carry almost everything: MEXUS Orange + the Navy family.
+   Use orange like a highlighter pen, not a paintcan.
+   ============================================================ */
+
+:root {
+  /* ── Core brand palette ── */
+  --mx-orange:        #F47920;   /* primary · CTAs · active states · accent band */
+  --mx-orange-hover:  #E56A15;   /* hover darken ~6% */
+  --mx-orange-soft:   rgba(244, 121, 32, 0.14); /* pill backgrounds, subtle highlights */
+  --mx-orange-ring:   rgba(244, 121, 32, 0.22); /* focus rings, pulse shadows */
+
+  --mx-navy:          #152232;   /* logo wordmark navy · legacy hero surface · body text on white */
+  --mx-navy-light:    #1B2F45;   /* cards on navy · hover state */
+  --mx-navy-dark:     #0D1826;   /* footer · deepest surfaces · mock dashboards */
+  --mx-navy-v3:       #0A111A;   /* V3 dark-mode default background (net-new work) */
+
+  --mx-gray:          #4D4D4D;   /* body copy on light · "SELLER" in the logo */
+  --mx-gray-light:    #9CA3AF;   /* fine print · disabled · secondary meta */
+  --mx-gray-border:   #E5E5E5;   /* 1px hairlines on light */
+  --mx-gray-border-dark: rgba(255, 255, 255, 0.10); /* hairlines on navy */
+
+  --mx-white:         #FFFFFF;
+  --mx-off-white:     #F5F5F5;   /* section alt background */
+  --mx-cream:         #FFF5EC;   /* orange-tinted highlight card bg */
+
+  /* ── Semantic / status ── */
+  --mx-success:       hsl(142 71% 45%);   /* positive delta · "on pace" */
+  --mx-success-soft:  rgba(37, 211, 102, 0.20);
+  --mx-success-fg:    #7AD694;
+
+  --mx-danger:        hsl(0 72% 51%);     /* negative delta · alerts */
+  --mx-danger-fg:     #F87171;
+  --mx-warning:       hsl(36 100% 51%);   /* same hue as primary — used sparingly */
+
+  --mx-whatsapp:      #25D366;            /* WhatsApp brand (primary CTA on landing) */
+  --mx-whatsapp-dark: #1DA851;
+
+  /* ── Foreground / surface (LIGHT) ── */
+  --mx-fg-1:          #152232;   /* primary text */
+  --mx-fg-2:          #4D4D4D;   /* secondary text */
+  --mx-fg-3:          #9CA3AF;   /* muted / captions */
+  --mx-fg-4:          #C7CBD1;   /* disabled */
+
+  --mx-bg:            #FFFFFF;   /* page */
+  --mx-bg-alt:        #F5F5F5;   /* zebra sections */
+  --mx-surface:       #FFFFFF;   /* cards */
+  --mx-surface-sub:   #FAFAFB;   /* subtle card bg */
+  --mx-border:        #E5E5E5;
+
+  /* ── Dark mode (dashboard default) ── */
+  --mx-bg-dark:       hsl(210 20% 12%);
+  --mx-surface-dark:  hsl(210 18% 16%);
+  --mx-border-dark:   hsl(210 15% 25%);
+  --mx-fg-dark-1:     hsl(210 10% 95%);
+  --mx-fg-dark-2:     hsl(210 8% 70%);
+  --mx-fg-dark-3:     hsl(210 10% 60%);
+
+  /* ── Data viz (ordered — orange is always series #1) ── */
+  --mx-chart-1: hsl(36 100% 51%);   /* orange */
+  --mx-chart-2: hsl(210 46% 35%);   /* navy */
+  --mx-chart-3: hsl(142 71% 35%);   /* green */
+  --mx-chart-4: hsl(0 72% 45%);     /* red */
+  --mx-chart-5: hsl(270 50% 40%);   /* plum — rare */
+}

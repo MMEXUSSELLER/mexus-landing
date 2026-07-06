@@ -1,0 +1,48 @@
+/* ============================================================
+   MEXUS SELLER — Typography tokens
+   Barlow Condensed = display (UPPERCASE). Inter = landing body.
+   Montserrat = dashboard body. JetBrains Mono = numbers/IDs.
+   ============================================================ */
+
+:root {
+  /* ── Families ── */
+  --mx-font-display: 'Barlow Condensed', 'Oswald', Impact, sans-serif;  /* uppercase headlines, KPI values */
+  --mx-font-sans:    'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* dashboard default */
+  --mx-font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; /* marketing body */
+  --mx-font-mono:    'JetBrains Mono', Menlo, Monaco, Consolas, monospace;
+
+  /* ── Scale — landing + decks lean large; dashboard leans dense ── */
+  --mx-fs-display-1: clamp(2.5rem, 8vw, 5rem);     /* @kind font */ /* hero headline */
+  --mx-fs-display-2: clamp(1.8rem, 5vw, 2.8rem);   /* @kind font */ /* section title */
+  --mx-fs-display-3: clamp(1.4rem, 3.5vw, 2.2rem); /* @kind font */ /* featured title */
+  --mx-fs-h1:        2rem;      /* @kind font */ /* 32px — dashboard header */
+  --mx-fs-h2:        1.5rem;    /* @kind font */ /* 24px — page subheader */
+  --mx-fs-h3:        1.125rem;  /* @kind font */ /* 18px — section title */
+  --mx-fs-h4:        1rem;      /* @kind font */ /* 16px — card title */
+  --mx-fs-kpi:       1.75rem;   /* @kind font */ /* 28px — KPI value */
+  --mx-fs-body:      0.9375rem; /* @kind font */ /* 15px — body */
+  --mx-fs-body-sm:   0.875rem;  /* @kind font */ /* 14px — default dashboard body */
+  --mx-fs-caption:   0.75rem;   /* @kind font */ /* 12px — meta / caption */
+  --mx-fs-overline:  0.6875rem; /* @kind font */ /* 11px — uppercase labels / pills */
+
+  /* ── Line-height ── */
+  --mx-lh-tight:  1.05;   /* @kind font */
+  --mx-lh-snug:   1.25;   /* @kind font */
+  --mx-lh-body:   1.55;   /* @kind font */
+  --mx-lh-loose:  1.65;   /* @kind font */
+
+  /* ── Letter-spacing ── */
+  --mx-ls-tight:  -0.01em;   /* @kind font */
+  --mx-ls-normal: 0;         /* @kind font */
+  --mx-ls-wide:   0.5px;     /* @kind font */
+  --mx-ls-wider:  1.2px;     /* @kind font */
+  --mx-ls-widest: 2px;       /* @kind font */
+
+  /* ── Weights (semantic aliases) ── */
+  --mx-fw-regular:  400;   /* @kind font */
+  --mx-fw-medium:   500;   /* @kind font */
+  --mx-fw-semibold: 600;   /* @kind font */
+  --mx-fw-bold:     700;   /* @kind font */
+  --mx-fw-extrabold:800;   /* @kind font */
+  --mx-fw-black:    900;   /* @kind font */
+}
