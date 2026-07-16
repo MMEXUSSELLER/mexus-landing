@@ -1,0 +1,1790 @@
+{
+  "_meta": {
+    "version": "2026-USMX-v1",
+    "effectiveDate": "2026-01-15",
+    "lastReviewed": "2026-07-14",
+    "reviewCadence": "Revisar cada enero (Amazon actualiza fees ~anual) y tras anuncios mid-year (recargos de combustible/peak).",
+    "notes": "La categoria SOLO afecta el referral fee (fee de venta). El FBA fulfillment fee depende de size-tier + peso (+ banda de precio en 2026), NO de la categoria.",
+    "sources": {
+      "referral": "https://sell.amazon.com/pricing (tabla publica oficial). Validado vs ancla apparel 17% (Lyssette).",
+      "fba": "Large Standard reconciliado vs spec Calculadora V3 (jun 2026) — coincide fila por fila, incluido surcharge $0.08/4oz>3lb y fuel 3.5%. Otros tiers siguen triangulados.",
+      "mx": "https://vender.amazon.com.mx/precios (#tarifas-por-referencia y #costos-de-envio), jul 2026. Validado vs settlements MIL FLORES MX en BigQuery."
+    },
+    "fbaStatus": "PARCIALMENTE VERIFICADO. Large Standard reconciliado contra el spec V3 (jun 2026) y validado con el caso Flexi Freeland (FBA $8.15, margen 22.8%). Small Standard / Large Bulky / Extra-Large siguen triangulados de fuentes publicas — spot-check contra Seller Central logueado antes de cotizar con cliente. Calibracion futura: comparar vs fba_per_unit_fulfillment_fee real por (size_tier, weight) desde DataDoe/BigQuery."
+  },
+  "US": {
+    "currency": "USD",
+    "dimWeightDivisor": 139,
+    "dimWeightUnit": "in_lb",
+    "dimWeightAppliesTo": "Large standard y mayores (no a Small standard, que usa peso real).",
+    "fuelSurchargePct": 0.035,
+    "_fuelNote": "Recargo de combustible 3.5% sobre el FBA fulfillment fee, vigente desde 2026-04-17 (US y CA).",
+    "referral": {
+      "_encoding": {
+        "mode_flat": "pct unico sobre el precio total.",
+        "mode_threshold": "el precio total cae en UN bracket y ese pct aplica a TODO el precio (ej. Clothing).",
+        "mode_marginal": "pct por porciones del precio (ej. Jewelry: 20% hasta 250, 5% del resto).",
+        "min": "minimo por item; si el calculado es menor, se cobra el minimo."
+      },
+      "amazon_device_accessories": {
+        "label": "Amazon Device Accessories",
+        "mode": "flat",
+        "pct": 0.45,
+        "min": 0.3
+      },
+      "appliances_compact": {
+        "label": "Appliances - Compact",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 300,
+            "pct": 0.15
+          },
+          {
+            "upTo": null,
+            "pct": 0.08
+          }
+        ],
+        "min": 0.3
+      },
+      "appliances_fullsize": {
+        "label": "Appliances - Full-size",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 0.3
+      },
+      "automotive_powersports": {
+        "label": "Automotive and Powersports",
+        "mode": "flat",
+        "pct": 0.12,
+        "min": 0.3
+      },
+      "base_equipment_power_tools": {
+        "label": "Base Equipment Power Tools",
+        "mode": "flat",
+        "pct": 0.12,
+        "min": 0.3
+      },
+      "baby_products": {
+        "label": "Baby Products",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 10,
+            "pct": 0.08
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 0.3
+      },
+      "backpacks_handbags_luggage": {
+        "label": "Backpacks, Handbags, and Luggage",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "beauty_health_personal_care": {
+        "label": "Beauty, Health, and Personal Care",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 10,
+            "pct": 0.08
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 0.3
+      },
+      "business_industrial_scientific": {
+        "label": "Business, Industrial, and Scientific Supplies",
+        "mode": "flat",
+        "pct": 0.12,
+        "min": 0.3
+      },
+      "clothing_accessories": {
+        "label": "Clothing and Accessories",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 15,
+            "pct": 0.05
+          },
+          {
+            "upTo": 20,
+            "pct": 0.1
+          },
+          {
+            "upTo": null,
+            "pct": 0.17
+          }
+        ],
+        "min": 0.3
+      },
+      "computers": {
+        "label": "Computers",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 0.3
+      },
+      "consumer_electronics": {
+        "label": "Consumer Electronics",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 0.3
+      },
+      "electronics_accessories": {
+        "label": "Electronics Accessories",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 100,
+            "pct": 0.15
+          },
+          {
+            "upTo": null,
+            "pct": 0.08
+          }
+        ],
+        "min": 0.3
+      },
+      "eyewear": {
+        "label": "Eyewear",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "fine_art": {
+        "label": "Fine Art",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 100,
+            "pct": 0.2
+          },
+          {
+            "upTo": 1000,
+            "pct": 0.15
+          },
+          {
+            "upTo": 5000,
+            "pct": 0.1
+          },
+          {
+            "upTo": null,
+            "pct": 0.05
+          }
+        ],
+        "min": 1.0
+      },
+      "footwear": {
+        "label": "Footwear",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "furniture": {
+        "label": "Furniture",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 200,
+            "pct": 0.15
+          },
+          {
+            "upTo": null,
+            "pct": 0.1
+          }
+        ],
+        "min": 0.3
+      },
+      "gift_cards": {
+        "label": "Gift Cards",
+        "mode": "flat",
+        "pct": 0.2,
+        "min": 0
+      },
+      "grocery_gourmet": {
+        "label": "Grocery and Gourmet",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 15,
+            "pct": 0.08
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 0
+      },
+      "home_kitchen": {
+        "label": "Home and Kitchen",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "jewelry": {
+        "label": "Jewelry",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 250,
+            "pct": 0.2
+          },
+          {
+            "upTo": null,
+            "pct": 0.05
+          }
+        ],
+        "min": 0.3
+      },
+      "lawn_garden": {
+        "label": "Lawn and Garden",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "lawn_mowers_snow_throwers": {
+        "label": "Lawn Mowers and Snow Throwers",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 500,
+            "pct": 0.15
+          },
+          {
+            "upTo": null,
+            "pct": 0.08
+          }
+        ],
+        "min": 0.3
+      },
+      "mattresses": {
+        "label": "Mattresses",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "media": {
+        "label": "Media - Books, DVD, Music, Software, Video",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0,
+        "_note": "Media puede llevar closing fee fijo aparte (no incluido)."
+      },
+      "merchant_fulfilled_services": {
+        "label": "Merchant Fulfilled Services",
+        "mode": "flat",
+        "pct": 0.2,
+        "min": 0.3
+      },
+      "musical_instruments_av": {
+        "label": "Musical Instruments and AV Production",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "office_products": {
+        "label": "Office Products",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "pet_supplies": {
+        "label": "Pet Supplies",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3,
+        "_note": "22% para dietas veterinarias."
+      },
+      "sports_outdoors": {
+        "label": "Sports and Outdoors",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "tires": {
+        "label": "Tires",
+        "mode": "flat",
+        "pct": 0.1,
+        "min": 0.3
+      },
+      "tools_home_improvement": {
+        "label": "Tools and Home Improvement",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "toys_games": {
+        "label": "Toys and Games",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      },
+      "video_games_accessories": {
+        "label": "Video Games and Gaming Accessories",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0
+      },
+      "video_game_consoles": {
+        "label": "Video Game Consoles",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 0
+      },
+      "watches": {
+        "label": "Watches",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 1500,
+            "pct": 0.16
+          },
+          {
+            "upTo": null,
+            "pct": 0.03
+          }
+        ],
+        "min": 0.3
+      },
+      "everything_else": {
+        "label": "Everything Else",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 0.3
+      }
+    },
+    "sizeTiers": {
+      "_status": "DRAFT — confirmar dims/peso exactos contra tabla oficial 2026.",
+      "tiers": [
+        {
+          "key": "small_standard",
+          "label": "Small standard",
+          "maxWeightOz": 16,
+          "maxLongIn": 15,
+          "maxMedianIn": 12,
+          "maxShortIn": 0.75,
+          "usesDimWeight": false
+        },
+        {
+          "key": "large_standard",
+          "label": "Large standard",
+          "maxWeightLb": 20,
+          "maxLongIn": 18,
+          "maxMedianIn": 14,
+          "maxShortIn": 8,
+          "usesDimWeight": true
+        },
+        {
+          "key": "large_bulky",
+          "label": "Large bulky",
+          "maxWeightLb": 50,
+          "maxLongIn": 59,
+          "maxLengthGirthIn": 130,
+          "usesDimWeight": true
+        },
+        {
+          "key": "extra_large_0_50",
+          "label": "Extra-large 0-50 lb",
+          "maxWeightLb": 50,
+          "usesDimWeight": true
+        },
+        {
+          "key": "extra_large_50_70",
+          "label": "Extra-large 50-70 lb",
+          "maxWeightLb": 70,
+          "usesDimWeight": true
+        },
+        {
+          "key": "extra_large_70_150",
+          "label": "Extra-large 70-150 lb",
+          "maxWeightLb": 150,
+          "usesDimWeight": true
+        },
+        {
+          "key": "extra_large_150_plus",
+          "label": "Extra-large 150+ lb",
+          "maxWeightLb": null,
+          "usesDimWeight": false
+        }
+      ]
+    },
+    "fbaFees": {
+      "_status": "TRIANGULADO de reproducciones publicas 2026 (SellerApp como primaria; columna $10-$50 corroborada por AmzPrep). NO es la tabla oficial logueada. Confianza alta en la banda $10-$50; media en <$10 y >$50 (single-source). Spot-check antes de uso con cliente.",
+      "appliesTo": "non_apparel",
+      "_apparelNote": "Apparel tiene tabla propia (fees mas altos por mayor tasa de devolucion). PENDIENTE — relevante para MAJA/Lyssette/Nowful. Ver fbaFeesApparel.",
+      "priceBands": [
+        {
+          "key": "lt10",
+          "label": "< $10",
+          "maxPrice": 10
+        },
+        {
+          "key": "p10to50",
+          "label": "$10 - $50",
+          "maxPrice": 50
+        },
+        {
+          "key": "gt50",
+          "label": "> $50",
+          "maxPrice": null
+        }
+      ],
+      "rows": [
+        {
+          "tier": "small_standard",
+          "band": "<=2oz",
+          "maxOz": 2,
+          "fee": {
+            "lt10": 2.43,
+            "p10to50": 3.32,
+            "gt50": 3.58
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "2-4oz",
+          "maxOz": 4,
+          "fee": {
+            "lt10": 2.49,
+            "p10to50": 3.42,
+            "gt50": 3.68
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "4-6oz",
+          "maxOz": 6,
+          "fee": {
+            "lt10": 2.56,
+            "p10to50": 3.45,
+            "gt50": 3.71
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "6-8oz",
+          "maxOz": 8,
+          "fee": {
+            "lt10": 2.66,
+            "p10to50": 3.54,
+            "gt50": 3.8
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "8-10oz",
+          "maxOz": 10,
+          "fee": {
+            "lt10": 2.77,
+            "p10to50": 3.68,
+            "gt50": 3.94
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "10-12oz",
+          "maxOz": 12,
+          "fee": {
+            "lt10": 2.82,
+            "p10to50": 3.78,
+            "gt50": 4.04
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "12-14oz",
+          "maxOz": 14,
+          "fee": {
+            "lt10": 2.92,
+            "p10to50": 3.91,
+            "gt50": 4.17
+          }
+        },
+        {
+          "tier": "small_standard",
+          "band": "14-16oz",
+          "maxOz": 16,
+          "fee": {
+            "lt10": 2.95,
+            "p10to50": 3.96,
+            "gt50": 4.22
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "<=4oz",
+          "maxOz": 4,
+          "fee": {
+            "lt10": 2.91,
+            "p10to50": 3.73,
+            "gt50": 3.99
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "4-8oz",
+          "maxOz": 8,
+          "fee": {
+            "lt10": 3.13,
+            "p10to50": 3.95,
+            "gt50": 4.21
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "8-12oz",
+          "maxOz": 12,
+          "fee": {
+            "lt10": 3.38,
+            "p10to50": 4.2,
+            "gt50": 4.46
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "12-16oz",
+          "maxOz": 16,
+          "fee": {
+            "lt10": 3.78,
+            "p10to50": 4.6,
+            "gt50": 4.86
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "1-1.25lb",
+          "maxLb": 1.25,
+          "fee": {
+            "lt10": 4.22,
+            "p10to50": 5.04,
+            "gt50": 5.3
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "1.25-1.5lb",
+          "maxLb": 1.5,
+          "fee": {
+            "lt10": 4.6,
+            "p10to50": 5.42,
+            "gt50": 5.68
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "1.5-1.75lb",
+          "maxLb": 1.75,
+          "fee": {
+            "lt10": 4.75,
+            "p10to50": 5.57,
+            "gt50": 5.83
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "1.75-2lb",
+          "maxLb": 2,
+          "fee": {
+            "lt10": 5.0,
+            "p10to50": 5.82,
+            "gt50": 6.08
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "2-2.25lb",
+          "maxLb": 2.25,
+          "fee": {
+            "lt10": 5.1,
+            "p10to50": 5.92,
+            "gt50": 6.18
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "2.25-2.5lb",
+          "maxLb": 2.5,
+          "fee": {
+            "lt10": 5.28,
+            "p10to50": 6.1,
+            "gt50": 6.36
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "2.5-2.75lb",
+          "maxLb": 2.75,
+          "fee": {
+            "lt10": 5.44,
+            "p10to50": 6.26,
+            "gt50": 6.52
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "2.75-3lb",
+          "maxLb": 3,
+          "fee": {
+            "lt10": 5.85,
+            "p10to50": 6.67,
+            "gt50": 6.93
+          }
+        },
+        {
+          "tier": "large_standard",
+          "band": "3-20lb",
+          "maxLb": 20,
+          "fee": {
+            "lt10": 6.15,
+            "p10to50": 6.97,
+            "gt50": 7.23
+          },
+          "surcharge": {
+            "per": "4oz",
+            "amount": 0.08,
+            "aboveLb": 3
+          }
+        },
+        {
+          "tier": "small_bulky",
+          "band": "0-50lb",
+          "maxLb": 50,
+          "uncertain": true,
+          "fee": {
+            "lt10": 6.78,
+            "p10to50": 7.55,
+            "gt50": 7.55
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.38,
+            "aboveLb": 1
+          }
+        },
+        {
+          "tier": "large_bulky",
+          "band": "0-50lb",
+          "maxLb": 50,
+          "fee": {
+            "lt10": 8.58,
+            "p10to50": 9.35,
+            "gt50": 9.35
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.38,
+            "aboveLb": 1
+          }
+        },
+        {
+          "tier": "extra_large_0_50",
+          "band": "0-50lb",
+          "maxLb": 50,
+          "fee": {
+            "lt10": 25.56,
+            "p10to50": 26.33,
+            "gt50": 26.33
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.38,
+            "aboveLb": 1
+          }
+        },
+        {
+          "tier": "extra_large_50_70",
+          "band": "50-70lb",
+          "maxLb": 70,
+          "fee": {
+            "lt10": 36.35,
+            "p10to50": 37.32,
+            "gt50": 37.32
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.75,
+            "aboveLb": 51
+          }
+        },
+        {
+          "tier": "extra_large_70_150",
+          "band": "70-150lb",
+          "maxLb": 150,
+          "fee": {
+            "lt10": 50.55,
+            "p10to50": 51.32,
+            "gt50": 51.32
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.75,
+            "aboveLb": 71
+          }
+        },
+        {
+          "tier": "extra_large_150_plus",
+          "band": "150+lb",
+          "maxLb": null,
+          "fee": {
+            "lt10": 194.18,
+            "p10to50": 194.95,
+            "gt50": 194.95
+          },
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.19,
+            "aboveLb": 151
+          }
+        }
+      ],
+      "_calcNote": "Fee = lookup(tier, banda de peso, banda de precio) + surcharge si aplica + 3.5% fuel surcharge sobre el total. La banda <$10 YA incluye el descuento Low-Price (no restar dos veces)."
+    },
+    "fbaFeesApparel": {
+      "_status": "CARGADO (2026, AmzPrep single-source). Apparel = columna unica (sin bandas de precio; aplica >$10 tipico). Bandas de peso mas gruesas y surcharge por media-libra arriba de 3lb. Confianza media (single-source).",
+      "appliesTo": "apparel",
+      "rows": [
+        {
+          "tier": "small_standard",
+          "band": "<=4oz",
+          "maxOz": 4,
+          "fee": 3.32
+        },
+        {
+          "tier": "small_standard",
+          "band": "4-8oz",
+          "maxOz": 8,
+          "fee": 3.47
+        },
+        {
+          "tier": "small_standard",
+          "band": "8-12oz",
+          "maxOz": 12,
+          "fee": 3.77
+        },
+        {
+          "tier": "small_standard",
+          "band": "12-16oz",
+          "maxOz": 16,
+          "fee": 4.03
+        },
+        {
+          "tier": "large_standard",
+          "band": "<=4oz",
+          "maxOz": 4,
+          "fee": 4.3
+        },
+        {
+          "tier": "large_standard",
+          "band": "4-8oz",
+          "maxOz": 8,
+          "fee": 4.5
+        },
+        {
+          "tier": "large_standard",
+          "band": "8-12oz",
+          "maxOz": 12,
+          "fee": 4.72
+        },
+        {
+          "tier": "large_standard",
+          "band": "12-16oz",
+          "maxOz": 16,
+          "fee": 5.17
+        },
+        {
+          "tier": "large_standard",
+          "band": "1-1.5lb",
+          "maxLb": 1.5,
+          "fee": 5.95
+        },
+        {
+          "tier": "large_standard",
+          "band": "1.5-2lb",
+          "maxLb": 2,
+          "fee": 6.19
+        },
+        {
+          "tier": "large_standard",
+          "band": "2-2.5lb",
+          "maxLb": 2.5,
+          "fee": 6.65
+        },
+        {
+          "tier": "large_standard",
+          "band": "2.5-3lb",
+          "maxLb": 3,
+          "fee": 6.86
+        },
+        {
+          "tier": "large_standard",
+          "band": "3-20lb",
+          "maxLb": 20,
+          "fee": 6.97,
+          "surcharge": {
+            "per": "half_lb",
+            "amount": 0.16,
+            "aboveLb": 3
+          }
+        },
+        {
+          "tier": "large_bulky",
+          "band": "0-50lb",
+          "maxLb": 50,
+          "fee": 9.66,
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.38,
+            "aboveLb": 1
+          }
+        },
+        {
+          "tier": "extra_large_0_50",
+          "band": "0-50lb",
+          "maxLb": 50,
+          "fee": 26.38,
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.38,
+            "aboveLb": 1
+          }
+        },
+        {
+          "tier": "extra_large_50_70",
+          "band": "50-70lb",
+          "maxLb": 70,
+          "fee": 40.17,
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.75,
+            "aboveLb": 51
+          }
+        },
+        {
+          "tier": "extra_large_70_150",
+          "band": "70-150lb",
+          "maxLb": 150,
+          "fee": 54.86,
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.75,
+            "aboveLb": 71
+          }
+        },
+        {
+          "tier": "extra_large_150_plus",
+          "band": "150+lb",
+          "maxLb": null,
+          "fee": 195.0,
+          "surcharge": {
+            "per": "lb",
+            "amount": 0.19,
+            "aboveLb": 151
+          }
+        }
+      ]
+    },
+    "storage": {
+      "_status": "CARGADO (2026, SellerApp).",
+      "unit": "per_cubic_foot_per_month",
+      "standard": {
+        "jan_sep": 0.87,
+        "oct_dec": 2.4
+      },
+      "oversize": {
+        "jan_sep": 0.56,
+        "oct_dec": 1.4
+      }
+    },
+    "awd": {
+      "_status": "CARGADO (2026, vigente 15-ene-2026, antes de descuentos). Fuentes: 3PLGuys / AmzPrep.",
+      "currency": "USD",
+      "inboundProcessingPerBox": 1.4,
+      "outboundProcessingPerBox": 1.4,
+      "storagePerCubicFootPerMonth": {
+        "west": 0.57,
+        "other": 0.48
+      },
+      "transportationPerCubicFoot": {
+        "smartStorage": 1.4,
+        "amazonManaged": 1.26
+      },
+      "_note": "Smart Storage = 20% desc en storage base; requiere >=70% de unidades outbound a FBA via auto-replenish en 90 dias. Para la parte de cajas master / lista de empaque."
+    },
+    "market": "US",
+    "unitSystem": "imperial"
+  },
+  "MX": {
+    "currency": "MXN",
+    "market": "MX",
+    "unitSystem": "metric",
+    "vatPct": 0.16,
+    "_vatNote": "Tarifas FBA publicadas CON IVA incluido. El referral se cobra como pct x precio al cliente (con IVA) — validado contra settlements de MIL FLORES MX en BigQuery (14/07/2026): referral exacto al centavo, FBA igual a la celda de la tabla.",
+    "_bandNote": "Banda de precio y brackets de referral se evaluan sobre el precio al cliente (con IVA), que es el precio que captura el usuario. Bandas de peso: limite superior EXCLUSIVO hacia abajo (peso = 0.10 kg cae en la banda 0.10-0.20, observado en settlements).",
+    "_dimWeightNote": "Amazon MX no publica peso volumetrico para FBA domestico; se usa peso real.",
+    "referral": {
+      "_encoding": {
+        "mode_flat": "pct unico sobre el precio total (precio al cliente, con IVA).",
+        "mode_threshold": "el precio cae en UN bracket y ese pct aplica a TODO el precio.",
+        "mode_marginal": "pct por porciones del precio (ej. Relojes: 16% hasta 5,000, 5% del resto).",
+        "min": "tarifa minima por articulo (MXN 8.00 en casi todas las categorias)."
+      },
+      "accesorios_dispositivos_amazon": {
+        "label": "Accesorios para dispositivos Amazon",
+        "mode": "flat",
+        "pct": 0.45,
+        "min": 8.0
+      },
+      "bebe": {
+        "label": "Productos para bebé",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "electronicos": {
+        "label": "Electrónicos",
+        "mode": "flat",
+        "pct": 0.1,
+        "min": 8.0
+      },
+      "accesorios_electronicos": {
+        "label": "Accesorios para electrónicos",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 2000,
+            "pct": 0.15
+          },
+          {
+            "upTo": null,
+            "pct": 0.08
+          }
+        ],
+        "min": 8.0
+      },
+      "muebles": {
+        "label": "Muebles",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "colchones": {
+        "label": "Colchones",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "patio_jardin": {
+        "label": "Patio y Jardín",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "alimentacion_gourmet": {
+        "label": "Alimentación y Comida gourmet",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 500,
+            "pct": 0.12
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 8.0
+      },
+      "hogar_cocina": {
+        "label": "Hogar y Cocina",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "electrodomesticos": {
+        "label": "Electrodomésticos principales",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "instrumentos_musicales": {
+        "label": "Instrumentos musicales",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "oficina_papeleria": {
+        "label": "Oficina y Papelería",
+        "mode": "flat",
+        "pct": 0.1,
+        "min": 8.0
+      },
+      "deportes_aire_libre": {
+        "label": "Deportes y Aire libre",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "computadoras": {
+        "label": "Computadoras",
+        "mode": "flat",
+        "pct": 0.1,
+        "min": 8.0
+      },
+      "mascotas": {
+        "label": "Mascotas",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "herramientas_mejoras_hogar": {
+        "label": "Herramientas y Mejoras del hogar",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      },
+      "herramientas_electricas": {
+        "label": "Herramientas eléctricas básicas",
+        "mode": "flat",
+        "pct": 0.12,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "juguetes_juegos": {
+        "label": "Juguetes y Juegos",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 300,
+            "pct": 0.08
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 8.0
+      },
+      "multimedia": {
+        "label": "Multimedia",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "videojuegos": {
+        "label": "Videojuegos",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "videoconsolas": {
+        "label": "Videoconsolas",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "automotriz": {
+        "label": "Automotriz y Motocicletas",
+        "mode": "flat",
+        "pct": 0.12,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "neumaticos": {
+        "label": "Neumáticos",
+        "mode": "flat",
+        "pct": 0.1,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "belleza": {
+        "label": "Belleza",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 200,
+            "pct": 0.12
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "salud_cuidado_personal": {
+        "label": "Salud y Cuidado personal",
+        "mode": "threshold",
+        "brackets": [
+          {
+            "upTo": 200,
+            "pct": 0.12
+          },
+          {
+            "upTo": null,
+            "pct": 0.15
+          }
+        ],
+        "min": 8.0,
+        "_note": "Requiere autorización. Tarifa FBA especial."
+      },
+      "bebidas_alcoholicas": {
+        "label": "Bebidas alcohólicas",
+        "mode": "flat",
+        "pct": 0.08,
+        "min": 8.0,
+        "_note": "Requiere autorización. Tarifa FBA especial."
+      },
+      "ropa_accesorios": {
+        "label": "Ropa y Accesorios",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "calzado": {
+        "label": "Calzado",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "lentes": {
+        "label": "Lentes y accesorios",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "mochilas_bolsos_equipaje": {
+        "label": "Mochilas, Bolsos y Equipaje",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "relojes": {
+        "label": "Relojes",
+        "mode": "marginal",
+        "brackets": [
+          {
+            "upTo": 5000,
+            "pct": 0.16
+          },
+          {
+            "upTo": null,
+            "pct": 0.05
+          }
+        ],
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "joyeria": {
+        "label": "Joyería",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "industria_ciencia": {
+        "label": "Industria, Empresas y Ciencia",
+        "mode": "flat",
+        "pct": 0.14,
+        "min": 8.0,
+        "_note": "Requiere autorización."
+      },
+      "todo_lo_demas": {
+        "label": "Todo lo demás",
+        "mode": "flat",
+        "pct": 0.15,
+        "min": 8.0
+      }
+    },
+    "specialFbaCategories": [
+      "salud_cuidado_personal",
+      "alimentacion_gourmet",
+      "bebidas_alcoholicas"
+    ],
+    "priceBands": [
+      {
+        "key": "lt150",
+        "label": "< MXN 150",
+        "maxPrice": 150
+      },
+      {
+        "key": "p150to299",
+        "label": "MXN 150-299",
+        "maxPrice": 299
+      },
+      {
+        "key": "p299to499",
+        "label": "MXN 299-499",
+        "maxPrice": 499
+      },
+      {
+        "key": "gte499",
+        "label": ">= MXN 499",
+        "maxPrice": null
+      }
+    ],
+    "sizeTiers": {
+      "_status": "Oficial vender.amazon.com.mx/precios (jul 2026). Clasificacion por caja: el producto cabe (lados ordenados) dentro de las dims del tier.",
+      "tiers": [
+        {
+          "key": "sobre",
+          "label": "Sobre",
+          "maxLongCm": 38,
+          "maxMedianCm": 27,
+          "maxShortCm": 2
+        },
+        {
+          "key": "estandar",
+          "label": "Estándar",
+          "maxLongCm": 45,
+          "maxMedianCm": 35,
+          "maxShortCm": 20
+        },
+        {
+          "key": "grande",
+          "label": "Tamaño Grande",
+          "maxLongCm": null,
+          "maxMedianCm": null,
+          "maxShortCm": null
+        }
+      ]
+    },
+    "fbaFees": {
+      "_status": "OFICIAL — vender.amazon.com.mx/precios#costos-de-envio (jul 2026), IVA incluido. Checkpoints 50/100 kg de Tamaño Grande reconciliados con los incrementos por 0.5 kg. Validado vs settlements MIL FLORES MX (estandar 34.00 y especial 6.10/6.20 exactos).",
+      "rows": [
+        {
+          "tier": "sobre",
+          "band": "0-0.10kg",
+          "maxKg": 0.1,
+          "fee": {
+            "lt150": 27.0,
+            "p150to299": 33.0,
+            "p299to499": 49.0,
+            "gte499": 60.0
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.10-0.20kg",
+          "maxKg": 0.2,
+          "fee": {
+            "lt150": 27.2,
+            "p150to299": 34.0,
+            "p299to499": 50.0,
+            "gte499": 60.4
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.20-0.30kg",
+          "maxKg": 0.3,
+          "fee": {
+            "lt150": 27.4,
+            "p150to299": 35.0,
+            "p299to499": 51.0,
+            "gte499": 60.8
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.30-0.40kg",
+          "maxKg": 0.4,
+          "fee": {
+            "lt150": 27.6,
+            "p150to299": 36.0,
+            "p299to499": 52.0,
+            "gte499": 61.2
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": ">0.40kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 27.8,
+            "p150to299": 37.0,
+            "p299to499": 53.0,
+            "gte499": 61.5
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0-0.10kg",
+          "maxKg": 0.1,
+          "fee": {
+            "lt150": 28.0,
+            "p150to299": 33.0,
+            "p299to499": 50.0,
+            "gte499": 61.8
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.10-0.20kg",
+          "maxKg": 0.2,
+          "fee": {
+            "lt150": 28.05,
+            "p150to299": 34.0,
+            "p299to499": 51.0,
+            "gte499": 63.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.20-0.30kg",
+          "maxKg": 0.3,
+          "fee": {
+            "lt150": 28.1,
+            "p150to299": 35.0,
+            "p299to499": 52.0,
+            "gte499": 64.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.30-0.40kg",
+          "maxKg": 0.4,
+          "fee": {
+            "lt150": 28.15,
+            "p150to299": 36.0,
+            "p299to499": 53.0,
+            "gte499": 66.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.40-0.50kg",
+          "maxKg": 0.5,
+          "fee": {
+            "lt150": 28.2,
+            "p150to299": 37.0,
+            "p299to499": 54.0,
+            "gte499": 67.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.50-0.60kg",
+          "maxKg": 0.6,
+          "fee": {
+            "lt150": 28.25,
+            "p150to299": 37.5,
+            "p299to499": 55.0,
+            "gte499": 68.3
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.60-0.70kg",
+          "maxKg": 0.7,
+          "fee": {
+            "lt150": 28.3,
+            "p150to299": 38.0,
+            "p299to499": 56.0,
+            "gte499": 69.6
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.70-0.80kg",
+          "maxKg": 0.8,
+          "fee": {
+            "lt150": 28.35,
+            "p150to299": 38.5,
+            "p299to499": 57.0,
+            "gte499": 71.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.80-0.90kg",
+          "maxKg": 0.9,
+          "fee": {
+            "lt150": 28.4,
+            "p150to299": 39.0,
+            "p299to499": 58.0,
+            "gte499": 72.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.90-1.00kg",
+          "maxKg": 1.0,
+          "fee": {
+            "lt150": 28.45,
+            "p150to299": 39.5,
+            "p299to499": 59.0,
+            "gte499": 72.7
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": ">1.00kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 28.5,
+            "p150to299": 40.0,
+            "p299to499": 60.0,
+            "gte499": 72.8
+          },
+          "surcharge": {
+            "per": "quarter_kg",
+            "aboveKg": 1.0,
+            "amount": {
+              "lt150": 1.15,
+              "p150to299": 1.15,
+              "p299to499": 1.75,
+              "gte499": 1.5
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": "0-50kg",
+          "maxKg": 50,
+          "fee": {
+            "lt150": 32.0,
+            "p150to299": 38.0,
+            "p299to499": 61.0,
+            "gte499": 75.4
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 1.0,
+            "amount": {
+              "lt150": 2.8,
+              "p150to299": 2.8,
+              "p299to499": 3.1,
+              "gte499": 3.75
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": "50-100kg",
+          "maxKg": 100,
+          "fee": {
+            "lt150": 306.4,
+            "p150to299": 312.4,
+            "p299to499": 364.8,
+            "gte499": 442.9
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 50.0,
+            "amount": {
+              "lt150": 1.5,
+              "p150to299": 1.5,
+              "p299to499": 1.6,
+              "gte499": 2.1
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": ">100kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 456.4,
+            "p150to299": 462.4,
+            "p299to499": 524.8,
+            "gte499": 652.9
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 100.0,
+            "amount": {
+              "lt150": 1.5,
+              "p150to299": 1.5,
+              "p299to499": 3.0,
+              "gte499": 3.6
+            }
+          }
+        }
+      ]
+    },
+    "fbaFeesSpecial": {
+      "_note": "Salud y Cuidado personal, Alimentación y Comida gourmet, Bebidas alcohólicas.",
+      "rows": [
+        {
+          "tier": "sobre",
+          "band": "0-0.10kg",
+          "maxKg": 0.1,
+          "fee": {
+            "lt150": 4.5,
+            "p150to299": 5.5,
+            "p299to499": 14.0,
+            "gte499": 60.0
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.10-0.20kg",
+          "maxKg": 0.2,
+          "fee": {
+            "lt150": 4.6,
+            "p150to299": 5.6,
+            "p299to499": 14.1,
+            "gte499": 60.4
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.20-0.30kg",
+          "maxKg": 0.3,
+          "fee": {
+            "lt150": 4.7,
+            "p150to299": 5.7,
+            "p299to499": 14.2,
+            "gte499": 60.8
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": "0.30-0.40kg",
+          "maxKg": 0.4,
+          "fee": {
+            "lt150": 4.8,
+            "p150to299": 5.8,
+            "p299to499": 14.3,
+            "gte499": 61.2
+          }
+        },
+        {
+          "tier": "sobre",
+          "band": ">0.40kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 4.9,
+            "p150to299": 5.9,
+            "p299to499": 14.4,
+            "gte499": 61.5
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0-0.10kg",
+          "maxKg": 0.1,
+          "fee": {
+            "lt150": 5.0,
+            "p150to299": 6.0,
+            "p299to499": 14.5,
+            "gte499": 61.8
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.10-0.20kg",
+          "maxKg": 0.2,
+          "fee": {
+            "lt150": 5.1,
+            "p150to299": 6.1,
+            "p299to499": 14.6,
+            "gte499": 63.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.20-0.30kg",
+          "maxKg": 0.3,
+          "fee": {
+            "lt150": 5.2,
+            "p150to299": 6.2,
+            "p299to499": 14.7,
+            "gte499": 64.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.30-0.40kg",
+          "maxKg": 0.4,
+          "fee": {
+            "lt150": 5.3,
+            "p150to299": 6.3,
+            "p299to499": 14.8,
+            "gte499": 66.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.40-0.50kg",
+          "maxKg": 0.5,
+          "fee": {
+            "lt150": 5.4,
+            "p150to299": 6.4,
+            "p299to499": 14.9,
+            "gte499": 67.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.50-0.60kg",
+          "maxKg": 0.6,
+          "fee": {
+            "lt150": 5.5,
+            "p150to299": 6.5,
+            "p299to499": 15.0,
+            "gte499": 68.3
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.60-0.70kg",
+          "maxKg": 0.7,
+          "fee": {
+            "lt150": 5.6,
+            "p150to299": 6.6,
+            "p299to499": 15.1,
+            "gte499": 69.6
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.70-0.80kg",
+          "maxKg": 0.8,
+          "fee": {
+            "lt150": 5.7,
+            "p150to299": 6.7,
+            "p299to499": 15.2,
+            "gte499": 71.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.80-0.90kg",
+          "maxKg": 0.9,
+          "fee": {
+            "lt150": 5.8,
+            "p150to299": 6.8,
+            "p299to499": 15.3,
+            "gte499": 72.0
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": "0.90-1.00kg",
+          "maxKg": 1.0,
+          "fee": {
+            "lt150": 5.9,
+            "p150to299": 6.9,
+            "p299to499": 15.4,
+            "gte499": 72.7
+          }
+        },
+        {
+          "tier": "estandar",
+          "band": ">1.00kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 6.0,
+            "p150to299": 7.0,
+            "p299to499": 15.5,
+            "gte499": 72.8
+          },
+          "surcharge": {
+            "per": "quarter_kg",
+            "aboveKg": 1.0,
+            "amount": {
+              "lt150": 0.15,
+              "p150to299": 0.3,
+              "p299to499": 0.45,
+              "gte499": 1.5
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": "0-50kg",
+          "maxKg": 50,
+          "fee": {
+            "lt150": 5.2,
+            "p150to299": 6.2,
+            "p299to499": 15.5,
+            "gte499": 75.4
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 1.0,
+            "amount": {
+              "lt150": 0.25,
+              "p150to299": 0.5,
+              "p299to499": 0.75,
+              "gte499": 3.75
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": "50-100kg",
+          "maxKg": 100,
+          "fee": {
+            "lt150": 29.7,
+            "p150to299": 55.2,
+            "p299to499": 89.0,
+            "gte499": 442.9
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 50.0,
+            "amount": {
+              "lt150": 0.25,
+              "p150to299": 0.5,
+              "p299to499": 0.75,
+              "gte499": 2.1
+            }
+          }
+        },
+        {
+          "tier": "grande",
+          "band": ">100kg",
+          "maxKg": null,
+          "fee": {
+            "lt150": 54.7,
+            "p150to299": 105.2,
+            "p299to499": 164.0,
+            "gte499": 652.9
+          },
+          "surcharge": {
+            "per": "half_kg",
+            "aboveKg": 100.0,
+            "amount": {
+              "lt150": 0.25,
+              "p150to299": 0.5,
+              "p299to499": 0.75,
+              "gte499": 3.6
+            }
+          }
+        }
+      ]
+    },
+    "storage": {
+      "_status": "Oficial (jul 2026).",
+      "unit": "per_dm3_per_month",
+      "standard": {
+        "jan_sep": 0.36,
+        "oct_dec": 0.53
+      },
+      "oversize": {
+        "jan_sep": 0.19,
+        "oct_dec": 0.43
+      },
+      "_longTermNote": "Almacenamiento prolongado 181+ dias no modelado (0.30 a 4.76 MXN/dm3 o 2.32/unidad)."
+    }
+  }
+}
