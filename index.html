@@ -650,7 +650,8 @@ class Component extends DCLogic {
     const members = [
       { name: 'Patricio', role: t.mPatoRole, bio: t.mPatoBio, tags: ['PPC', 'Listings', 'Cross-border'], photo: 'assets/team/patricio.jpeg' },
       { name: 'Rodrigo', role: t.mRodriRole, bio: t.mRodriBio, tags: ['LLC/EIN', t.mTagLog, t.mTagInv], photo: 'assets/team/rodrigo.png' },
-      { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg' }
+      { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg' },
+      { name: 'Liza', role: 'Account Specialist', bio: t.mLizaBio, tags: ['PPC', 'Listings', t.mTagInv], photo: 'assets/team/liza.jpeg' }
     ];
 
     const diffs = t.diffs.map((x, i) => ({ num: '0' + (i + 1), t: x[0], d: x[1] }));
@@ -829,6 +830,7 @@ Component.ES = {
   mPatoRole: 'Co-founder · Estrategia', mPatoBio: '7+ años Amazon USA. Lead en lanzamientos cross-border y PPC.',
   mRodriRole: 'Co-founder · Operaciones', mRodriBio: 'Logística, freight, taxes y exportación MX→USA. Habla con Aduanas.',
   mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Cuida la marca como propia.',
+  mLizaBio: 'PPC, listings, inventario y reportes. No hay parte de la cuenta que no toque.',
   mTagLog: 'Logística', mTagInv: 'Inventario',
   faqTitle: 'Preguntas frecuentes',
   faqs: [
@@ -891,6 +893,7 @@ Component.EN = {
   mPatoRole: 'Co-founder · Strategy', mPatoBio: '7+ years Amazon USA. Lead on cross-border launches and PPC.',
   mRodriRole: 'Co-founder · Operations', mRodriBio: 'Logistics, freight, taxes and MX→USA export. Talks to Customs.',
   mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Treats your brand as her own.',
+  mLizaBio: 'PPC, listings, inventory and reporting. There is no part of the account she does not touch.',
   mTagLog: 'Logistics', mTagInv: 'Inventory',
   faqTitle: 'Frequently asked questions',
   faqs: [
