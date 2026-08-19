@@ -20,7 +20,7 @@
   <meta property="og:locale:alternate" content="en_US">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://mexusseller.com">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"MEXUS SELLER","description":"Agencia operadora de Amazon para USA y México. Full Management, PPC, inventario y cross-border MX→US.","url":"https://mexusseller.com","email":"hola@mexusseller.com","areaServed":["MX","US"],"parentOrganization":{"@type":"Organization","name":"Roospa Products LLC"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"MEXUS SELLER","description":"Agencia operadora de Amazon para USA y México. Full Management, PPC, inventario y cross-border MX→US.","url":"https://mexusseller.com","email":"hola@mexusseller.com","telephone":"+1-347-387-3386","address":{"@type":"PostalAddress","streetAddress":"30 N Gould St, Ste R","addressLocality":"Sheridan","addressRegion":"WY","postalCode":"82801","addressCountry":"US"},"areaServed":["MX","US"],"parentOrganization":{"@type":"Organization","name":"ROOSPA PRODUCTS LLC","legalName":"ROOSPA PRODUCTS LLC","telephone":"+1-347-387-3386","email":"hola@mexusseller.com","address":{"@type":"PostalAddress","streetAddress":"30 N Gould St, Ste R","addressLocality":"Sheridan","addressRegion":"WY","postalCode":"82801","addressCountry":"US"}}}</script>
   <link rel="icon" href="assets/mexus-mark.png">
   <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/fonts.css">
   <link rel="stylesheet" href="_ds/mexus-seller-design-system-9cd3cee0-a452-4dda-b829-ab2ea0b6d8ae/tokens/colors.css">
@@ -429,14 +429,15 @@
     <p style="font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,.75); max-width: 560px; margin: 0 auto 36px; line-height: 1.55; text-wrap: pretty">{{ t.ctSub }}</p>
     <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px">
       <a href="https://calendar.app.google/HaCHyjMWMCMk1eJfA" target="_blank" rel="noopener" style="background: #F47920; color: #fff; padding: 18px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 26px rgba(244,121,32,.4); transition: transform .25s, background .15s" style-hover="background: #E56A15; transform: translateY(-2px)" style-active="transform: translateY(1px)">{{ t.ctCta1 }} →</a>
-      <a href="https://wa.me/523312345678" target="_blank" rel="noopener" style="background: #25D366; color: #fff; padding: 18px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 26px rgba(37,211,102,.35); transition: transform .25s" style-hover="transform: translateY(-2px)" style-active="transform: translateY(1px)">
+      <a href="https://wa.me/13473873386" target="_blank" rel="noopener" style="background: #25D366; color: #fff; padding: 18px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 26px rgba(37,211,102,.35); transition: transform .25s" style-hover="transform: translateY(-2px)" style-active="transform: translateY(1px)">
         <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="whatsapp" size="18" color="#fff" hint-size="18px,18px"></x-import>
         WhatsApp
       </a>
     </div>
     <div style="font-size: 13px; color: rgba(255,255,255,.55); display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace">
       <span>hola@mexusseller.com</span>
-      <span>CDMX · NY</span>
+      <span>+1 347 387 3386</span>
+      <span>Sheridan, WY 82801, USA</span>
     </div>
   </div>
 </section>
@@ -470,20 +471,24 @@
       <div>
         <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #F47920; margin-bottom: 14px">{{ t.ftContacto }}</div>
         <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: rgba(255,255,255,.7)">
-          <li>hola@mexusseller.com</li>
-          <li>WhatsApp: +52 33 1234 5678</li>
-          <li>CDMX · NY</li>
+          <li><a href="mailto:hola@mexusseller.com" style="color: inherit; text-decoration: none" style-hover="color: #F47920">hola@mexusseller.com</a></li>
+          <li><a href="tel:+13473873386" style="color: inherit; text-decoration: none" style-hover="color: #F47920">WhatsApp: +1 347 387 3386</a></li>
+          <li style="line-height: 1.55">
+            <span style="display: block; color: rgba(255,255,255,.85)">ROOSPA PRODUCTS LLC</span>
+            <span style="display: block">30 N Gould St, Ste R</span>
+            <span style="display: block">Sheridan, WY 82801, USA</span>
+          </li>
         </ul>
       </div>
     </div>
     <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.06); font-size: 11px; color: rgba(255,255,255,.45); letter-spacing: .5px">
-      <span>© 2026 MEXUS SELLER · Roospa Products LLC</span>
-      <span>{{ t.ftLegal }}</span>
+      <span>{{ t.ftCopy }}</span>
+      <span><a href="/legal/" style="color: rgba(255,255,255,.7); text-decoration: none" style-hover="color: #F47920">{{ t.ftLegal }}</a> · {{ t.ftPride }}</span>
     </div>
   </div>
 </footer>
 
-<a href="https://wa.me/523312345678" target="_blank" rel="noopener" aria-label="WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 95; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 12px 28px rgba(37,211,102,.45); text-decoration: none" style-hover="transform: translateY(-2px)">
+<a href="https://wa.me/13473873386" target="_blank" rel="noopener" aria-label="WhatsApp" style="position: fixed; bottom: 24px; right: 24px; z-index: 95; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 12px 28px rgba(37,211,102,.45); text-decoration: none" style-hover="transform: translateY(-2px)">
   <span style="position: absolute; inset: 0; border-radius: 999px; background: #25D366; animation: waPulse 2s ease-out infinite; pointer-events: none"></span>
   <x-import component-from-global-scope="MEXUSSellerDesignSystem_9cd3ce.IconLanding" name="whatsapp" size="28" color="#fff" hint-size="28px,28px" style="position: relative"></x-import>
 </a>
@@ -846,7 +851,8 @@ Component.ES = {
   ctCta1: 'Agendar diagnóstico',
   ftTagline: 'Agencia Amazon · USA y México · Certificada AGS',
   ftServicios: 'Servicios', ftEstudios: 'Estudios de mercado', ftContacto: 'Contacto',
-  ftLegal: 'Hecho en México con orgullo.'
+  ftCopy: '© 2026 MEXUS SELLER — marca operada por ROOSPA PRODUCTS LLC',
+  ftLegal: 'Aviso legal', ftPride: 'Hecho en México con orgullo.'
 };
 
 Component.EN = {
@@ -909,7 +915,8 @@ Component.EN = {
   ctCta1: 'Book diagnosis',
   ftTagline: 'Amazon agency · USA and Mexico · AGS certified',
   ftServicios: 'Services', ftEstudios: 'Market studies', ftContacto: 'Contact',
-  ftLegal: 'Made in Mexico with pride.'
+  ftCopy: '© 2026 MEXUS SELLER — a brand operated by ROOSPA PRODUCTS LLC',
+  ftLegal: 'Legal notice', ftPride: 'Made in Mexico with pride.'
 };
 </script>
 </body>
