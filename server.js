@@ -1,11 +1,106 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security: basic hardening
 app.disable('x-powered-by');
+
+// --- HUB Santo Domingo 2026 lead capture (/hub) ---
+// Leads are appended as JSONL and ALSO written to stdout, because Railway's
+// filesystem is ephemeral without a mounted volume: the log is the backup of
+// record until LEADS_DIR points at one.
+const LEADS_DIR = process.env.LEADS_DIR || path.join(__dirname, 'data');
+const LEADS_FILE = path.join(LEADS_DIR, 'leads-hub-sd.jsonl');
+const LEADS_TOKEN = process.env.LEADS_TOKEN || '';
+
+const CAMPOS = ['vende_amazon', 'producto_listo', 'marca_registrada', 'categoria', 'cuando', 'ventas_mes'];
+const LIMITE = new Map(); // ip -> [timestamps]
+
+function limitado(ip) {
+  const ahora = Date.now();
+  const previos = (LIMITE.get(ip) || []).filter(t => ahora - t < 10 * 60 * 1000);
+  previos.push(ahora);
+  LIMITE.set(ip, previos);
+  if (LIMITE.size > 5000) LIMITE.clear();
+  return previos.length > 5;
+}
+
+// Hot leads first: ready to ship, launching soon, already selling.
+function calificar(l) {
+  let p = 0;
+  if (l.vende_amazon === 'Sí, en Estados Unidos') p += 3;
+  else if (l.vende_amazon === 'Sí, en RD u otro país') p += 2;
+  if (l.producto_listo === 'Sí, con inventario disponible') p += 3;
+  else if (l.producto_listo === 'En producción') p += 2;
+  if (l.marca_registrada === 'Sí, en USPTO') p += 2;
+  else if (l.marca_registrada === 'En trámite') p += 1;
+  if (l.cuando === 'En los próximos 3 meses') p += 3;
+  else if (l.cuando === 'De 3 a 6 meses') p += 2;
+  else if (l.cuando === 'De 6 a 12 meses') p += 1;
+  if (l.ventas_mes === 'Más de 50,000 USD') p += 3;
+  else if (l.ventas_mes === 'De 10,000 a 50,000 USD') p += 2;
+  else if (l.ventas_mes === 'Menos de 10,000 USD') p += 1;
+  return p; // 0..14
+}
+
+app.post('/hub/api/lead', express.json({ limit: '8kb' }), (req, res) => {
+  const b = req.body || {};
+  const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+
+  if (b.empresa_web) return res.status(200).json({ ok: true, folio: 'HUB-0000' }); // bot
+  if (limitado(ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
+
+  const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
+  const nombre = txt(b.nombre, 120), marca = txt(b.marca, 120), correo = txt(b.correo, 160);
+  if (!nombre || !marca) return res.status(400).json({ ok: false, error: 'falta nombre o marca' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) return res.status(400).json({ ok: false, error: 'correo inválido' });
+  for (const c of CAMPOS) if (!txt(b[c], 80)) return res.status(400).json({ ok: false, error: 'falta ' + c });
+
+  const folio = 'HUB-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+  const lead = {
+    folio,
+    id: crypto.randomUUID(),
+    ts: new Date().toISOString(),
+    evento: 'HUB Santo Domingo 2026',
+    origen: 'qr-lamina-24',
+    nombre, marca, correo,
+    whatsapp: txt(b.whatsapp, 40),
+    ...Object.fromEntries(CAMPOS.map(c => [c, txt(b[c], 80)])),
+    ip,
+    ua: txt(req.headers['user-agent'], 300),
+  };
+  lead.puntaje = calificar(lead);
+
+  // stdout first: this survives even with no volume mounted.
+  console.log('[LEAD] ' + JSON.stringify(lead));
+  try {
+    fs.mkdirSync(LEADS_DIR, { recursive: true });
+    fs.appendFileSync(LEADS_FILE, JSON.stringify(lead) + '\n');
+  } catch (e) {
+    console.error('[LEAD-WRITE-FAIL] ' + folio + ' ' + String(e));
+  }
+  res.json({ ok: true, folio });
+});
+
+// Trazabilidad: /hub/api/leads?token=... → CSV listo para Excel
+app.get('/hub/api/leads', (req, res) => {
+  if (!LEADS_TOKEN || req.query.token !== LEADS_TOKEN) return res.status(404).end();
+  let filas = [];
+  try {
+    filas = fs.readFileSync(LEADS_FILE, 'utf8').split('\n').filter(Boolean).map(JSON.parse);
+  } catch { /* sin archivo todavía */ }
+  filas.sort((a, b) => (b.puntaje - a.puntaje) || String(a.ts).localeCompare(b.ts));
+  const cols = ['folio', 'ts', 'puntaje', 'nombre', 'marca', 'correo', 'whatsapp', ...CAMPOS, 'evento', 'id'];
+  const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const csv = [cols.join(','), ...filas.map(f => cols.map(c => esc(f[c])).join(','))].join('\n');
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', 'attachment; filename="leads-hub-santo-domingo.csv"');
+  res.send('﻿' + csv); // BOM para que Excel respete los acentos
+});
 
 // --- World Cup 2026 results proxy (football-data.org) ---
 // Hides the API token and caches upstream so the free tier (10 req/min) is hit
