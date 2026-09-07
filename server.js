@@ -95,7 +95,14 @@ app.get('/hub/api/leads', (req, res) => {
   } catch { /* sin archivo todavía */ }
   filas.sort((a, b) => (b.puntaje - a.puntaje) || String(a.ts).localeCompare(b.ts));
   const cols = ['folio', 'ts', 'puntaje', 'nombre', 'marca', 'correo', 'whatsapp', ...CAMPOS, 'evento', 'id'];
-  const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  // Excel and Sheets execute a cell that opens with = + - @ or a control char,
+  // so a lead could put a formula in their own brand name. A leading apostrophe
+  // forces text and stays invisible in the cell.
+  const esc = v => {
+    let s = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  };
   const csv = [cols.join(','), ...filas.map(f => cols.map(c => esc(f[c])).join(','))].join('\n');
   res.setHeader('Content-Type', 'text/csv; charset=utf-8');
   res.setHeader('Content-Disposition', 'attachment; filename="leads-hub-santo-domingo.csv"');
