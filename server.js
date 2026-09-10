@@ -261,6 +261,17 @@ app.get('/confirmar-hub-rd/api/respuestas', conToken, (_req, res) => {
 // Explicit routes so the email link lands without the static 301 to /confirmar-hub-rd/.
 app.get('/confirmar-hub-rd', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar-hub-rd', 'index.html')));
 app.get('/confirmar-hub-rd/interno', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar-hub-rd', 'interno.html')));
+// Short link for the email: /confirmar-hub-rd/<8-char code>. The code lives in
+// the roster on the volume and is expanded here into the signed token, so the
+// lead sees a short URL and the form still only trusts signed payloads.
+app.get('/confirmar-hub-rd/:code([A-Za-z0-9]{8})', (req, res) => {
+  let roster = [];
+  try { roster = JSON.parse(fs.readFileSync(ROSTER_FILE, 'utf8')); } catch { /* sin roster */ }
+  const l = roster.find(x => x.code === req.params.code);
+  if (!l) return res.status(404).sendFile(path.join(__dirname, 'confirmar-hub-rd', 'index.html'));
+  const payload = b64u(JSON.stringify({ id: l.id, n: l.n, e: l.e, d: l.d }));
+  res.redirect(302, '/confirmar-hub-rd?t=' + payload + (LEADS_TOKEN ? '.' + firmar(payload) : ''));
+});
 
 // --- World Cup 2026 results proxy (football-data.org) ---
 // Hides the API token and caches upstream so the free tier (10 req/min) is hit
