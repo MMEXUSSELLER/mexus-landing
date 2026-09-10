@@ -109,8 +109,8 @@ app.get('/hub/api/leads', (req, res) => {
   res.send('﻿' + csv); // BOM para que Excel respete los acentos
 });
 
-// --- Webinar HUB SD: confirmación de llamadas de 15 min (/confirmar) ---
-// Each lead gets a personal link: /confirmar?t=<base64url payload>.<hmac>.
+// --- Webinar HUB SD: confirmación de llamadas de 15 min (/confirmar-hub-rd) ---
+// Each lead gets a personal link: /confirmar-hub-rd?t=<base64url payload>.<hmac>.
 // The payload carries the lead's id, name, email and slot so no roster has to
 // live in the repo; the HMAC (keyed with LEADS_TOKEN) stops anyone from forging
 // a confirmation under someone else's name. Answers append to JSONL on the
@@ -170,14 +170,14 @@ function ultimasPorLead(filas) {
   return [...m.values()];
 }
 
-app.get('/confirmar/api/lead', (req, res) => {
+app.get('/confirmar-hub-rd/api/lead', (req, res) => {
   const l = leerToken(req.query.t);
   if (!l) return res.status(400).json({ ok: false, error: 'link inválido' });
   const previa = ultimasPorLead(leerConfirmaciones()).find(f => f.lead_id === l.id);
   res.json({ ok: true, lead: l, respondido: !!previa, confirma: previa ? previa.confirma : null });
 });
 
-app.post('/confirmar/api/respuesta', express.json({ limit: '8kb' }), (req, res) => {
+app.post('/confirmar-hub-rd/api/respuesta', express.json({ limit: '8kb' }), (req, res) => {
   const b = req.body || {};
   const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
   if (b.empresa_web) return res.status(200).json({ ok: true }); // bot
@@ -230,7 +230,7 @@ function conToken(req, res, next) {
   if (!LEADS_TOKEN || req.query.token !== LEADS_TOKEN) return res.status(404).end();
   next();
 }
-app.put('/confirmar/api/roster', conToken, express.json({ limit: '64kb' }), (req, res) => {
+app.put('/confirmar-hub-rd/api/roster', conToken, express.json({ limit: '64kb' }), (req, res) => {
   const lista = Array.isArray(req.body) ? req.body : [];
   try {
     fs.mkdirSync(LEADS_DIR, { recursive: true });
@@ -238,13 +238,13 @@ app.put('/confirmar/api/roster', conToken, express.json({ limit: '64kb' }), (req
   } catch (e) { return res.status(500).json({ ok: false, error: String(e) }); }
   res.json({ ok: true, n: lista.length });
 });
-app.get('/confirmar/api/respuestas.json', conToken, (_req, res) => {
+app.get('/confirmar-hub-rd/api/respuestas.json', conToken, (_req, res) => {
   let roster = [];
   try { roster = JSON.parse(fs.readFileSync(ROSTER_FILE, 'utf8')); } catch { /* sin roster */ }
   const filas = ultimasPorLead(leerConfirmaciones()).map(({ ip, ua, ...f }) => f);
   res.json({ roster, respuestas: filas });
 });
-app.get('/confirmar/api/respuestas', conToken, (_req, res) => {
+app.get('/confirmar-hub-rd/api/respuestas', conToken, (_req, res) => {
   const filas = ultimasPorLead(leerConfirmaciones());
   filas.sort((a, b) => String(a.slot).localeCompare(b.slot));
   const cols = ['slot', 'nombre', 'correo', 'marca', 'confirma', 'puntaje', 'nivel', 'toma_llamada', ...C_RADIO.filter(c => c !== 'confirma'), 'categoria_otro', 'canales', 'temas', 'temas_otro', 'ts', 'lead_id'];
@@ -258,9 +258,9 @@ app.get('/confirmar/api/respuestas', conToken, (_req, res) => {
   res.setHeader('Content-Disposition', 'attachment; filename="confirmaciones-webinar.csv"');
   res.send('﻿' + csv);
 });
-// Explicit routes so the email link lands without the static 301 to /confirmar/.
-app.get('/confirmar', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar', 'index.html')));
-app.get('/confirmar/interno', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar', 'interno.html')));
+// Explicit routes so the email link lands without the static 301 to /confirmar-hub-rd/.
+app.get('/confirmar-hub-rd', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar-hub-rd', 'index.html')));
+app.get('/confirmar-hub-rd/interno', (_req, res) => res.sendFile(path.join(__dirname, 'confirmar-hub-rd', 'interno.html')));
 
 // --- World Cup 2026 results proxy (football-data.org) ---
 // Hides the API token and caches upstream so the free tier (10 req/min) is hit

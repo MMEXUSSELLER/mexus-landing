@@ -107,7 +107,7 @@ tr:last-child td{border-bottom:0}
 (function(){
   var token = new URLSearchParams(location.search).get("token") || "";
   if(!token){ document.getElementById("err").hidden = false; return; }
-  document.getElementById("csv").href = "/confirmar/api/respuestas?token="+encodeURIComponent(token);
+  document.getElementById("csv").href = "/confirmar-hub-rd/api/respuestas?token="+encodeURIComponent(token);
   var MES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"], DIA=["dom","lun","mar","mié","jue","vie","sáb"];
   function slotRD(iso){ var m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso||""); if(!m) return iso||"";
     var d=new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]+6,+m[5])); var rd=new Date(d.getTime()-4*3600*1000);
@@ -118,7 +118,7 @@ tr:last-child td{border-bottom:0}
   function nivel(n){ return '<span class="pill '+n+'">'+(n==="alto"?"Alto":n==="medio"?"Medio":"Bajo")+'</span>'; }
 
   function cargar(){
-    fetch("/confirmar/api/respuestas.json?token="+encodeURIComponent(token)).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){
+    fetch("/confirmar-hub-rd/api/respuestas.json?token="+encodeURIComponent(token)).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){
       document.getElementById("grid").hidden = false;
       var resp = {}; j.respuestas.forEach(function(f){ resp[f.lead_id] = f; });
       var roster = j.roster.slice();

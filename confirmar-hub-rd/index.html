@@ -247,7 +247,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
   function invalido(){ document.getElementById("card").hidden = true; document.getElementById("invalido").hidden = false; }
   if(!T){ invalido(); return; }
 
-  fetch("/confirmar/api/lead?t="+encodeURIComponent(T)).then(function(r){ return r.json(); }).then(function(j){
+  fetch("/confirmar-hub-rd/api/lead?t="+encodeURIComponent(T)).then(function(r){ return r.json(); }).then(function(j){
     if(!j.ok){ invalido(); return; }
     LEAD = j.lead;
     document.getElementById("leadFirst").textContent = LEAD.nombre.split(" ")[0];
@@ -311,7 +311,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
     }
     btn.disabled = true; btn.textContent = "Enviando…";
     try{
-      var r = await fetch("/confirmar/api/respuesta", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(d)});
+      var r = await fetch("/confirmar-hub-rd/api/respuesta", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(d)});
       var j = await r.json().catch(function(){ return {}; });
       if(!r.ok || !j.ok) throw new Error(j.error || ("HTTP "+r.status));
       f.hidden = true;
