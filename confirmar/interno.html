@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmaciones webinar — interno MEXUS</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/mexus-mark.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+:root{--orange:#F47920;--orange-soft:rgba(244,121,32,.14);--bg:#F3F1EE;--surface:#FFFFFF;--surface-sub:#FAF8F5;--border:#E4DFD8;--text:#152232;--muted:#5E6673;--faint:#9AA1AB;
+--good:#1F8A4C;--good-soft:rgba(31,138,76,.14);--warn:#B9710B;--warn-soft:rgba(185,113,11,.14);--low:#6B7280;--low-soft:rgba(107,114,128,.14);--bad:#B3261E;--bad-soft:rgba(217,48,37,.10);
+--display:'Barlow Condensed',Impact,sans-serif;--sans:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0F1720;--surface:#172230;--surface-sub:#1B2837;--border:#2A3746;--text:#EEF1F4;--muted:#A8B1BC;--faint:#6F7A87;--good:#5BD08A;--good-soft:rgba(91,208,138,.16);--warn:#F0B25A;--warn-soft:rgba(240,178,90,.16);--low:#9AA3AE;--low-soft:rgba(154,163,174,.16);--bad:#FF8A80;--bad-soft:rgba(255,138,128,.12)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;padding:20px 16px 48px}
+.wrap{max-width:1320px;margin:0 auto}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.top img{width:120px;display:block}
+.top .acts{display:flex;gap:8px;flex-wrap:wrap}
+.top a,.top button{font:inherit;font-weight:600;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;cursor:pointer}
+.top a.pri{background:var(--orange);border-color:var(--orange);color:#fff}
+.grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(300px,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.panel h2{font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:20px;letter-spacing:.02em;margin:0;padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.panel h2 small{font-family:var(--sans);font-weight:500;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border)}
+@media (max-width:700px){.kpis{grid-template-columns:repeat(3,1fr)}}
+.kpi{padding:14px 18px;border-right:1px solid var(--border)}
+.kpi:last-child{border-right:0}
+.kpi .v{font-family:var(--display);font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .k{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--surface-sub);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.name{font-weight:600}
+.name small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:700;letter-spacing:.03em;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.alto{background:var(--good-soft);color:var(--good)}.pill.medio{background:var(--warn-soft);color:var(--warn)}.pill.bajo{background:var(--low-soft);color:var(--low)}
+.pill.si{background:var(--good-soft);color:var(--good)}.pill.cambio{background:var(--warn-soft);color:var(--warn)}.pill.no{background:var(--bad-soft);color:var(--bad)}
+.pill.pend{background:transparent;color:var(--faint);border:1px dashed var(--border)}.pill.pend::before{display:none}
+.score{display:inline-grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;min-width:110px}
+.bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;width:60px}.bar i{display:block;height:100%;background:var(--orange)}
+.owner{font-weight:600}.owner small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.det{color:var(--muted);font-size:12px;line-height:1.45}
+.det b{color:var(--text);font-weight:600}
+.rules{padding:16px 20px;display:grid;gap:14px}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.rule .pts{font-family:var(--display);font-size:22px;font-weight:700;color:var(--orange);min-width:44px;line-height:1.1}
+.rule .pts small{display:block;font-family:var(--sans);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
+.rule b{display:block;font-size:13.5px}.rule span{display:block;color:var(--muted);font-size:12.5px;line-height:1.45}
+.tiers{display:grid;gap:8px;padding:0 20px 18px}
+.tier{display:grid;grid-template-columns:auto auto 1fr;gap:12px;align-items:center;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px}
+.tier .r{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600;min-width:52px}.tier .o{color:var(--muted);text-align:right}
+.note{padding:0 20px 18px;color:var(--muted);font-size:12.5px}
+.err{max-width:560px;margin:60px auto;text-align:center;color:var(--muted)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller">
+    <div class="acts"><button id="reload" type="button">Actualizar</button><a id="csv" class="pri" href="#">Descargar CSV</a></div>
+  </div>
+  <div class="err" id="err" hidden>Falta el token o no es válido. Abre esta página con el link interno completo.</div>
+  <div class="grid" id="grid" hidden>
+    <div class="panel">
+      <h2>Confirmaciones · webinar HUB Santo Domingo <small id="upd"></small></h2>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kConf">0</div><div class="k">Confirmadas</div></div>
+        <div class="kpi"><div class="v" id="kCambio">0</div><div class="k">Piden otro horario</div></div>
+        <div class="kpi"><div class="v" id="kNo">0</div><div class="k">Ya no interesa</div></div>
+        <div class="kpi"><div class="v" id="kAlto">0</div><div class="k">Potencial alto</div></div>
+        <div class="kpi"><div class="v" id="kPend">0</div><div class="k">Sin responder</div></div>
+      </div>
+      <div class="tblwrap"><table>
+        <thead><tr><th>Slot (RD)</th><th>Lead</th><th>Confirmó</th><th>Qué vende</th><th>Ventas / mes</th><th>Puntaje</th><th>Nivel</th><th>Toma la llamada</th><th>Detalle</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <p class="note">Puntaje y asignación se calculan al recibir cada respuesta. Si un lead vuelve a enviar el formulario, su fila se reemplaza.</p>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:20px">
+        <h2>Cómo se califica <small>0 a 10 puntos</small></h2>
+        <div class="rules">
+          <div class="rule"><div class="pts">0-3<small>pts</small></div><div><b>Ventas mensuales</b><span>Menos de 2,000 USD = 0 · 2,000 a 10,000 = 1 · 10,000 a 50,000 = 2 · Más de 50,000 = 3</span></div></div>
+          <div class="rule"><div class="pts">0-3<small>pts</small></div><div><b>Plazo para empezar</b><span>Ya listo = 3 · 1 a 3 meses = 2 · 3 a 6 meses = 1 · Solo explorar = 0</span></div></div>
+          <div class="rule"><div class="pts">0-2<small>pts</small></div><div><b>Marca registrada</b><span>En US = 2 · En RD o en proceso = 1 · No = 0</span></div></div>
+          <div class="rule"><div class="pts">0-2<small>pts</small></div><div><b>Canal actual</b><span>Marketplaces o ya en Amazon = 2 · Tienda en línea, física o redes = 1 · Aún no vende = 0</span></div></div>
+        </div>
+        <div class="tiers">
+          <div class="tier"><span class="pill alto">Alto</span><span class="r">7 a 10</span><span class="o">Rodrigo · Patricio</span></div>
+          <div class="tier"><span class="pill medio">Medio</span><span class="r">4 a 6</span><span class="o">Liza · Ximena</span></div>
+          <div class="tier"><span class="pill bajo">Bajo</span><span class="r">0 a 3</span><span class="o">Ximena, guion corto</span></div>
+        </div>
+        <p class="note">Dentro de cada nivel se alterna por orden de llegada.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var token = new URLSearchParams(location.search).get("token") || "";
+  if(!token){ document.getElementById("err").hidden = false; return; }
+  document.getElementById("csv").href = "/confirmar/api/respuestas?token="+encodeURIComponent(token);
+  var MES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"], DIA=["dom","lun","mar","mié","jue","vie","sáb"];
+  function slotRD(iso){ var m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso||""); if(!m) return iso||"";
+    var d=new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]+6,+m[5])); var rd=new Date(d.getTime()-4*3600*1000);
+    var h=rd.getUTCHours(),mi=rd.getUTCMinutes(),ap=h>=12?"p.m.":"a.m.",hh=h%12||12;
+    return DIA[rd.getUTCDay()]+" "+rd.getUTCDate()+" "+MES[rd.getUTCMonth()]+" · "+hh+":"+(mi<10?"0":"")+mi+" "+ap; }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function conf(c){ return c==="Sí, confirmo"?'<span class="pill si">Sí</span>':c==="Necesito otro horario"?'<span class="pill cambio">Otro horario</span>':'<span class="pill no">No</span>'; }
+  function nivel(n){ return '<span class="pill '+n+'">'+(n==="alto"?"Alto":n==="medio"?"Medio":"Bajo")+'</span>'; }
+
+  function cargar(){
+    fetch("/confirmar/api/respuestas.json?token="+encodeURIComponent(token)).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){
+      document.getElementById("grid").hidden = false;
+      var resp = {}; j.respuestas.forEach(function(f){ resp[f.lead_id] = f; });
+      var roster = j.roster.slice();
+      // answers from leads not in the roster still show up
+      j.respuestas.forEach(function(f){ if(!roster.some(function(l){ return l.id===f.lead_id; })) roster.push({id:f.lead_id,n:f.nombre,e:f.correo,d:f.slot}); });
+      roster.sort(function(a,b){ return String(a.d).localeCompare(String(b.d)); });
+      var k={conf:0,cambio:0,no:0,alto:0,pend:0}, html="";
+      roster.forEach(function(l){
+        var f = resp[l.id];
+        if(!f){ k.pend++; html+='<tr><td>'+esc(slotRD(l.d))+'</td><td class="name">'+esc(l.n)+'<small>'+esc(l.e)+'</small></td><td><span class="pill pend">Sin responder</span></td><td colspan="6" style="color:var(--faint)">Recordatorio pendiente</td></tr>'; return; }
+        if(f.confirma==="Sí, confirmo")k.conf++; else if(f.confirma==="Necesito otro horario")k.cambio++; else k.no++;
+        if(f.nivel==="alto")k.alto++;
+        var cat = f.categoria==="Otro" ? "Otro: "+f.categoria_otro : f.categoria;
+        var temas = f.temas.map(function(t){ return t==="Otro"?"Otro: "+f.temas_otro:t; }).join(", ");
+        html+='<tr><td>'+esc(slotRD(f.slot))+'</td><td class="name">'+esc(f.nombre)+'<small>'+esc(f.marca)+' · '+esc(f.correo)+'</small></td><td>'+conf(f.confirma)+'</td><td>'+esc(cat)+'</td><td>'+esc(f.ventas)+'</td>'
+          +'<td><span class="score"><b>'+f.puntaje+'/10</b><span class="bar"><i style="width:'+(f.puntaje*10)+'%"></i></span></span></td><td>'+nivel(f.nivel)+'</td>'
+          +'<td class="owner">'+esc(f.toma_llamada)+'<small>'+(f.nivel==="bajo"?"guion corto":"llamada completa")+'</small></td>'
+          +'<td class="det"><b>Canales:</b> '+esc(f.canales.join(", "))+'<br><b>Amazon:</b> '+esc(f.amazon)+' · <b>Marca:</b> '+esc(f.marca_registrada)+' · <b>Plazo:</b> '+esc(f.plazo)+'<br><b>Quiere resolver:</b> '+esc(temas)+'</td></tr>';
+      });
+      document.getElementById("rows").innerHTML = html || '<tr><td colspan="9" style="color:var(--faint);padding:24px">Sin respuestas todavía.</td></tr>';
+      document.getElementById("kConf").textContent=k.conf; document.getElementById("kCambio").textContent=k.cambio; document.getElementById("kNo").textContent=k.no;
+      document.getElementById("kAlto").textContent=k.alto; document.getElementById("kPend").textContent=k.pend;
+      document.getElementById("upd").textContent = "Actualizado "+new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+    }).catch(function(){ document.getElementById("err").hidden = false; document.getElementById("grid").hidden = true; });
+  }
+  document.getElementById("reload").addEventListener("click", cargar);
+  cargar();
+})();
+</script>
+</body>
+</html>

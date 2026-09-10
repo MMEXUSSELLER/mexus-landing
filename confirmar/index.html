@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Confirma tu llamada — MEXUS Seller</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F47920">
+<link rel="icon" href="/assets/mexus-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --orange:#F47920;--orange-hover:#E56A15;--orange-soft:rgba(244,121,32,.14);--orange-ring:rgba(244,121,32,.28);
+  --bg:#F3F1EE;--surface:#FFFFFF;--surface-sub:#FAF8F5;--border:#E4DFD8;--text:#152232;--muted:#5E6673;--faint:#9AA1AB;
+  --good:#1F8A4C;--good-soft:rgba(31,138,76,.14);--bad:#B3261E;--bad-soft:rgba(217,48,37,.10);
+  --display:'Barlow Condensed','Oswald',Impact,sans-serif;--sans:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0F1720;--surface:#172230;--surface-sub:#1B2837;--border:#2A3746;--text:#EEF1F4;--muted:#A8B1BC;--faint:#6F7A87;
+  --good:#5BD08A;--good-soft:rgba(91,208,138,.16);--bad:#FF8A80;--bad-soft:rgba(255,138,128,.12);
+}}
+*{box-sizing:border-box;min-width:0}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;padding:24px 16px 56px;-webkit-text-size-adjust:100%}
+.form{max-width:640px;margin:0 auto}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px}
+@media (max-width:520px){.card{padding:22px 18px}}
+.head{display:flex;flex-direction:column;gap:14px;padding-bottom:22px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.head img{width:150px;height:auto;display:block}
+.head h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:34px;line-height:1.05;margin:0;letter-spacing:.01em;text-wrap:balance}
+.head p{margin:0;color:var(--muted);font-size:14px}
+.slot{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 10px;background:var(--orange-soft);border:1px solid var(--orange-ring);border-radius:10px;padding:10px 14px;font-weight:600;font-size:14px;width:fit-content}
+.slot .d{font-family:var(--display);font-size:20px;text-transform:uppercase;color:var(--orange);line-height:1}
+.must{background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:10px 14px;font-size:13.5px;line-height:1.45}
+.must b{color:var(--orange)}
+.q{padding:20px 0;border-bottom:1px solid var(--border)}
+.q:last-of-type{border-bottom:0}
+.q .lbl{display:flex;gap:10px;align-items:baseline;margin-bottom:12px}
+.q .n{font-family:var(--display);font-size:13px;color:var(--faint);letter-spacing:.06em;min-width:22px}
+.q .t{font-weight:600;font-size:15px}
+.req{color:var(--orange);font-weight:700;margin-left:4px}
+.q .hint{color:var(--muted);font-size:12.5px;margin:-8px 0 12px 32px}
+.opts{display:grid;gap:8px;margin-left:32px}
+.opts.two{grid-template-columns:1fr 1fr}
+@media (max-width:520px){.opts.two{grid-template-columns:1fr}.opts,.q .hint,.txt,.who,.spec{margin-left:0}.txt,.spec{width:100%}}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt label{display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface-sub);border-radius:10px;padding:11px 12px;font-size:14px;cursor:pointer;transition:border-color .12s,background .12s;min-height:44px}
+.opt label::before{content:"";flex:none;width:16px;height:16px;border:2px solid var(--faint);border-radius:50%;background:var(--surface)}
+.opt.cb label::before{border-radius:4px}
+.opt input:checked+label{border-color:var(--orange);background:var(--orange-soft)}
+.opt input:checked+label::before{border-color:var(--orange);background:var(--orange);box-shadow:inset 0 0 0 3px var(--surface)}
+.opt input:focus-visible+label{outline:2px solid var(--orange);outline-offset:1px}
+.txt,.spec{margin-left:32px;width:calc(100% - 32px);font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-sub);color:var(--text)}
+.spec{margin-top:8px;border-color:var(--orange);background:var(--surface)}
+.txt:focus,.spec:focus{outline:2px solid var(--orange);border-color:transparent}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-left:32px}
+@media (max-width:520px){.who{grid-template-columns:1fr}}
+.who div{background:var(--surface-sub);border:1px dashed var(--border);border-radius:10px;padding:8px 12px;font-size:13px;overflow-wrap:anywhere}
+.who small{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.q.miss{background:var(--bad-soft);margin:0 -28px;padding-left:25px;padding-right:28px;border-left:3px solid var(--bad)}
+@media (max-width:520px){.q.miss{margin:0 -18px;padding-left:15px;padding-right:18px}}
+.q.miss .t::after{content:"Falta responder";display:inline-block;margin-left:10px;font-size:11px;font-weight:700;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.submit{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;padding-top:22px;border-top:1px solid var(--border)}
+.btn{background:var(--orange);color:#fff;border:0;font:inherit;font-weight:700;font-size:15px;padding:14px 24px;border-radius:10px;cursor:pointer;min-height:48px}
+.btn:hover{background:var(--orange-hover)}
+.btn[disabled]{opacity:.6;cursor:default}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.submit small{color:var(--faint);font-size:12px}
+.toast{margin-top:14px;border-radius:10px;padding:12px 14px;font-weight:600;font-size:14px}
+.toast.ok{background:var(--good-soft);color:var(--good)}
+.toast.err{background:var(--bad-soft);color:var(--bad)}
+.toast a{color:inherit}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none!important}
+.gracias{text-align:center;padding:26px 6px 10px}
+.gracias .ck{width:56px;height:56px;border-radius:50%;background:var(--good-soft);color:var(--good);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px}
+.gracias h2{font-family:var(--display);text-transform:uppercase;font-size:30px;margin:0 0 8px;line-height:1.05}
+.gracias p{margin:0 auto;max-width:44ch;color:var(--muted)}
+.invalido{max-width:560px;margin:40px auto;text-align:center;color:var(--muted)}
+.invalido a{color:var(--orange)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="form">
+  <div class="card" id="card">
+    <div class="head">
+      <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller">
+      <h1>Confirma tu llamada de 15 minutos</h1>
+      <p>Hola <b id="leadFirst">…</b>, gracias por reservar en el HUB de Santo Domingo. Responde estas 10 preguntas de opción múltiple (2 minutos) para que la llamada vaya directo a lo que necesitas.</p>
+      <div class="slot"><span class="d" id="slotDate">…</span><span id="slotTime"></span></div>
+      <div class="must"><b>Todas las preguntas son obligatorias.</b> Tu cita queda confirmada solo cuando envías este formulario completo. Los horarios sin confirmar 24 horas antes se liberan para otras marcas.</div>
+    </div>
+
+    <form id="f" novalidate>
+      <input class="hp" type="text" name="empresa_web" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="q" data-k="confirma">
+        <div class="lbl"><span class="n">01</span><span class="t">¿Confirmas tu llamada en ese horario?<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts">
+          <div class="opt"><input type="radio" name="confirma" id="c1" value="Sí, confirmo"><label for="c1">Sí, confirmo</label></div>
+          <div class="opt"><input type="radio" name="confirma" id="c2" value="Necesito otro horario"><label for="c2">Necesito otro horario</label></div>
+          <div class="opt"><input type="radio" name="confirma" id="c3" value="Ya no me interesa"><label for="c3">Ya no me interesa</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">02</span><span class="t">Tus datos</span></div>
+        <div class="who">
+          <div><small>Nombre</small><span id="leadName">…</span></div>
+          <div><small>Correo</small><span id="leadMail">…</span></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="marca">
+        <div class="lbl"><span class="n">03</span><span class="t">Nombre de tu marca o empresa<span class="req" aria-hidden="true">*</span></span></div>
+        <input class="txt" id="marca" name="marca" type="text" maxlength="120" placeholder="Ej. Especias Molucas" autocomplete="organization">
+      </div>
+
+      <div class="q" data-k="categoria">
+        <div class="lbl"><span class="n">04</span><span class="t">¿Qué vendes?<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts two">
+          <div class="opt"><input type="radio" name="categoria" id="k1" value="Belleza y cuidado personal"><label for="k1">Belleza y cuidado personal</label></div>
+          <div class="opt"><input type="radio" name="categoria" id="k2" value="Alimentos y bebidas"><label for="k2">Alimentos y bebidas</label></div>
+          <div class="opt"><input type="radio" name="categoria" id="k3" value="Hogar y decoración"><label for="k3">Hogar y decoración</label></div>
+          <div class="opt"><input type="radio" name="categoria" id="k4" value="Moda, joyería y accesorios"><label for="k4">Moda, joyería y accesorios</label></div>
+          <div class="opt"><input type="radio" name="categoria" id="k5" value="Industrial o automotriz"><label for="k5">Industrial o automotriz</label></div>
+          <div class="opt"><input type="radio" name="categoria" id="k6" value="Otro"><label for="k6">Otro (especifica)</label></div>
+        </div>
+        <input class="spec" id="categoria_otro" name="categoria_otro" type="text" maxlength="160" placeholder="¿Qué vendes? Escríbelo aquí" hidden>
+      </div>
+
+      <div class="q" data-k="canales">
+        <div class="lbl"><span class="n">05</span><span class="t">¿Dónde vendes hoy?<span class="req" aria-hidden="true">*</span></span></div>
+        <p class="hint">Puedes marcar varias.</p>
+        <div class="opts two">
+          <div class="opt cb"><input type="checkbox" name="canales" id="ch1" value="Tienda física"><label for="ch1">Tienda física</label></div>
+          <div class="opt cb"><input type="checkbox" name="canales" id="ch2" value="Redes sociales"><label for="ch2">Redes sociales</label></div>
+          <div class="opt cb"><input type="checkbox" name="canales" id="ch3" value="Tienda en línea propia"><label for="ch3">Tienda en línea propia</label></div>
+          <div class="opt cb"><input type="checkbox" name="canales" id="ch4" value="Marketplaces"><label for="ch4">Marketplaces</label></div>
+          <div class="opt cb"><input type="checkbox" name="canales" id="ch5" value="Aún no vendo"><label for="ch5">Aún no vendo</label></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="amazon">
+        <div class="lbl"><span class="n">06</span><span class="t">¿Ya vendes en Amazon?<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts two">
+          <div class="opt"><input type="radio" name="amazon" id="a1" value="No, todavía"><label for="a1">No, todavía</label></div>
+          <div class="opt"><input type="radio" name="amazon" id="a2" value="Sí, en Amazon US"><label for="a2">Sí, en Amazon US</label></div>
+          <div class="opt"><input type="radio" name="amazon" id="a3" value="Sí, en Amazon México"><label for="a3">Sí, en Amazon México</label></div>
+          <div class="opt"><input type="radio" name="amazon" id="a4" value="Sí, en otro país"><label for="a4">Sí, en otro país</label></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="ventas">
+        <div class="lbl"><span class="n">07</span><span class="t">Ventas mensuales aproximadas de tu marca (todos los canales)<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts two">
+          <div class="opt"><input type="radio" name="ventas" id="v0" value="Menos de 2,000 USD"><label for="v0">Menos de 2,000 USD</label></div>
+          <div class="opt"><input type="radio" name="ventas" id="v1" value="2,000 a 10,000 USD"><label for="v1">2,000 a 10,000 USD</label></div>
+          <div class="opt"><input type="radio" name="ventas" id="v2" value="10,000 a 50,000 USD"><label for="v2">10,000 a 50,000 USD</label></div>
+          <div class="opt"><input type="radio" name="ventas" id="v3" value="Más de 50,000 USD"><label for="v3">Más de 50,000 USD</label></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="marca_registrada">
+        <div class="lbl"><span class="n">08</span><span class="t">¿Tu marca está registrada?<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts two">
+          <div class="opt"><input type="radio" name="marca_registrada" id="t2" value="Sí, en Estados Unidos"><label for="t2">Sí, en Estados Unidos</label></div>
+          <div class="opt"><input type="radio" name="marca_registrada" id="t1" value="Sí, en República Dominicana"><label for="t1">Sí, en República Dominicana</label></div>
+          <div class="opt"><input type="radio" name="marca_registrada" id="t1b" value="En proceso"><label for="t1b">En proceso</label></div>
+          <div class="opt"><input type="radio" name="marca_registrada" id="t0" value="No"><label for="t0">No</label></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="plazo">
+        <div class="lbl"><span class="n">09</span><span class="t">¿Cuándo quieres empezar a vender en Amazon?<span class="req" aria-hidden="true">*</span></span></div>
+        <div class="opts two">
+          <div class="opt"><input type="radio" name="plazo" id="p3" value="Ya tengo todo listo"><label for="p3">Ya tengo todo listo</label></div>
+          <div class="opt"><input type="radio" name="plazo" id="p2" value="En 1 a 3 meses"><label for="p2">En 1 a 3 meses</label></div>
+          <div class="opt"><input type="radio" name="plazo" id="p1" value="En 3 a 6 meses"><label for="p1">En 3 a 6 meses</label></div>
+          <div class="opt"><input type="radio" name="plazo" id="p0" value="Solo quiero explorar"><label for="p0">Solo quiero explorar</label></div>
+        </div>
+      </div>
+
+      <div class="q" data-k="temas">
+        <div class="lbl"><span class="n">10</span><span class="t">¿Qué quieres resolver en la llamada?<span class="req" aria-hidden="true">*</span></span></div>
+        <p class="hint">Marca hasta dos.</p>
+        <div class="opts two">
+          <div class="opt cb"><input type="checkbox" name="temas" id="m1" value="Cómo abrir mi cuenta"><label for="m1">Cómo abrir mi cuenta</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m2" value="Costos y rentabilidad"><label for="m2">Costos y rentabilidad</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m3" value="Logística y envíos a US"><label for="m3">Logística y envíos a US</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m4" value="Registro de marca"><label for="m4">Registro de marca</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m5" value="Publicidad en Amazon"><label for="m5">Publicidad en Amazon</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m6" value="Ya vendo y quiero crecer"><label for="m6">Ya vendo y quiero crecer</label></div>
+          <div class="opt cb"><input type="checkbox" name="temas" id="m7" value="Otro"><label for="m7">Otro (especifica)</label></div>
+        </div>
+        <input class="spec" id="temas_otro" name="temas_otro" type="text" maxlength="240" placeholder="Cuéntanos qué quieres resolver" hidden>
+      </div>
+
+      <div class="submit">
+        <button class="btn" id="send" type="submit">Confirmar mi llamada</button>
+        <small>Obligatorio para confirmar tu cita. Tus datos solo se usan para preparar la llamada.</small>
+      </div>
+      <div class="toast err" id="toastErr" hidden>Faltan respuestas. Todas las preguntas son obligatorias para confirmar tu cita; revisa las marcadas en rojo.</div>
+      <div class="toast err" id="toastFail" hidden></div>
+    </form>
+
+    <div class="gracias" id="gracias" hidden>
+      <div class="ck"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2 id="gTitle">Cita confirmada</h2>
+      <p id="gText"></p>
+    </div>
+  </div>
+
+  <div class="invalido" id="invalido" hidden>
+    <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller" style="width:140px;margin-bottom:18px">
+    <p>Este link no es válido o ya venció. Escríbenos a <a href="mailto:hola@mexusseller.com">hola@mexusseller.com</a> y te mandamos uno nuevo.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  var T = new URLSearchParams(location.search).get("t") || "";
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  var DIAS = ["dom","lun","mar","mié","jue","vie","sáb"];
+  var DIASL = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  var LEAD = null;
+
+  // Slots are stored in Mexico City time (UTC-6, no DST). Leads are in Santo
+  // Domingo (UTC-4), so what they booked reads two hours later for them.
+  function partes(iso){ // "2026-09-18T12:45"
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso); if(!m) return null;
+    return {utc: new Date(Date.UTC(+m[1], +m[2]-1, +m[3], +m[4]+6, +m[5]))}; // CDMX -> UTC
+  }
+  function hora12(h, mi){ var ap = h>=12?"p.m.":"a.m."; var hh = h%12; if(hh===0) hh=12; return hh+":"+(mi<10?"0":"")+mi+" "+ap; }
+  function pintarSlot(iso){
+    var p = partes(iso); if(!p){ return; }
+    var rd = new Date(p.utc.getTime() - 4*3600*1000), mx = new Date(p.utc.getTime() - 6*3600*1000);
+    document.getElementById("slotDate").textContent = DIAS[rd.getUTCDay()]+" "+rd.getUTCDate()+" "+MESES[rd.getUTCMonth()].slice(0,3);
+    document.getElementById("slotTime").textContent = hora12(rd.getUTCHours(), rd.getUTCMinutes())+" hora RD ("+hora12(mx.getUTCHours(), mx.getUTCMinutes())+" CDMX) · Google Meet";
+    return DIASL[rd.getUTCDay()]+" "+rd.getUTCDate()+" a las "+hora12(rd.getUTCHours(), rd.getUTCMinutes())+" hora RD";
+  }
+
+  function invalido(){ document.getElementById("card").hidden = true; document.getElementById("invalido").hidden = false; }
+  if(!T){ invalido(); return; }
+
+  fetch("/confirmar/api/lead?t="+encodeURIComponent(T)).then(function(r){ return r.json(); }).then(function(j){
+    if(!j.ok){ invalido(); return; }
+    LEAD = j.lead;
+    document.getElementById("leadFirst").textContent = LEAD.nombre.split(" ")[0];
+    document.getElementById("leadName").textContent = LEAD.nombre;
+    document.getElementById("leadMail").textContent = LEAD.correo;
+    LEAD.slotTexto = pintarSlot(LEAD.slot);
+    if(j.respondido){
+      var t = document.getElementById("toastFail");
+      t.className = "toast ok"; t.hidden = false;
+      t.textContent = j.confirma === "Sí, confirmo" ? "Ya tenemos tu confirmación. Si cambió algo, vuelve a enviar el formulario y reemplazamos tus respuestas." : "Ya recibimos tu respuesta (“"+j.confirma+"”). Puedes volver a enviarla si cambió algo.";
+    }
+  }).catch(invalido);
+
+  var f = document.getElementById("f"), btn = document.getElementById("send");
+  function uno(n){ var e = f.querySelector('input[name="'+n+'"]:checked'); return e ? e.value : ""; }
+  function varios(n){ return [].map.call(f.querySelectorAll('input[name="'+n+'"]:checked'), function(e){ return e.value; }); }
+  function specToggle(){
+    document.getElementById("categoria_otro").hidden = !document.getElementById("k6").checked;
+    document.getElementById("temas_otro").hidden = !document.getElementById("m7").checked;
+  }
+  f.addEventListener("change", function(e){
+    specToggle();
+    document.getElementById("toastErr").hidden = true;
+    var q = e.target.closest(".q"); if(q) q.classList.remove("miss");
+    if(e.target.id === "k6" && e.target.checked) document.getElementById("categoria_otro").focus();
+    if(e.target.id === "m7" && e.target.checked) document.getElementById("temas_otro").focus();
+    // "Marca hasta dos" en temas
+    var tm = varios("temas"); if(tm.length > 2){ e.target.checked = false; }
+  });
+  f.addEventListener("input", function(e){ var q = e.target.closest(".q"); if(q) q.classList.remove("miss"); });
+
+  function validar(d){
+    var faltan = [];
+    [].forEach.call(f.querySelectorAll(".q.miss"), function(q){ q.classList.remove("miss"); });
+    function mal(k){ var q = f.querySelector('.q[data-k="'+k+'"]'); q.classList.add("miss"); faltan.push(q); }
+    ["confirma","categoria","amazon","ventas","marca_registrada","plazo"].forEach(function(k){ if(!d[k]) mal(k); });
+    if(!d.marca) mal("marca");
+    if(!d.canales.length) mal("canales");
+    if(!d.temas.length) mal("temas");
+    if(d.categoria === "Otro" && !d.categoria_otro) mal("categoria");
+    if(d.temas.indexOf("Otro") > -1 && !d.temas_otro) mal("temas");
+    return faltan;
+  }
+
+  f.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!LEAD) return;
+    var d = {
+      t: T, empresa_web: f.empresa_web.value,
+      marca: f.marca.value.trim(),
+      confirma: uno("confirma"), categoria: uno("categoria"), amazon: uno("amazon"),
+      ventas: uno("ventas"), marca_registrada: uno("marca_registrada"), plazo: uno("plazo"),
+      canales: varios("canales"), temas: varios("temas"),
+      categoria_otro: f.categoria_otro.value.trim(), temas_otro: f.temas_otro.value.trim()
+    };
+    var faltan = validar(d);
+    if(faltan.length){
+      document.getElementById("toastErr").hidden = false;
+      faltan[0].scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    btn.disabled = true; btn.textContent = "Enviando…";
+    try{
+      var r = await fetch("/confirmar/api/respuesta", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(d)});
+      var j = await r.json().catch(function(){ return {}; });
+      if(!r.ok || !j.ok) throw new Error(j.error || ("HTTP "+r.status));
+      f.hidden = true;
+      var g = document.getElementById("gracias"), gt = document.getElementById("gTitle"), gx = document.getElementById("gText");
+      if(d.confirma === "Sí, confirmo"){ gt.textContent = "Cita confirmada"; gx.textContent = "Te esperamos el "+LEAD.slotTexto+". Recibirás un recordatorio el día anterior con el link de Google Meet."; }
+      else if(d.confirma === "Necesito otro horario"){ gt.textContent = "Recibido"; gx.textContent = "Te escribimos hoy mismo a "+LEAD.correo+" con dos opciones de horario."; }
+      else { gt.textContent = "Gracias por avisarnos"; gx.textContent = "Liberamos tu espacio para otra marca. Si más adelante quieres retomarlo, escríbenos a hola@mexusseller.com."; }
+      g.hidden = false;
+      window.scrollTo({top:0, behavior:"smooth"});
+    }catch(err){
+      btn.disabled = false; btn.textContent = "Confirmar mi llamada";
+      var tf = document.getElementById("toastFail"); tf.className = "toast err";
+      tf.innerHTML = 'No pudimos guardar tu respuesta. Tu lugar no se pierde: escríbenos a <a href="mailto:hola@mexusseller.com?subject='+encodeURIComponent("Confirmo mi llamada — "+(LEAD.nombre||""))+'">hola@mexusseller.com</a> y lo registramos a mano.';
+      tf.hidden = false; tf.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
+  specToggle();
+})();
+</script>
+</body>
+</html>
