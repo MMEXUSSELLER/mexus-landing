@@ -656,7 +656,8 @@ class Component extends DCLogic {
       { name: 'Patricio', role: t.mPatoRole, bio: t.mPatoBio, tags: ['PPC', 'Listings', 'Cross-border'], photo: 'assets/team/patricio.jpeg' },
       { name: 'Rodrigo', role: t.mRodriRole, bio: t.mRodriBio, tags: ['LLC/EIN', t.mTagLog, t.mTagInv], photo: 'assets/team/rodrigo.png' },
       { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg' },
-      { name: 'Liza', role: 'Account Specialist', bio: t.mLizaBio, tags: ['PPC', 'Listings', t.mTagInv], photo: 'assets/team/liza.jpeg' }
+      { name: 'Liza', role: 'Account Specialist', bio: t.mLizaBio, tags: ['PPC', 'Listings', t.mTagInv], photo: 'assets/team/liza.jpeg' },
+      { name: 'Marco', role: t.mMarcoRole, bio: t.mMarcoBio, tags: [t.mTagPhoto, 'Video', 'A+'], photo: 'assets/team/marco.jpeg' }
     ];
 
     const diffs = t.diffs.map((x, i) => ({ num: '0' + (i + 1), t: x[0], d: x[1] }));
@@ -836,7 +837,8 @@ Component.ES = {
   mRodriRole: 'Co-founder · Operaciones', mRodriBio: 'Logística, freight, taxes y exportación MX→USA. Habla con Aduanas.',
   mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Cuida la marca como propia.',
   mLizaBio: 'PPC, listings, inventario y reportes. No hay parte de la cuenta que no toque.',
-  mTagLog: 'Logística', mTagInv: 'Inventario',
+  mMarcoRole: 'Diseñador de Contenido', mMarcoBio: 'Foto, video y diseño de todo lo que ve el cliente en tu listing. Imágenes, A+ y ediciones salen de su mano.',
+  mTagLog: 'Logística', mTagInv: 'Inventario', mTagPhoto: 'Foto',
   faqTitle: 'Preguntas frecuentes',
   faqs: [
     ['¿Cómo empezamos a trabajar juntos?', 'Con un diagnóstico gratis de 30 minutos. Revisamos tu cuenta, listings, PPC y márgenes — y te decimos exactamente qué haríamos, con números. Si hay fit, arrancamos con un plan de 90 días.'],
@@ -900,7 +902,8 @@ Component.EN = {
   mRodriRole: 'Co-founder · Operations', mRodriBio: 'Logistics, freight, taxes and MX→USA export. Talks to Customs.',
   mXimeBio: 'Listings, A+ Content, PPC, Brand Store. Treats your brand as her own.',
   mLizaBio: 'PPC, listings, inventory and reporting. There is no part of the account she does not touch.',
-  mTagLog: 'Logistics', mTagInv: 'Inventory',
+  mMarcoRole: 'Content Designer', mMarcoBio: 'Photo, video and design for everything the customer sees on your listing. Images, A+ and edits come from his hands.',
+  mTagLog: 'Logistics', mTagInv: 'Inventory', mTagPhoto: 'Photo',
   faqTitle: 'Frequently asked questions',
   faqs: [
     ['How do we start working together?', 'With a free 30-minute diagnosis. We review your account, listings, PPC and margins — and tell you exactly what we would do, with numbers. If there is fit, we start with a 90-day plan.'],
