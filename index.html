@@ -377,9 +377,9 @@
           </sc-for>
         </div>
       </div>
-      <div data-reveal="1" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 14px">
+      <div data-reveal="1" style="display: grid; grid-template-columns: {{ teamGrid }}; gap: 14px">
         <sc-for list="{{ members }}" as="m" hint-placeholder-count="0">
-          <div style="flex: 0 1 calc((100% - 28px) / 3); min-width: 170px; box-sizing: border-box; background: #fff; border: 1px solid #E5E5E5; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .25s, border-color .2s" style-hover="transform: translateY(-4px); border-color: #F47920; box-shadow: 0 18px 44px rgba(21,34,50,.12)">
+          <div style="grid-column: {{ m.col }}; min-width: 0; background: #fff; border: 1px solid #E5E5E5; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .25s, border-color .2s" style-hover="transform: translateY(-4px); border-color: #F47920; box-shadow: 0 18px 44px rgba(21,34,50,.12)">
             <div style="aspect-ratio: 1 / 1; background: linear-gradient(135deg, #FFF5EC, #FFE5CC); overflow: hidden; border-bottom: 1px solid #E5E5E5">
               <div role="img" aria-label="{{ m.name }}" style="width: 100%; height: 100%; background-image: url('{{ m.photo }}'); background-size: cover; background-position: center top"></div>
             </div>
@@ -652,12 +652,16 @@ class Component extends DCLogic {
       border: s.hi ? '#F47920' : '#E5E5E5'
     }));
 
+    // Founders on top (2), team below (3). The desktop grid has 6 tracks so the
+    // two founder cards can be centered explicitly; every card spans 2 tracks.
+    const mob = this.state.isMobile;
+    const teamGrid = mob ? '1fr' : 'repeat(6, 1fr)';
     const members = [
-      { name: 'Patricio', role: t.mPatoRole, bio: t.mPatoBio, tags: ['PPC', 'Listings', 'Cross-border'], photo: 'assets/team/patricio.jpeg' },
-      { name: 'Rodrigo', role: t.mRodriRole, bio: t.mRodriBio, tags: ['LLC/EIN', t.mTagLog, t.mTagInv], photo: 'assets/team/rodrigo.png' },
-      { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg' },
-      { name: 'Liza', role: 'Account Specialist', bio: t.mLizaBio, tags: ['PPC', 'Listings', t.mTagInv], photo: 'assets/team/liza.jpeg' },
-      { name: 'Marco', role: t.mMarcoRole, bio: t.mMarcoBio, tags: [t.mTagPhoto, 'Video', 'A+'], photo: 'assets/team/marco.jpeg' }
+      { name: 'Rodrigo', role: t.mRodriRole, bio: t.mRodriBio, tags: ['LLC/EIN', t.mTagLog, t.mTagInv], photo: 'assets/team/rodrigo.png', col: mob ? 'auto' : '2 / span 2' },
+      { name: 'Patricio', role: t.mPatoRole, bio: t.mPatoBio, tags: ['PPC', 'Listings', 'Cross-border'], photo: 'assets/team/patricio.jpeg', col: mob ? 'auto' : '4 / span 2' },
+      { name: 'Ximena', role: 'Account Manager', bio: t.mXimeBio, tags: ['Listings', 'A+', 'Brand Store'], photo: 'assets/team/ximena.jpeg', col: mob ? 'auto' : 'auto / span 2' },
+      { name: 'Liza', role: 'Account Specialist', bio: t.mLizaBio, tags: ['PPC', 'Listings', t.mTagInv], photo: 'assets/team/liza.jpeg', col: mob ? 'auto' : 'auto / span 2' },
+      { name: 'Marco', role: t.mMarcoRole, bio: t.mMarcoBio, tags: [t.mTagPhoto, 'Video', 'A+'], photo: 'assets/team/marco.jpeg', col: mob ? 'auto' : 'auto / span 2' }
     ];
 
     const diffs = t.diffs.map((x, i) => ({ num: '0' + (i + 1), t: x[0], d: x[1] }));
@@ -773,6 +777,7 @@ class Component extends DCLogic {
       svCards,
       showPrices: this.props.mostrarPrecios ?? true,
       members,
+      teamGrid,
       diffs,
       faqs,
       sbGroups,
