@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuestionario para tu estudio de mercado — MEXUS Seller</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F47920">
+<link rel="icon" href="/assets/mexus-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --orange:#F47920;--orange-hover:#E56A15;--orange-soft:rgba(244,121,32,.14);--orange-ring:rgba(244,121,32,.28);
+  --bg:#F3F1EE;--surface:#FFFFFF;--surface-sub:#FAF8F5;--border:#E4DFD8;--text:#152232;--muted:#5E6673;--faint:#9AA1AB;
+  --good:#1F8A4C;--good-soft:rgba(31,138,76,.14);--bad:#B3261E;--bad-soft:rgba(217,48,37,.10);
+  --display:'Barlow Condensed','Oswald',Impact,sans-serif;--sans:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0F1720;--surface:#172230;--surface-sub:#1B2837;--border:#2A3746;--text:#EEF1F4;--muted:#A8B1BC;--faint:#6F7A87;
+  --good:#5BD08A;--good-soft:rgba(91,208,138,.16);--bad:#FF8A80;--bad-soft:rgba(255,138,128,.12);
+}}
+*{box-sizing:border-box;min-width:0}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;padding:24px 16px 56px;-webkit-text-size-adjust:100%}
+.form{max-width:720px;margin:0 auto}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px}
+@media (max-width:520px){.card{padding:22px 18px}}
+.head{display:flex;flex-direction:column;gap:14px;padding-bottom:22px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.head img{width:150px;height:auto;display:block}
+.head h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:34px;line-height:1.05;margin:0;letter-spacing:.01em;text-wrap:balance}
+.head p{margin:0;color:var(--muted);font-size:14px}
+.must{background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:10px 14px;font-size:13.5px;line-height:1.45}
+.must b{color:var(--orange)}
+.sec{margin-top:26px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.sec-h .k{font-family:var(--display);font-size:13px;color:var(--orange);letter-spacing:.08em;text-transform:uppercase}
+.sec-h h2{font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:24px;margin:0;line-height:1.1}
+.sec-p{color:var(--muted);font-size:13.5px;margin:0 0 6px}
+.q{padding:18px 0;border-bottom:1px solid var(--border)}
+.q:last-of-type{border-bottom:0}
+.q .lbl{display:flex;gap:10px;align-items:baseline;margin-bottom:10px}
+.q .n{font-family:var(--display);font-size:13px;color:var(--faint);letter-spacing:.06em;min-width:22px}
+.q .t{font-weight:600;font-size:15px}
+.req{color:var(--orange);font-weight:700;margin-left:4px}
+.opc{color:var(--faint);font-weight:500;font-size:12px;margin-left:6px;text-transform:uppercase;letter-spacing:.05em}
+.q .hint{color:var(--muted);font-size:12.5px;margin:-6px 0 10px 32px;line-height:1.45}
+.q .hint.ex{font-style:normal}
+.q .hint.ex b{color:var(--text);font-weight:600}
+.opts{display:grid;gap:8px;margin-left:32px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt label{display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface-sub);border-radius:10px;padding:11px 12px;font-size:14px;cursor:pointer;transition:border-color .12s,background .12s;min-height:44px}
+.opt label::before{content:"";flex:none;width:16px;height:16px;border:2px solid var(--faint);border-radius:50%;background:var(--surface)}
+.opt.cb label::before{border-radius:4px}
+.opt input:checked+label{border-color:var(--orange);background:var(--orange-soft)}
+.opt input:checked+label::before{border-color:var(--orange);background:var(--orange);box-shadow:inset 0 0 0 3px var(--surface)}
+.opt input:focus-visible+label{outline:2px solid var(--orange);outline-offset:1px}
+.txt,.sel{margin-left:32px;width:calc(100% - 32px);font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-sub);color:var(--text)}
+.sel{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239AA1AB' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.txt:focus,.sel:focus{outline:2px solid var(--orange);border-color:transparent}
+.txt::placeholder{color:var(--faint)}
+.stack{display:grid;gap:8px;margin-left:32px}
+.stack .txt{margin-left:0;width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-left:32px}
+.row2 .txt,.row2 .sel{margin-left:0;width:100%}
+.row2 .fld small{display:block;color:var(--muted);font-size:12px;margin-bottom:5px;font-weight:600}
+.pm{display:flex;gap:10px;margin-left:32px}
+.pm .txt{margin-left:0;flex:1}
+.pm .sel{margin-left:0;width:120px;flex:none}
+.sub{margin:12px 0 0 32px}
+.sub .mk{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;margin-bottom:8px}
+.sub .mk .flag{font-family:var(--display);font-size:12px;letter-spacing:.06em;color:var(--surface);background:var(--text);border-radius:6px;padding:2px 7px}
+.sub .stack{margin-left:0}
+.mas{background:none;border:1px dashed var(--border);color:var(--orange);font:inherit;font-weight:600;font-size:13px;padding:8px 12px;border-radius:8px;cursor:pointer;justify-self:start}
+.mas:hover{border-color:var(--orange)}
+.mas:focus-visible{outline:2px solid var(--orange)}
+@media (max-width:520px){.opts.two{grid-template-columns:1fr}.opts,.q .hint,.txt,.sel,.stack,.row2,.pm,.sub{margin-left:0}.txt,.sel{width:100%}.row2{grid-template-columns:1fr}}
+.prod{border:1px solid var(--border);border-radius:14px;margin-top:16px;overflow:hidden;background:var(--surface)}
+.prod-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:var(--surface-sub);border-bottom:1px solid var(--border)}
+.prod-h .num{font-family:var(--display);text-transform:uppercase;font-weight:700;font-size:20px;letter-spacing:.02em}
+.prod-h .num small{display:block;font-family:var(--sans);font-weight:500;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.prod-h button{background:none;border:1px solid var(--border);color:var(--muted);font:inherit;font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.prod-h button:hover{color:var(--bad);border-color:var(--bad)}
+.prod-b{padding:0 18px}
+.q.miss{background:var(--bad-soft);margin:0 -18px;padding-left:15px;padding-right:18px;border-left:3px solid var(--bad)}
+.card > form > .sec > .q.miss{margin:0 -28px;padding-left:25px;padding-right:28px}
+@media (max-width:520px){.card > form > .sec > .q.miss{margin:0 -18px;padding-left:15px;padding-right:18px}}
+.q.miss .t::after{content:"Falta responder";display:inline-block;margin-left:10px;font-size:11px;font-weight:700;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.add{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:16px;padding:16px;border:2px dashed var(--orange-ring);border-radius:14px;background:var(--orange-soft);color:var(--orange);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.add:hover{border-color:var(--orange)}
+.add:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.submit{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:26px;padding-top:22px;border-top:1px solid var(--border)}
+.btn{background:var(--orange);color:#fff;border:0;font:inherit;font-weight:700;font-size:15px;padding:14px 24px;border-radius:10px;cursor:pointer;min-height:48px}
+.btn:hover{background:var(--orange-hover)}
+.btn[disabled]{opacity:.6;cursor:default}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.submit small{color:var(--faint);font-size:12px}
+.saved{font-size:12px;color:var(--faint);margin-top:10px;display:flex;align-items:center;gap:6px}
+.saved i{width:7px;height:7px;border-radius:50%;background:var(--good);display:inline-block}
+.toast{margin-top:14px;border-radius:10px;padding:12px 14px;font-weight:600;font-size:14px}
+.toast.ok{background:var(--good-soft);color:var(--good)}
+.toast.err{background:var(--bad-soft);color:var(--bad)}
+.toast a{color:inherit}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none!important}
+.gracias{text-align:center;padding:26px 6px 10px}
+.gracias .ck{width:56px;height:56px;border-radius:50%;background:var(--good-soft);color:var(--good);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px}
+.gracias h2{font-family:var(--display);text-transform:uppercase;font-size:30px;margin:0 0 8px;line-height:1.05}
+.gracias p{margin:0 auto 8px;max-width:46ch;color:var(--muted)}
+.gracias .lnk{background:none;border:0;color:var(--orange);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline;margin-top:8px}
+.invalido{max-width:560px;margin:40px auto;text-align:center;color:var(--muted)}
+.invalido a{color:var(--orange)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="form">
+  <div class="card" id="card">
+    <div class="head">
+      <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller">
+      <h1>Cuestionario para tu estudio de mercado</h1>
+      <p>Hola <b id="leadFirst">…</b>. Con esto armamos el estudio de mercado de cada producto en Amazon: cuánto se vende, quién compite, con qué palabras te buscan y cuánto cuesta anunciarte. Toma unos 5 minutos por producto.</p>
+      <div class="must"><b>Agrega todos los productos que quieras estudiar.</b> Cada uno puede ir a Amazon México, Amazon Estados Unidos o a los dos. Entre más detalle nos des, más atinado sale el estudio. Tus respuestas se guardan en este navegador mientras llenas; puedes cerrar y volver con el mismo link.</div>
+    </div>
+
+    <form id="f" novalidate>
+      <input class="hp" type="text" name="empresa_web" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="sec" id="secMarca">
+        <div class="sec-h"><span class="k">Bloque 1</span><h2>Tu marca</h2></div>
+        <p class="sec-p">Se llena una sola vez.</p>
+
+        <div class="q" data-k="marca">
+          <div class="lbl"><span class="n">01</span><span class="t">Marca<span class="req" aria-hidden="true">*</span></span></div>
+          <input class="txt" id="marca" name="marca" type="text" maxlength="120" autocomplete="organization">
+        </div>
+        <div class="q" data-k="web">
+          <div class="lbl"><span class="n">02</span><span class="t">Sitio web o redes de la marca<span class="opc">opcional</span></span></div>
+          <input class="txt" id="web" name="web" type="url" maxlength="200" placeholder="https://" autocomplete="url" inputmode="url">
+        </div>
+        <div class="q" data-k="contacto">
+          <div class="lbl"><span class="n">03</span><span class="t">Quién llena este cuestionario<span class="req" aria-hidden="true">*</span></span></div>
+          <div class="row2">
+            <div class="fld"><small>Nombre</small><input class="txt" id="contacto_nombre" type="text" maxlength="120" autocomplete="name"></div>
+            <div class="fld"><small>Correo</small><input class="txt" id="contacto_correo" type="email" maxlength="160" autocomplete="email" inputmode="email"></div>
+          </div>
+        </div>
+        <div class="q" data-k="amazon_hoy">
+          <div class="lbl"><span class="n">04</span><span class="t">¿Ya vendes en Amazon?<span class="req" aria-hidden="true">*</span></span></div>
+          <div class="opts two">
+            <div class="opt"><input type="radio" name="amazon_hoy" id="ah0" value="No, todavía"><label for="ah0">No, todavía</label></div>
+            <div class="opt"><input type="radio" name="amazon_hoy" id="ah1" value="Sí, en Amazon México"><label for="ah1">Sí, en Amazon México</label></div>
+            <div class="opt"><input type="radio" name="amazon_hoy" id="ah2" value="Sí, en Amazon Estados Unidos"><label for="ah2">Sí, en Amazon Estados Unidos</label></div>
+            <div class="opt"><input type="radio" name="amazon_hoy" id="ah3" value="Sí, en los dos"><label for="ah3">Sí, en los dos</label></div>
+          </div>
+          <div class="stack" id="amazonLinkWrap" style="margin-top:10px" hidden>
+            <input class="txt" id="amazon_link" type="url" maxlength="300" placeholder="Link de tu tienda o de uno de tus productos en Amazon" inputmode="url">
+          </div>
+        </div>
+      </div>
+
+      <div class="sec" id="secProd">
+        <div class="sec-h"><span class="k">Bloque 2</span><h2>Tus productos</h2></div>
+        <p class="sec-p">Un bloque por producto. Si tienes varias presentaciones del mismo producto (tamaños, aromas), pon la que más vendes y menciona las demás en la descripción.</p>
+        <div id="prods"></div>
+        <button class="add" type="button" id="addProd">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Agregar otro producto
+        </button>
+      </div>
+
+      <div class="submit">
+        <button class="btn" id="send" type="submit">Enviar cuestionario</button>
+        <small>Puedes volver a abrir el link y corregir; la última versión enviada es la que vale.</small>
+      </div>
+      <div class="saved" id="saved" hidden><i></i><span>Borrador guardado en este navegador</span></div>
+      <div class="toast err" id="toastErr" hidden>Faltan respuestas. Revisa los campos marcados en rojo.</div>
+      <div class="toast err" id="toastFail" hidden></div>
+    </form>
+
+    <div class="gracias" id="gracias" hidden>
+      <div class="ck"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2>Cuestionario recibido</h2>
+      <p id="gText"></p>
+      <p>Te escribimos a ese correo para agendar la sesión donde presentamos los resultados.</p>
+      <button class="lnk" type="button" id="editar">Corregir o agregar productos</button>
+    </div>
+  </div>
+
+  <div class="invalido" id="invalido" hidden>
+    <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller" style="width:140px;margin-bottom:18px">
+    <p>Este link no es válido. Escríbenos a <a href="mailto:rodrigo@mexusseller.com">rodrigo@mexusseller.com</a> y te mandamos uno nuevo.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  var T = new URLSearchParams(location.search).get("t") || "";
+  var MARCA = null, KEY = "";
+  var CATS = [
+    ["Beauty & Personal Care","Belleza y cuidado personal"],["Health & Household","Salud y hogar"],["Grocery & Gourmet Food","Alimentos y bebidas"],
+    ["Home & Kitchen","Hogar y cocina"],["Kitchen & Dining","Cocina y comedor"],["Sports & Outdoors","Deportes y aire libre"],
+    ["Tools & Home Improvement","Herramientas y mejoras del hogar"],["Patio, Lawn & Garden","Patio y jardín"],["Toys & Games","Juguetes y juegos"],
+    ["Baby","Bebé"],["Pet Supplies","Mascotas"],["Clothing, Shoes & Jewelry","Ropa, zapatos y joyería"],["Electronics","Electrónica"],
+    ["Cell Phones & Accessories","Celulares y accesorios"],["Office Products","Oficina y papelería"],["Arts, Crafts & Sewing","Arte, manualidades y costura"],
+    ["Automotive","Automotriz"],["Industrial & Scientific","Industrial y científico"],["Musical Instruments","Instrumentos musicales"],
+    ["Appliances","Electrodomésticos"],["Furniture","Muebles"],["Books","Libros"],["Video Games","Videojuegos"],["Handmade","Hecho a mano"]
+  ];
+  var MK = { MX: { nombre: "Amazon México", dom: "amazon.com.mx", mon: "MXN" }, US: { nombre: "Amazon Estados Unidos", dom: "amazon.com", mon: "USD" } };
+  var MONEDAS = ["MXN","USD","DOP","Otra"];
+
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function vacio(){ return { nombre:"", mercados:[], categoria:"", nicho:"", keywords:[], competidores:{MX:[],US:[]}, precio_actual:"", moneda:"", precio_objetivo:{}, diferenciador:"", fotos:"", asin_propio:"" }; }
+
+  function invalido(){ document.getElementById("card").hidden = true; document.getElementById("invalido").hidden = false; }
+  if(!T){ invalido(); return; }
+
+  var f = document.getElementById("f"), btn = document.getElementById("send"), prods = document.getElementById("prods");
+
+  // ---- render de un producto ----
+  function inputs(lista, n, min, ph, cls){
+    var arr = lista.slice(); while(arr.length < min) arr.push("");
+    return arr.map(function(v,i){ return '<input class="txt '+cls+'" type="'+(cls==="kw"?"text":"url")+'" maxlength="'+(cls==="kw"?80:300)+'" value="'+esc(v)+'" placeholder="'+esc(ph[i]||ph[ph.length-1])+'"'+(cls==="kw"?"":' inputmode="url"')+'>'; }).join("")
+      + (arr.length < n ? '<button class="mas" type="button" data-mas="'+cls+'">+ agregar otra</button>' : "");
+  }
+  function cardHTML(p, i){
+    var kwPh = p.mercados.indexOf("US") > -1 && p.mercados.indexOf("MX") === -1
+      ? ["hair perfume", "hair mist with keratin", "heat protectant spray", "", ""]
+      : ["perfume para cabello", "perfume para cabello con keratina", "protector térmico para cabello", "", ""];
+    var comp = p.mercados.map(function(m){
+      return '<div class="sub" data-mk="'+m+'"><div class="mk"><span class="flag">'+m+'</span>'+MK[m].nombre+' <span style="color:var(--faint);font-weight:500">('+MK[m].dom+')</span></div>'
+        + '<div class="stack">'+inputs(p.competidores[m]||[], 5, 2, ["https://www."+MK[m].dom+"/dp/…", "https://www."+MK[m].dom+"/dp/… (opcional)"], "cp")+'</div></div>';
+    }).join("");
+    var po = p.mercados.map(function(m){
+      return '<div class="fld"><small>En '+MK[m].nombre+' ('+MK[m].mon+')</small><input class="txt po" data-mk="'+m+'" type="text" inputmode="decimal" maxlength="12" value="'+esc(p.precio_objetivo[m]||"")+'" placeholder="Ej. '+(m==="US"?"24.99":"399")+'"></div>';
+    }).join("");
+    return '<div class="prod" data-i="'+i+'">'
+      + '<div class="prod-h"><div class="num">Producto '+(i+1)+'<small class="pname">'+esc(p.nombre||"")+'</small></div><button type="button" data-quitar="'+i+'"'+(i===0&&!p.nombre?' hidden':'')+'>Quitar</button></div>'
+      + '<div class="prod-b">'
+      + '<div class="q" data-k="nombre"><div class="lbl"><span class="n">01</span><span class="t">Nombre y presentación<span class="req">*</span></span></div>'
+      + '<p class="hint ex">Como lo llamas tú. <b>Ej.</b> Perfume para cabello Hope, 100 ml.</p>'
+      + '<input class="txt nombre" type="text" maxlength="160" value="'+esc(p.nombre)+'"></div>'
+
+      + '<div class="q" data-k="mercados"><div class="lbl"><span class="n">02</span><span class="t">¿Dónde lo quieres estudiar?<span class="req">*</span></span></div>'
+      + '<p class="hint">Puedes marcar los dos.</p><div class="opts two">'
+      + '<div class="opt cb"><input type="checkbox" class="mk" id="mx'+i+'" value="MX"'+(p.mercados.indexOf("MX")>-1?" checked":"")+'><label for="mx'+i+'">Amazon México</label></div>'
+      + '<div class="opt cb"><input type="checkbox" class="mk" id="us'+i+'" value="US"'+(p.mercados.indexOf("US")>-1?" checked":"")+'><label for="us'+i+'">Amazon Estados Unidos</label></div>'
+      + '</div></div>'
+
+      + '<div class="q" data-k="categoria"><div class="lbl"><span class="n">03</span><span class="t">¿En qué categoría de Amazon lo buscaría un cliente?<span class="req">*</span></span></div>'
+      + '<select class="sel categoria"><option value="" disabled'+(p.categoria?"":" selected")+'>Selecciona una categoría…</option>'
+      + CATS.map(function(c){ return '<option value="'+esc(c[0])+'"'+(p.categoria===c[0]?" selected":"")+'>'+esc(c[1])+' · '+esc(c[0])+'</option>'; }).join("")+'</select></div>'
+
+      + '<div class="q" data-k="nicho"><div class="lbl"><span class="n">04</span><span class="t">Descríbelo en una frase, como lo buscaría alguien que no conoce tu marca<span class="req">*</span></span></div>'
+      + '<p class="hint ex"><b>Ej.</b> Perfume para cabello sin alcohol con keratina y protector térmico.</p>'
+      + '<input class="txt nicho" type="text" maxlength="240" value="'+esc(p.nicho)+'"></div>'
+
+      + '<div class="q" data-k="keywords"><div class="lbl"><span class="n">05</span><span class="t">¿Con qué palabras lo buscarían en Amazon?<span class="req">*</span></span></div>'
+      + '<p class="hint">Hasta 5. Para Estados Unidos escríbelas en inglés; si no sabes cómo se dice, ponlas en español y nosotros las traducimos.</p>'
+      + '<div class="stack kws">'+inputs(p.keywords, 5, 3, kwPh, "kw")+'</div></div>'
+
+      + '<div class="q" data-k="competidores"><div class="lbl"><span class="n">06</span><span class="t">Productos parecidos al tuyo en Amazon<span class="req">*</span></span></div>'
+      + '<p class="hint">Pega el link completo del producto en Amazon. Con uno basta; hasta cinco si los tienes a la mano.'+(p.mercados.length?"":" <b>Primero marca dónde lo quieres estudiar (pregunta 02).</b>")+'</p>'
+      + '<div class="comps">'+comp+'</div></div>'
+
+      + '<div class="q" data-k="precio"><div class="lbl"><span class="n">07</span><span class="t">Precio<span class="opc">opcional</span></span></div>'
+      + '<p class="hint">A cuánto lo vendes hoy al público y, si ya lo pensaste, a cuánto crees que se vendería en Amazon.</p>'
+      + '<div class="pm"><input class="txt pa" type="text" inputmode="decimal" maxlength="12" value="'+esc(p.precio_actual)+'" placeholder="Precio actual"><select class="sel moneda">'
+      + MONEDAS.map(function(m){ return '<option value="'+m+'"'+((p.moneda||"MXN")===m?" selected":"")+'>'+m+'</option>'; }).join("")+'</select></div>'
+      + (po ? '<div class="row2" style="margin-top:10px">'+po+'</div>' : '')+'</div>'
+
+      + '<div class="q" data-k="diferenciador"><div class="lbl"><span class="n">08</span><span class="t">¿Qué lo hace diferente?<span class="opc">opcional</span></span></div>'
+      + '<p class="hint ex">Una frase. <b>Ej.</b> Perfumería fina de alta gama con seis tratamientos en uno.</p>'
+      + '<input class="txt dif" type="text" maxlength="400" value="'+esc(p.diferenciador)+'"></div>'
+
+      + '<div class="q" data-k="fotos"><div class="lbl"><span class="n">09</span><span class="t">Fotos o ficha del producto<span class="opc">opcional</span></span></div>'
+      + '<p class="hint">Link a Drive, Dropbox o a la página del producto.</p>'
+      + '<input class="txt fotos" type="url" inputmode="url" maxlength="300" value="'+esc(p.fotos)+'" placeholder="https://"></div>'
+
+      + '<div class="q" data-k="asin_propio"><div class="lbl"><span class="n">10</span><span class="t">Si ya está en Amazon, su link o ASIN<span class="opc">opcional</span></span></div>'
+      + '<input class="txt propio" type="text" maxlength="300" value="'+esc(p.asin_propio)+'" placeholder="https://www.amazon.com.mx/dp/B0… o B0XXXXXXXX"></div>'
+      + '</div></div>';
+  }
+  function leerCard(el){
+    var p = vacio();
+    p.nombre = el.querySelector(".nombre").value.trim();
+    p.mercados = [].map.call(el.querySelectorAll(".mk:checked"), function(x){ return x.value; });
+    p.categoria = el.querySelector(".categoria").value;
+    p.nicho = el.querySelector(".nicho").value.trim();
+    p.keywords = [].map.call(el.querySelectorAll(".kw"), function(x){ return x.value.trim(); }).filter(Boolean);
+    [].forEach.call(el.querySelectorAll(".sub[data-mk]"), function(s){ p.competidores[s.getAttribute("data-mk")] = [].map.call(s.querySelectorAll(".cp"), function(x){ return x.value.trim(); }).filter(Boolean); });
+    p.precio_actual = el.querySelector(".pa").value.trim();
+    p.moneda = el.querySelector(".moneda").value;
+    [].forEach.call(el.querySelectorAll(".po"), function(x){ if(x.value.trim()) p.precio_objetivo[x.getAttribute("data-mk")] = x.value.trim(); });
+    p.diferenciador = el.querySelector(".dif").value.trim();
+    p.fotos = el.querySelector(".fotos").value.trim();
+    p.asin_propio = el.querySelector(".propio").value.trim();
+    return p;
+  }
+  function leerTodo(){
+    return {
+      marca: f.marca.value.trim(), web: f.web.value.trim(),
+      contacto_nombre: document.getElementById("contacto_nombre").value.trim(),
+      contacto_correo: document.getElementById("contacto_correo").value.trim(),
+      amazon_hoy: (f.querySelector('input[name="amazon_hoy"]:checked')||{}).value || "",
+      amazon_link: document.getElementById("amazon_link").value.trim(),
+      productos: [].map.call(prods.querySelectorAll(".prod"), leerCard)
+    };
+  }
+  function pintar(lista){
+    prods.innerHTML = lista.map(cardHTML).join("");
+  }
+  function repintarUno(i){
+    var el = prods.querySelector('.prod[data-i="'+i+'"]'); if(!el) return;
+    var p = leerCard(el); var tmp = document.createElement("div"); tmp.innerHTML = cardHTML(p, i);
+    el.replaceWith(tmp.firstElementChild);
+  }
+  function pintarMarca(d){
+    f.marca.value = d.marca || MARCA.marca; f.web.value = d.web || "";
+    document.getElementById("contacto_nombre").value = d.contacto_nombre || MARCA.nombre;
+    document.getElementById("contacto_correo").value = d.contacto_correo || MARCA.correo;
+    var r = f.querySelector('input[name="amazon_hoy"][value="'+(d.amazon_hoy||"").replace(/"/g,'')+'"]'); if(r) r.checked = true;
+    document.getElementById("amazon_link").value = d.amazon_link || "";
+    amazonToggle();
+  }
+  function amazonToggle(){
+    var v = (f.querySelector('input[name="amazon_hoy"]:checked')||{}).value || "";
+    document.getElementById("amazonLinkWrap").hidden = !(v && v !== "No, todavía");
+  }
+
+  // ---- borrador local ----
+  var saveT;
+  function guardar(){
+    clearTimeout(saveT);
+    saveT = setTimeout(function(){
+      try{ localStorage.setItem(KEY, JSON.stringify({ ts: Date.now(), d: leerTodo() })); document.getElementById("saved").hidden = false; }catch(e){}
+    }, 400);
+  }
+
+  // ---- carga ----
+  fetch("/estudio/api/marca?t="+encodeURIComponent(T)).then(function(r){ return r.json(); }).then(function(j){
+    if(!j.ok){ invalido(); return; }
+    MARCA = j.marca; KEY = "estudio:"+MARCA.id;
+    document.getElementById("leadFirst").textContent = MARCA.nombre.split(" ")[0];
+    var draft = null; try{ draft = JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
+    var base = null;
+    if(j.respuesta && (!draft || new Date(j.respuesta.ts).getTime() > draft.ts)) base = j.respuesta;
+    else if(draft) base = draft.d;
+    if(j.respuesta){
+      var t = document.getElementById("toastFail"); t.className = "toast ok"; t.hidden = false;
+      t.textContent = "Ya recibimos tu cuestionario con "+j.respuesta.n_productos+" producto"+(j.respuesta.n_productos===1?"":"s")+". Puedes corregirlo o agregar más y volver a enviar.";
+    }
+    pintarMarca(base || {});
+    // Server answers carry competitors as {url, asin} and numeric prices; the
+    // local draft carries plain strings. Normalize both to the form's shape.
+    function normal(p){
+      var q = Object.assign(vacio(), p);
+      q.competidores = {MX:[],US:[]};
+      Object.keys(p.competidores||{}).forEach(function(m){ q.competidores[m] = (p.competidores[m]||[]).map(function(c){ return typeof c === "string" ? c : (c && c.url) || ""; }).filter(Boolean); });
+      q.precio_objetivo = {}; Object.keys(p.precio_objetivo||{}).forEach(function(m){ q.precio_objetivo[m] = String(p.precio_objetivo[m]); });
+      q.keywords = (p.keywords||[]).slice(); q.mercados = (p.mercados||[]).slice();
+      q.precio_actual = p.precio_actual==null ? "" : String(p.precio_actual);
+      return q;
+    }
+    pintar((base && base.productos && base.productos.length) ? base.productos.map(normal) : [vacio()]);
+  }).catch(invalido);
+
+  // ---- eventos ----
+  document.getElementById("addProd").addEventListener("click", function(){
+    var lista = leerTodo().productos; lista.push(vacio()); pintar(lista);
+    var nuevo = prods.lastElementChild; nuevo.scrollIntoView({behavior:"smooth", block:"start"});
+    setTimeout(function(){ nuevo.querySelector(".nombre").focus({preventScroll:true}); }, 350);
+    guardar();
+  });
+  prods.addEventListener("click", function(e){
+    var q = e.target.closest("[data-quitar]");
+    if(q){
+      var i = +q.getAttribute("data-quitar"); var lista = leerTodo().productos;
+      var p = lista[i]; var lleno = p.nombre || p.nicho || p.keywords.length;
+      if(lleno && !confirm("¿Quitar el producto "+(i+1)+(p.nombre?" ("+p.nombre+")":"")+"?")) return;
+      lista.splice(i,1); if(!lista.length) lista.push(vacio()); pintar(lista); guardar(); return;
+    }
+    var m = e.target.closest("[data-mas]");
+    if(m){
+      var stack = m.parentElement; var cls = m.getAttribute("data-mas");
+      var inp = document.createElement("input"); inp.className = "txt "+cls; inp.type = cls==="kw"?"text":"url"; inp.maxLength = cls==="kw"?80:300;
+      inp.placeholder = cls==="kw" ? "otra palabra clave (opcional)" : "https://… (opcional)";
+      stack.insertBefore(inp, m); inp.focus();
+      if(stack.querySelectorAll("."+cls).length >= 5) m.remove();
+    }
+  });
+  prods.addEventListener("change", function(e){
+    if(e.target.classList.contains("mk")){ var card = e.target.closest(".prod"); repintarUno(+card.getAttribute("data-i")); }
+    var q = e.target.closest(".q"); if(q) q.classList.remove("miss");
+    guardar();
+  });
+  prods.addEventListener("input", function(e){
+    var q = e.target.closest(".q"); if(q) q.classList.remove("miss");
+    if(e.target.classList.contains("nombre")){ var card = e.target.closest(".prod"); card.querySelector(".pname").textContent = e.target.value; card.querySelector("[data-quitar]").hidden = false; }
+    document.getElementById("toastErr").hidden = true;
+    guardar();
+  });
+  f.addEventListener("change", function(e){ if(e.target.name === "amazon_hoy") amazonToggle(); var q = e.target.closest(".q"); if(q) q.classList.remove("miss"); guardar(); });
+  f.addEventListener("input", function(e){ var q = e.target.closest(".q"); if(q) q.classList.remove("miss"); document.getElementById("toastErr").hidden = true; guardar(); });
+
+  function esAmazon(u, m){ try{ var x = new URL(u); var h = x.hostname.replace(/^www\./,""); return x.protocol==="https:" && h === (m==="MX"?"amazon.com.mx":"amazon.com"); }catch(e){ return false; } }
+  function validar(d){
+    var faltan = [];
+    [].forEach.call(f.querySelectorAll(".q.miss"), function(q){ q.classList.remove("miss"); });
+    function mal(el, k){ var q = el.querySelector('.q[data-k="'+k+'"]'); if(q){ q.classList.add("miss"); faltan.push(q); } }
+    var sm = document.getElementById("secMarca");
+    if(!d.marca) mal(sm, "marca");
+    if(!d.contacto_nombre || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.contacto_correo)) mal(sm, "contacto");
+    if(!d.amazon_hoy) mal(sm, "amazon_hoy");
+    [].forEach.call(prods.querySelectorAll(".prod"), function(el, i){
+      var p = d.productos[i];
+      if(!p.nombre) mal(el, "nombre");
+      if(!p.mercados.length) mal(el, "mercados");
+      if(!p.categoria) mal(el, "categoria");
+      if(!p.nicho) mal(el, "nicho");
+      if(!p.keywords.length) mal(el, "keywords");
+      var okComp = p.mercados.length > 0;
+      p.mercados.forEach(function(m){ var urls = (p.competidores[m]||[]).filter(function(u){ return esAmazon(u, m); }); if(!urls.length) okComp = false; });
+      if(!okComp) mal(el, "competidores");
+    });
+    return faltan;
+  }
+
+  f.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!MARCA) return;
+    var d = leerTodo(); d.t = T; d.empresa_web = f.empresa_web.value;
+    var faltan = validar(d);
+    if(faltan.length){
+      var te = document.getElementById("toastErr");
+      te.textContent = "Faltan respuestas. Revisa los campos marcados en rojo" + (faltan.some(function(q){ return q.getAttribute("data-k")==="competidores"; }) ? " (los links de competidores deben ser de amazon.com o amazon.com.mx según el marketplace)." : ".");
+      te.hidden = false;
+      faltan[0].scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    btn.disabled = true; btn.textContent = "Enviando…";
+    try{
+      var r = await fetch("/estudio/api/respuesta", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(d)});
+      var j = await r.json().catch(function(){ return {}; });
+      if(!r.ok || !j.ok) throw new Error(j.error || ("HTTP "+r.status));
+      try{ localStorage.removeItem(KEY); }catch(x){}
+      f.hidden = true;
+      document.getElementById("gText").textContent = "Recibimos "+j.n+" producto"+(j.n===1?"":"s")+" de "+d.marca+". Enviado a nombre de "+d.contacto_nombre+" ("+d.contacto_correo+").";
+      document.getElementById("gracias").hidden = false;
+      window.scrollTo({top:0, behavior:"smooth"});
+    }catch(err){
+      btn.disabled = false; btn.textContent = "Enviar cuestionario";
+      var tf = document.getElementById("toastFail"); tf.className = "toast err";
+      tf.innerHTML = 'No pudimos guardar tus respuestas ('+esc(err.message)+'). No se pierden: siguen en este navegador. Intenta de nuevo o escríbenos a <a href="mailto:rodrigo@mexusseller.com">rodrigo@mexusseller.com</a>.';
+      tf.hidden = false; tf.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
+  document.getElementById("editar").addEventListener("click", function(){
+    document.getElementById("gracias").hidden = true; f.hidden = false; btn.disabled = false; btn.textContent = "Enviar cuestionario";
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+})();
+</script>
+</body>
+</html>
