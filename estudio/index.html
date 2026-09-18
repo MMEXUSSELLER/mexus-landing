@@ -122,7 +122,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
     <div class="head">
       <img src="/assets/logo-mexus-orange.png" alt="MEXUS Seller">
       <h1>Cuestionario para tu estudio de mercado</h1>
-      <p>Hola <b id="leadFirst">…</b>. Con esto armamos el estudio de mercado de cada producto en Amazon: cuánto se vende, quién compite, con qué palabras te buscan y cuánto cuesta anunciarte. Toma unos 5 minutos por producto.</p>
+      <p><span id="hola">Hola <b id="leadFirst">…</b>.</span> Con esto armamos el estudio de mercado de cada producto en Amazon: cuánto se vende, quién compite, con qué palabras te buscan y cuánto cuesta anunciarte. Toma unos 5 minutos por producto.</p>
       <div class="must"><b>Agrega todos los productos que quieras estudiar.</b> Cada uno puede ir a Amazon México, Amazon Estados Unidos o a los dos. Entre más detalle nos des, más atinado sale el estudio. Tus respuestas se guardan en este navegador mientras llenas; puedes cerrar y volver con el mismo link.</div>
     </div>
 
@@ -135,7 +135,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
 
         <div class="q" data-k="marca">
           <div class="lbl"><span class="n">01</span><span class="t">Marca<span class="req" aria-hidden="true">*</span></span></div>
-          <input class="txt" id="marca" name="marca" type="text" maxlength="120" autocomplete="organization">
+          <input class="txt" id="marca" name="marca" type="text" maxlength="120" autocomplete="organization" placeholder="Nombre de tu marca">
         </div>
         <div class="q" data-k="web">
           <div class="lbl"><span class="n">02</span><span class="t">Sitio web o redes de la marca<span class="opc">opcional</span></span></div>
@@ -216,7 +216,6 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
   function vacio(){ return { nombre:"", mercados:[], categoria:"", nicho:"", keywords:[], competidores:{MX:[],US:[]}, precio_actual:"", moneda:"", precio_objetivo:{}, diferenciador:"", fotos:"", asin_propio:"" }; }
 
   function invalido(){ document.getElementById("card").hidden = true; document.getElementById("invalido").hidden = false; }
-  if(!T){ invalido(); return; }
 
   var f = document.getElementById("f"), btn = document.getElementById("send"), prods = document.getElementById("prods");
 
@@ -341,10 +340,13 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
   }
 
   // ---- carga ----
-  fetch("/estudio/api/marca?t="+encodeURIComponent(T)).then(function(r){ return r.json(); }).then(function(j){
+  // With a token the brand comes prefilled and its last answers reload; without
+  // one this is the public link and the brand types its own name and email.
+  fetch("/estudio/api/marca"+(T ? "?t="+encodeURIComponent(T) : "")).then(function(r){ return r.json(); }).then(function(j){
     if(!j.ok){ invalido(); return; }
-    MARCA = j.marca; KEY = "estudio:"+MARCA.id;
-    document.getElementById("leadFirst").textContent = MARCA.nombre.split(" ")[0];
+    MARCA = j.marca || { id: "publico", marca: "", nombre: "", correo: "" }; KEY = "estudio:"+MARCA.id;
+    if(j.publico) document.getElementById("hola").textContent = "Hola.";
+    else document.getElementById("leadFirst").textContent = MARCA.nombre.split(" ")[0];
     var draft = null; try{ draft = JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
     var base = null;
     if(j.respuesta && (!draft || new Date(j.respuesta.ts).getTime() > draft.ts)) base = j.respuesta;
@@ -432,7 +434,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);fon
   f.addEventListener("submit", async function(e){
     e.preventDefault();
     if(!MARCA) return;
-    var d = leerTodo(); d.t = T; d.empresa_web = f.empresa_web.value;
+    var d = leerTodo(); if(T) d.t = T; d.empresa_web = f.empresa_web.value;
     var faltan = validar(d);
     if(faltan.length){
       var te = document.getElementById("toastErr");

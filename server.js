@@ -325,12 +325,19 @@ function asinDe(s) {
   return m ? m[1].toUpperCase() : '';
 }
 
+// Two ways in: a personal signed link (brand + contact prefilled, answers
+// reload on reopen) or the public /estudio with no token, where the brand
+// types its own name and email. Public answers key on the email so a brand
+// that submits twice from the public link replaces, not duplicates.
+function marcaIdPublico(correo) { return 'pub-' + crypto.createHash('sha1').update(String(correo).trim().toLowerCase()).digest('hex').slice(0, 12); }
+
 app.get('/estudio/api/marca', (req, res) => {
+  if (!req.query.t) return res.json({ ok: true, publico: true, marca: null, respuesta: null });
   const l = leerTokenEstudio(req.query.t);
   if (!l) return res.status(400).json({ ok: false, error: 'link inválido' });
   const previa = ultimosPorMarca(leerEstudios()).find(f => f.marca_id === l.id);
   const { ip, ua, ...respuesta } = previa || {};
-  res.json({ ok: true, marca: l, respuesta: previa ? respuesta : null });
+  res.json({ ok: true, publico: false, marca: l, respuesta: previa ? respuesta : null });
 });
 
 app.post('/estudio/api/respuesta', express.json({ limit: '256kb' }), (req, res) => {
@@ -339,8 +346,8 @@ app.post('/estudio/api/respuesta', express.json({ limit: '256kb' }), (req, res) 
   if (b.empresa_web) return res.status(200).json({ ok: true }); // bot
   if (limitado(ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
 
-  const marca = leerTokenEstudio(b.t);
-  if (!marca) return res.status(400).json({ ok: false, error: 'link inválido' });
+  const marca = b.t ? leerTokenEstudio(b.t) : null;
+  if (b.t && !marca) return res.status(400).json({ ok: false, error: 'link inválido' });
 
   const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
   const num = v => { const n = Number(String(v == null ? '' : v).replace(/[,\s$]/g, '')); return Number.isFinite(n) && n > 0 ? n : null; };
@@ -400,7 +407,8 @@ app.post('/estudio/api/respuesta', express.json({ limit: '256kb' }), (req, res) 
   const fila = {
     id: crypto.randomUUID(),
     ts: new Date().toISOString(),
-    marca_id: marca.id,
+    marca_id: marca ? marca.id : marcaIdPublico(r.contacto_correo),
+    origen: marca ? 'link-personal' : 'link-publico',
     ...r,
     n_productos: r.productos.length,
     ip, ua: txt(req.headers['user-agent'], 300),
@@ -410,10 +418,38 @@ app.post('/estudio/api/respuesta', express.json({ limit: '256kb' }), (req, res) 
     fs.mkdirSync(LEADS_DIR, { recursive: true });
     fs.appendFileSync(ESTUDIO_FILE, JSON.stringify(fila) + '\n');
   } catch (e) {
-    console.error('[ESTUDIO-WRITE-FAIL] ' + marca.id + ' ' + String(e));
+    console.error('[ESTUDIO-WRITE-FAIL] ' + fila.marca_id + ' ' + String(e));
     return res.status(500).json({ ok: false, error: 'no se pudo guardar' });
   }
   res.json({ ok: true, n: fila.n_productos });
+});
+
+// Internal: mint a personal link for one brand without touching the roster by
+// hand. Codes never repeat and an entry is never rewritten, so a link that
+// already went out keeps working.
+function leerRosterEstudio() { try { return JSON.parse(fs.readFileSync(ESTUDIO_ROSTER, 'utf8')); } catch { return []; } }
+function slug(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'marca'; }
+app.post('/estudio/api/roster/nuevo', conToken, express.json({ limit: '4kb' }), (req, res) => {
+  const b = req.body || {};
+  const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
+  const m = txt(b.m, 120), n = txt(b.n, 120), e = txt(b.e, 160);
+  if (!m || !n) return res.status(400).json({ ok: false, error: 'falta marca o nombre' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) return res.status(400).json({ ok: false, error: 'correo inválido' });
+  const roster = leerRosterEstudio();
+  const base = slug(m) + '-' + new Date().toISOString().slice(0, 7);
+  let id = base, k = 2;
+  while (roster.some(x => x.id === id)) id = base + '-' + k++;
+  const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let code;
+  do { code = [...crypto.randomBytes(8)].map(x => abc[x % abc.length]).join(''); } while (roster.some(x => x.code === code));
+  const entrada = { id, m, n, e, code, creado: new Date().toISOString() };
+  roster.push(entrada);
+  try {
+    fs.mkdirSync(LEADS_DIR, { recursive: true });
+    fs.writeFileSync(ESTUDIO_ROSTER, JSON.stringify(roster));
+  } catch (err) { return res.status(500).json({ ok: false, error: String(err) }); }
+  console.log('[ESTUDIO-LINK] ' + JSON.stringify(entrada));
+  res.json({ ok: true, ...entrada, url: 'https://www.mexusseller.com/estudio/' + code });
 });
 
 app.put('/estudio/api/roster', conToken, express.json({ limit: '64kb' }), (req, res) => {
@@ -425,8 +461,7 @@ app.put('/estudio/api/roster', conToken, express.json({ limit: '64kb' }), (req, 
   res.json({ ok: true, n: lista.length });
 });
 app.get('/estudio/api/respuestas.json', conToken, (_req, res) => {
-  let roster = [];
-  try { roster = JSON.parse(fs.readFileSync(ESTUDIO_ROSTER, 'utf8')); } catch { /* sin roster */ }
+  const roster = leerRosterEstudio();
   const filas = ultimosPorMarca(leerEstudios()).map(({ ip, ua, ...f }) => f);
   res.json({ roster, respuestas: filas });
 });
@@ -458,9 +493,7 @@ app.get('/estudio/api/respuestas', conToken, (_req, res) => {
 app.get('/estudio', (_req, res) => res.sendFile(path.join(__dirname, 'estudio', 'index.html')));
 app.get('/estudio/interno', (_req, res) => res.sendFile(path.join(__dirname, 'estudio', 'interno.html')));
 app.get('/estudio/:code([A-Za-z0-9]{8})', (req, res) => {
-  let roster = [];
-  try { roster = JSON.parse(fs.readFileSync(ESTUDIO_ROSTER, 'utf8')); } catch { /* sin roster */ }
-  const l = roster.find(x => x.code === req.params.code);
+  const l = leerRosterEstudio().find(x => x.code === req.params.code);
   if (!l) return res.status(404).sendFile(path.join(__dirname, 'estudio', 'index.html'));
   const payload = b64u(JSON.stringify({ id: l.id, m: l.m, n: l.n, e: l.e }));
   res.redirect(302, '/estudio?t=' + payload + (LEADS_TOKEN ? '.' + firmar(payload) : ''));
