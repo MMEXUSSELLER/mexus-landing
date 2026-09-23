@@ -550,6 +550,19 @@ app.get('/mundial/api/results', async (_req, res) => {
 // so the Express app only ever sees www.mexusseller.com requests. No app-level
 // redirect needed.
 
+// The static root is the repo root, and the Railway volume (leads, rosters with
+// /estudio codes) is mounted at ./data inside it — never serve those, the server
+// source, or dependencies.
+app.use((req, res, next) => {
+  const p = decodeURIComponent(req.path).toLowerCase();
+  if (/^\/(data|node_modules|pagina-web-2|_archive_v1)(\/|$)/.test(p) ||
+      /^\/(server\.js|package(-lock)?\.json|readme\.md|railway\.json)$/.test(p) ||
+      /\/\./.test(p)) {
+    return res.status(404).end();
+  }
+  next();
+});
+
 app.use(express.static(__dirname, {
   extensions: ['html'],
   maxAge: '1h',
