@@ -112,10 +112,25 @@ app.get('/hub/api/leads', (req, res) => {
 // --- Home page: leads captured by the KAI chat ---
 const WEB_LEADS_FILE = path.join(LEADS_DIR, 'leads-web.jsonl');
 
+// The first X-Forwarded-For hop is whatever the visitor typed, so a per-IP limit
+// keyed on it can be skipped at will. Key on the address the proxy saw, and cap
+// the day as a whole so the volume cannot be filled either way.
+const WEB_TOPE_DIA = 300;
+let webDia = { dia: '', n: 0 };
+function ipReal(req) {
+  const real = String(req.headers['x-real-ip'] || '').trim();
+  if (real) return real;
+  const xff = String(req.headers['x-forwarded-for'] || '').split(',').map(x => x.trim()).filter(Boolean);
+  return xff[xff.length - 1] || req.ip || '';
+}
+
 app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
   const b = req.body || {};
-  const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
-  if (limitado(ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
+  const ip = ipReal(req);
+  if (limitado('web:' + ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
+  const hoy = new Date().toISOString().slice(0, 10);
+  if (webDia.dia !== hoy) webDia = { dia: hoy, n: 0 };
+  if (webDia.n >= WEB_TOPE_DIA) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
 
   const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
   const nombre = txt(b.nombre, 120), marca = txt(b.marca, 120), contacto = txt(b.contacto, 160);
@@ -137,6 +152,7 @@ app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
     ua: txt(req.headers['user-agent'], 300),
   };
 
+  webDia.n++;
   // stdout first: this survives even with no volume mounted.
   console.log('[LEAD-WEB] ' + JSON.stringify(lead));
   try {
@@ -149,7 +165,8 @@ app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
 });
 
 app.get('/api/leads', (req, res) => {
-  if (!LEADS_TOKEN || req.query.token !== LEADS_TOKEN) return res.status(404).end();
+  const dado = String(req.headers['x-leads-token'] || req.query.token || '');
+  if (!LEADS_TOKEN || dado !== LEADS_TOKEN) return res.status(404).end();
   let filas = [];
   try {
     filas = fs.readFileSync(WEB_LEADS_FILE, 'utf8').split('\n').filter(Boolean).map(JSON.parse);
@@ -612,8 +629,16 @@ app.get('/mundial/api/results', async (_req, res) => {
 // /estudio codes) is mounted at ./data inside it — never serve those, the server
 // source, or dependencies.
 app.use((req, res, next) => {
-  const p = decodeURIComponent(req.path).toLowerCase();
-  if (/^\/(data|node_modules|pagina-web-2|_archive_v1)(\/|$)/.test(p) ||
+  let p;
+  try { p = decodeURIComponent(req.path); } catch { return res.status(400).end(); }
+  // express.static collapses repeated and encoded slashes before it resolves the
+  // file, so "//data/x" and "/%2fdata/x" reach the volume unless the check sees
+  // the same collapsed path.
+  p = p.replace(/\\/g, '/').replace(/\/+/g, '/').toLowerCase();
+  const abs = path.resolve(__dirname, '.' + p).toLowerCase();
+  const datos = path.resolve(LEADS_DIR).toLowerCase();
+  if (abs === datos || abs.startsWith(datos + path.sep)) return res.status(404).end();
+  if (/^\/(data|node_modules|pagina-web-2|_archive_v1|propuestas)(\/|$)/.test(p) ||
       /^\/(server\.js|package(-lock)?\.json|readme\.md|railway\.json)$/.test(p) ||
       /\/\./.test(p)) {
     return res.status(404).end();
