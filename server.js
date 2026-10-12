@@ -109,6 +109,64 @@ app.get('/hub/api/leads', (req, res) => {
   res.send('﻿' + csv); // BOM para que Excel respete los acentos
 });
 
+// --- Home page: leads captured by the KAI chat ---
+const WEB_LEADS_FILE = path.join(LEADS_DIR, 'leads-web.jsonl');
+
+app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
+  const b = req.body || {};
+  const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+  if (limitado(ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
+
+  const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
+  const nombre = txt(b.nombre, 120), marca = txt(b.marca, 120), contacto = txt(b.contacto, 160);
+  if (!nombre || !marca) return res.status(400).json({ ok: false, error: 'falta nombre o marca' });
+  if (!/\S+@\S+\.\S+/.test(contacto) && contacto.replace(/\D/g, '').length < 10) {
+    return res.status(400).json({ ok: false, error: 'contacto inválido' });
+  }
+
+  const folio = 'WEB-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+  const lead = {
+    folio,
+    id: crypto.randomUUID(),
+    ts: new Date().toISOString(),
+    origen: 'web-kai',
+    nombre, marca, contacto,
+    necesidad: txt(b.necesidad, 300),
+    pagina: txt(b.pagina, 120),
+    ip,
+    ua: txt(req.headers['user-agent'], 300),
+  };
+
+  // stdout first: this survives even with no volume mounted.
+  console.log('[LEAD-WEB] ' + JSON.stringify(lead));
+  try {
+    fs.mkdirSync(LEADS_DIR, { recursive: true });
+    fs.appendFileSync(WEB_LEADS_FILE, JSON.stringify(lead) + '\n');
+  } catch (e) {
+    console.error('[LEAD-WEB-WRITE-FAIL] ' + folio + ' ' + String(e));
+  }
+  res.json({ ok: true, folio });
+});
+
+app.get('/api/leads', (req, res) => {
+  if (!LEADS_TOKEN || req.query.token !== LEADS_TOKEN) return res.status(404).end();
+  let filas = [];
+  try {
+    filas = fs.readFileSync(WEB_LEADS_FILE, 'utf8').split('\n').filter(Boolean).map(JSON.parse);
+  } catch { /* sin archivo todavía */ }
+  filas.sort((a, b) => String(b.ts).localeCompare(a.ts));
+  const cols = ['folio', 'ts', 'nombre', 'marca', 'contacto', 'necesidad', 'origen', 'id'];
+  const esc = v => {
+    let s = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  };
+  const csv = [cols.join(','), ...filas.map(f => cols.map(c => esc(f[c])).join(','))].join('\n');
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', 'attachment; filename="leads-web.csv"');
+  res.send('\uFEFF' + csv);
+});
+
 // --- Webinar HUB SD: confirmación de llamadas de 15 min (/confirmar-hub-rd) ---
 // Each lead gets a personal link: /confirmar-hub-rd?t=<base64url payload>.<hmac>.
 // The payload carries the lead's id, name, email and slot so no roster has to
