@@ -113,13 +113,12 @@ app.get('/hub/api/leads', (req, res) => {
 const WEB_LEADS_FILE = path.join(LEADS_DIR, 'leads-web.jsonl');
 
 // The first X-Forwarded-For hop is whatever the visitor typed, so a per-IP limit
-// keyed on it can be skipped at will. Key on the address the proxy saw, and cap
-// the day as a whole so the volume cannot be filled either way.
+// keyed on it can be skipped at will. Key on the hop the proxy appended. Past
+// the daily ceiling a lead is still accepted and logged, just not written to the
+// volume: a flood must not be able to fill the disk or to turn real leads away.
 const WEB_TOPE_DIA = 300;
 let webDia = { dia: '', n: 0 };
 function ipReal(req) {
-  const real = String(req.headers['x-real-ip'] || '').trim();
-  if (real) return real;
   const xff = String(req.headers['x-forwarded-for'] || '').split(',').map(x => x.trim()).filter(Boolean);
   return xff[xff.length - 1] || req.ip || '';
 }
@@ -130,7 +129,7 @@ app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
   if (limitado('web:' + ip)) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
   const hoy = new Date().toISOString().slice(0, 10);
   if (webDia.dia !== hoy) webDia = { dia: hoy, n: 0 };
-  if (webDia.n >= WEB_TOPE_DIA) return res.status(429).json({ ok: false, error: 'demasiados envíos' });
+  const aDisco = webDia.n < WEB_TOPE_DIA;
 
   const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
   const nombre = txt(b.nombre, 120), marca = txt(b.marca, 120), contacto = txt(b.contacto, 160);
@@ -155,11 +154,15 @@ app.post('/api/lead', express.json({ limit: '8kb' }), (req, res) => {
   webDia.n++;
   // stdout first: this survives even with no volume mounted.
   console.log('[LEAD-WEB] ' + JSON.stringify(lead));
-  try {
-    fs.mkdirSync(LEADS_DIR, { recursive: true });
-    fs.appendFileSync(WEB_LEADS_FILE, JSON.stringify(lead) + '\n');
-  } catch (e) {
-    console.error('[LEAD-WEB-WRITE-FAIL] ' + folio + ' ' + String(e));
+  if (aDisco) {
+    try {
+      fs.mkdirSync(LEADS_DIR, { recursive: true });
+      fs.appendFileSync(WEB_LEADS_FILE, JSON.stringify(lead) + '\n');
+    } catch (e) {
+      console.error('[LEAD-WEB-WRITE-FAIL] ' + folio + ' ' + String(e));
+    }
+  } else {
+    console.error('[LEAD-WEB-TOPE] ' + folio + ' sólo en el log, tope diario alcanzado');
   }
   res.json({ ok: true, folio });
 });
