@@ -25,8 +25,13 @@ Los clientes ven su cuenta en vivo en la plataforma propia de MEXUS (V3.0), con 
 ## Páginas
 
 - [Inicio](https://www.mexusseller.com/): servicios, plataforma, equipo y preguntas frecuentes.
+- [Home in English](https://www.mexusseller.com/en/): the same content in English, for brands selling in the US and Canada.
 - [Calculadora de rentabilidad Amazon](https://www.mexusseller.com/calculadora/): calcula gratis comisiones, tarifas FBA y margen de un producto en Amazon México o USA.
 - [Aviso legal](https://www.mexusseller.com/legal/)
+
+## In English
+
+MEXUS SELLER is an Amazon agency that runs brands end to end in the US, Mexico and Canada (Seller Central 3P and Vendor Central 1P): catalog, PPC, inventory, content and reporting. Amazon Global Selling certified, 25+ active brands and $15M+ USD in GMV managed. Founded by Patricio Cobar and Rodrigo Cobar, who also run their own brand, Artisans Bazaar, in Mexico and the US. Specialists in taking Mexican brands to Amazon US. Free 30-minute account review: hola@mexusseller.com.
 
 ## Contacto
 

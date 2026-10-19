@@ -15,9 +15,13 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="MEXUS SELLER — Operamos tu marca en Amazon. México, USA y Canadá.">
 <meta property="og:locale" content="es_MX">
+<meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://www.mexusseller.com/">
+<link rel="alternate" hreflang="es" href="https://www.mexusseller.com/">
+<link rel="alternate" hreflang="en" href="https://www.mexusseller.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://www.mexusseller.com/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/assets/mexus-mark.png">
 <link rel="apple-touch-icon" href="/assets/mexus-mark.png">
@@ -65,7 +69,9 @@ h2 em{font-style:normal;color:var(--or)}
 .nav .logo img{height:46px;width:auto;margin:0 -12px 0 -15px}
 .nav .links{display:none;gap:26px;margin-left:auto;font-size:16px;font-weight:600;color:var(--mut)}
 .nav .links a{text-decoration:none}.nav .links a:hover{color:#fff}
-.nav .cta{margin-left:auto;min-height:42px;padding:0 14px;font-size:15px;white-space:nowrap}
+.nav .lng{margin-left:auto;display:inline-flex;align-items:center;min-height:42px;padding:0 11px;border:1px solid var(--line2);border-radius:10px;font-size:14px;font-weight:700;letter-spacing:.06em;text-decoration:none;color:var(--mut)}
+.nav .lng:hover{color:#fff;border-color:var(--or)}
+.nav .cta{margin-left:8px;min-height:42px;padding:0 14px;font-size:15px;white-space:nowrap}
 .prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--or);width:100%;transform-origin:left;transform:scaleX(0)}
 
 /* HERO */
@@ -311,11 +317,34 @@ footer img{height:56px;width:auto;margin:-10px 0 -10px -19px}
 .m.k a{color:#C65A0E;font-weight:600}
 footer a{color:inherit}
 
+@media (max-width:899px){
+  .nav .wrap{gap:8px}
+  .nav .logo{flex:none}
+  .nav .logo img{height:40px}
+  .nav .lng{min-height:38px;padding:0 9px;font-size:13px}
+  .nav .cta{padding:0 12px;font-size:14px;min-height:40px}
+}
+/* LANGUAGE PICKER */
+.lang{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(5,8,12,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;transition:opacity .3s}
+.lang.open{opacity:1}
+.lang[hidden]{display:none}
+.lang-b{width:min(420px,100%);padding:28px 22px 22px;border-radius:22px;background:var(--navy);border:1px solid var(--line2);text-align:center;box-shadow:0 40px 90px -30px rgba(0,0,0,.9);transform:translateY(14px) scale(.97);transition:transform .35s var(--ease)}
+.lang.open .lang-b{transform:none}
+.lang-b img{height:44px;width:auto;margin:0 auto 14px}
+.lang-b h2{font-size:34px}
+.lang-b h2 span{display:block;margin-top:6px;font-family:var(--body);font-size:15px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--mut)}
+.lang-o{display:grid;gap:10px;margin-top:22px}
+.lang-o button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:64px;padding:12px 18px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.04);text-align:left;transition:border-color .2s,background .2s}
+.lang-o button:hover,.lang-o button:focus-visible{border-color:var(--or);background:rgba(244,121,32,.1);outline:none}
+.lang-o b{font-size:18px}
+.lang-o span{font-size:14px;color:var(--mut2)}
+
 /* DESKTOP */
 @media (min-width:900px){
   .wrap{padding:0 40px}
   .nav .links{display:flex}
   .nav .logo img{height:64px;margin:0 0 0 -21px}
+  .nav .lng{margin-left:18px}
   .nav .cta{margin-left:10px}
   .hero{padding:calc(var(--nav) + 60px) 0 70px}
   .hero .grid{grid-template-columns:1.1fr .9fr;gap:60px}
@@ -389,6 +418,7 @@ footer a{color:inherit}
   <div class="wrap">
     <a class="logo" href="#top" aria-label="MEXUS SELLER"><img src="assets/logo-mexus-white.png" alt="MEXUS SELLER"></a>
     <div class="links"><a href="#plataforma">Plataforma</a><a href="#casa">Artisans Bazaar</a><a href="#servicios">Servicios</a><a href="#equipo">Equipo</a><a href="#faq">FAQ</a></div>
+    <a class="lng" href="/en/" hreflang="en" lang="en" aria-label="English version">EN</a>
     <a class="btn btn-or cta" href="#" data-kai>Hablar con KAI</a>
   </div>
   <div class="prog" id="prog"></div>
@@ -633,6 +663,17 @@ footer a{color:inherit}
 </div>
 <button class="fab" data-kai><img src="assets/kai/kai-fox-default.webp" alt="">Pregúntale a KAI</button>
 
+<div class="lang" id="lang" hidden role="dialog" aria-modal="true" aria-labelledby="lang-t">
+  <div class="lang-b">
+    <img src="assets/logo-mexus-white.png" alt="MEXUS SELLER">
+    <h2 id="lang-t">Elige tu idioma<span lang="en">Choose your language</span></h2>
+    <div class="lang-o">
+      <button type="button" data-lang="es" data-href="/" lang="es"><b>Español</b><span>México y Latinoamérica</span></button>
+      <button type="button" data-lang="en" data-href="/en/" lang="en"><b>English</b><span>United States &amp; Canada</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="chat" id="chat" aria-hidden="true">
   <div class="sh" data-close></div>
   <div class="pn" role="dialog" aria-label="Chat con KAI">
@@ -737,6 +778,18 @@ setStep(0);
 $('#marq').insertAdjacentHTML('beforeend',$('#marq').innerHTML.replace(/alt="[^"]*"/g,'alt="" aria-hidden="true"'));
 
 watch();
+
+// language picker: asked once per visit (sessionStorage). It only exists in JS,
+// so crawlers read the page untouched.
+const LG=document.documentElement.lang, lp=$('#lang');
+function lgSeen(){ try{ sessionStorage.setItem('mx-lang','1'); }catch(e){} }
+function lgClose(){ lgSeen(); lp.classList.remove('open'); document.body.style.overflow=''; setTimeout(()=>lp.hidden=true,300); }
+let lgAsked=false; try{ lgAsked=!!sessionStorage.getItem('mx-lang'); }catch(e){}
+if(!lgAsked){ lp.hidden=false; document.body.style.overflow='hidden'; requestAnimationFrame(()=>requestAnimationFrame(()=>lp.classList.add('open'))); $('[data-lang="'+LG+'"]',lp).focus({preventScroll:true}); }
+$$('[data-lang]',lp).forEach(b=>b.addEventListener('click',()=>{ if(b.dataset.lang===LG) return lgClose(); lgSeen(); location.href=b.dataset.href; }));
+lp.addEventListener('click',e=>{ if(e.target===lp) lgClose(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&!lp.hidden) lgClose(); });
+$('.nav .lng').addEventListener('click',lgSeen);
 
 // ---------- KAI chat ----------
 // KAI here is a closed script on purpose: it holds no account, client or sales
